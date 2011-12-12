@@ -1,0 +1,357 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@% @;
+
+
+1.2
+date	2011.06.20.12.36.41;	author Kevin;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.06.02.23.12.44;	author khenshal;	state Exp;
+branches;
+next	;
+
+
+desc
+@Chapter 2 notes
+@
+
+
+1.2
+log
+@finished notes for chapter 2
+@
+text
+@\section{Chapter 2 -- Object Orientation}
+\subsection{Encapsulation}
+The ability to make changes in implementation code without breaking the code of 
+users of the code is a key benefit of encapsulation. You want to hide 
+implementation details behind a public programming interface
+
+\subsection{Inheritance, Is-A, Has-A}
+You can create inheritance relationships by extanding a class. The two most 
+common reasons to use inheritance are:
+\begin{itemize}
+    \item To promote code reuse
+    \item To promote polymorphism
+\end{itemize}
+
+\subsection{Object Orientation}
+The methods you can call on a reference variable are totally dependent on the 
+declared type of the variable, regardless of what the type of the referenced 
+object
+
+\subsection{Is-A}
+The concept os Is-A is based on class inheritance or interface implementation.  
+You express the Is-A relationship through the keywords \verb#extends# for class 
+inheritance, and \verb#implements# for interface implementation. If the 
+expression \verb#Foo instanceof Bar# is true, then class Foo Is-A Bar, even if 
+Foo does not directly extend Bar, but instead extends some other class that is 
+a subclass of Bar
+
+\subsection{Has-A}
+Has-A relationships are based on usage, rather than inheritance. In other 
+words, class A Has-A B if code in class A has a reference to an instance of 
+class B
+
+\subsection{Polymorphism}
+The obly way to access an object is through a reference variable, and there are 
+a few key things to remember about references:
+\begin{itemize}
+    \item A reference variable can be of only one type and once declared, that 
+    type can never be changed (although the object it refers to can change)
+    \item A reference is a variable, so it can be reassigned to other objects 
+    (unless the reference is declared \verb#final#
+    \item A reference variable's type determines the methods that can be 
+    invoked on the object the variable is referencing
+    \item A reference variable can refer to any object of the same type as the 
+    declared reference, or a subtype of the declared type
+    \item A reference variable can be declared as a class type or an interface 
+    type. If the variable is declared as an interface type, it can reference 
+    any object of any class that implements the interface
+\end{itemize}
+Remember that method invocations allowed by the compiler are based solely on 
+the declared type of the reference, regardless of the object type. However, the 
+compiler always knows that you can invoke the methods of class Object on any 
+object, so those are safe to call regardless of the reference -- class or 
+interface -- used to refer to the object. At runtime, the JVM knows what the 
+object really is and it can determine which method will be invoked in cases of 
+overridden methods.
+
+Polymorphic method invocations apply only to instance methods. You can refer to 
+an object with a more general reference variable type (a superclass or 
+interface), but at runtime, the only things that are dynamically selected based 
+on the actual object (rather than the reference type) are instance methods -- 
+not static variables or variables. Only overridden instance methods are 
+dynamically invoked based on the object's real type.
+
+\subsection{Overriding Methods}
+Any time you have a class that inherits a method from a superclass, you have 
+the opportunity to override the method, unless the method is marked 
+\verb#final#. The rules for overriding a method are:
+\begin{itemize}
+    \item The argument list must exactly match that of the overridden method
+    \item The return type must be the same as, or a subtype or, the return type 
+    of the overridden method
+    \item The access level can not be more restrictive than that of the 
+    overridden method
+    \item The access level can be less restrictive that that of the overridden 
+    method
+    \item Instance methods can be overridden only if they are inherited
+    \item The overriding method can throw any unchecked (runtime) exceptions, 
+    regardless of whether the overridden method declared the exception
+    \item The overriding method can not throw checked exceptions that are new 
+    or broader than those declared by the overridden method
+    \item The overriding method can throw narrower or fewer exceptions than the 
+    overridden method
+    \item Methods marked \verb#final# cannot be overridden
+    \item Methods marked \verb#static# cannot be overridden
+    \item If a method cannot be inherited, it cannot be overridden
+\end{itemize}
+
+\subsection{Invoking a Superclass version of an Overridden Method}
+An overridden superclass version of a method can be invoked by using 
+\verb#super#. Note that \verb#super# can only be used to invoke an overridden 
+instance methods (remember that \verb#static# methods are not inherited). Note 
+that if a method is overridden but you use a supertyp reference to refer to the 
+subtype object with the overriding method, the compile assumes you're calling 
+the supertype version of the method. If the supertype version declares a 
+checked exception, but the overriding subtype method does not, the compile 
+still thinks you're calling calling a method that declares an exception
+
+\subsection{Overloaded Methods}
+Overloaded methods let you reuse teh same method name in a class but with 
+different arguments (and optionally, a different return type). The rules are:
+\begin{itemize}
+    \item The argument list must change
+    \item The return type can change
+    \item The access modifier can change
+    \item New or broader checked exceptions can be declared
+    \item A method can be overloaded in the same class or in a subclass (in the 
+    case where the superclass version is inherited
+\end{itemize}
+
+\subsection{Deciding Which Overridden and Overloaded Method to Invoke}
+\begin{itemize}
+    \item The reference type (not the object type) of the argument determintes 
+    which overloaded method is invoked at compile time
+    \item The object type (not the reference type) determines which overridden 
+    method is invoked at runtime
+\end{itemize}
+
+\subsection{Differences between Overridden and Overloaded Methods}
+\begin{center}
+\begin{tabular}{lp{6cm}p{6cm}}
+    & \textbf{Overloaded Method} & \textbf{Overridden Method} \\
+    \hline
+    Argument list & Must change & Must not change \\
+    \hline
+    Return type & Can change & Can't change -- except for covariant returns \\
+    \hline
+    Exceptions & Can change & Can reduce or eliminate. Can't throw new or 
+    broader checked exceptions \\
+    \hline
+    Access & Can change & Can't be more restrictive \\
+    \hline
+    Invocatoion & Reference type determines which overloaded version (based on 
+    declared argument types) is invoked. Happens at compile time & Object type 
+    determines which method is selected. Happens at runtime \\
+\end{tabular}
+\end{center}
+
+\subsection{Reference Variable Casting}
+A downcase is a cast down the inheritance tree to a more specific type. Note 
+that the compiler trusts us when making a downcast -- even if it is wrong, 
+since the compiler can only verify that the two types are in the same 
+inheritance tree. However, if the compiler knows with certainty that the case 
+could not possibly work, compilation will fail.
+
+Unlike downcasting, upcasting (casting up the inheritance tree to a more 
+general type) works implicitly since when upcasting, you're restricting the 
+methods which can be invoked.
+
+Note that a concrete class can be declared to implement an interface without 
+impelemnting the methods of the interface. If any supertype in its inheritance 
+tree has already provided concrete (i.e. non-abstract) method impelementations 
+for the interface, then regardless of whether the superclass declares that it
+implements the interface, the subclass is under no obligation to re-implement 
+(override) those methods
+
+\subsection{Implementing an Interface}
+WHen you implement an interface, you're agreeing to adhere to the contract 
+defined in the interface. Implementation classes must adhere to the same rules 
+for method implementation as a class extending an \verb#abstract# class. In
+order to be a legal implementation class, a nonabstract implementation class 
+must do the following:
+\begin{itemize}
+    \item Provide concrete implements for all methods from the declared 
+    interface
+    \item Follow all the rules for legal overrides
+    \item Declare no checked exceptoins on impelementation methods other than 
+    those declared by teh interface method, or subclasses of those declared by 
+    the interface method
+    \item Maintain the signature of the interface method and maintain the 
+    return type (or a subtype). Note that it does not need to declared the 
+    exceptions declared in the interface method declaration
+\end{itemize}
+Note that if the implementation class is abstract, it does not need to provide 
+method implementations but the first concrete class must. Also note:
+\begin{itemize}
+    \item A class can implement more than one interface
+    \item An interface can extend more than one interface, but can never 
+    implement anything
+    \item A class can both extend another class and impelment an interface, 
+    however the \verb#extends# statement must be first
+\end{itemize}
+
+\subsection{Return Types on Overloaded Methods}
+Overloaded method are not subject to the restrictions of overriding, which 
+means you can declare any return type. What you can't do is change only the 
+return type.
+
+\subsection{Return Types on Overridden Methods}
+Method overrides must match the declaration of the overridden method exactly.  
+However, the return type may be a subtype of that declared in the overridden 
+method
+
+\subsection{Returning a Value}
+There are six rules for returning a value:
+\begin{itemize}
+    \item You can return \verb#null# from a method with an object reference 
+    return type
+    \item An array is a legal return type
+    \item From a method with a primitive return type, you can return any value 
+    or variable that can be implicitly converted to the declared return type
+    \item From a method with a primitive return type, you can return any value 
+    or variable that can be explicitly cast to the declared return type
+    \item You must not return anything from a method with a void return type.  
+    However, \verb#return# can be used to return from a method without 
+    returning a value
+    \item From a method with an object reference return type, you can return 
+    any object type that can be implicitly cast to the declared return type 
+    (including interfaces)
+\end{itemize}
+
+\subsection{Constructors}
+Every class, including abstract classes, must have a constructor. However, just 
+because a class must have one, doesn't mean that you need to type it. Note that 
+constructors:
+\begin{itemize}
+    \item Have no return type
+    \item Must have a name which matches the class name
+\end{itemize}
+
+\subsection{Rules for Constructors}
+The following rules apply for constructors:
+\begin{itemize}
+    \item Constructors can use any access modifier. A private constructor means 
+    only code within the class itself can instantiate an object of that type, 
+    so if you want to allow an instance of the class to be used, there must be 
+    a static method or variable that allows access to an instance created from 
+    within the class
+    \item The constructor name must match teh name of the class
+    \item Constructors must not have a return type
+    \item It's legal to have a method with the same name as the class
+    \item If you don't type a constructor, a default constructor will be 
+    generated by the compiler
+    \item The default constructor is always a no-arg constructor
+    \item If you want a no-arg constructor and you've type any other 
+    constructors into the class, the compiler won't provide the no-arg (or any 
+    other) constructor for you
+    \item Every constructor has, as its first statement, either a class to an 
+    overloaded constructor (\verb#this()#) or a class to the superclass 
+    constructor (\verb#super()#), however, this call can be inserted by the
+    compiler
+    \item If you do create a constructor and do not provide the required call 
+    to \verb#this()# or \verb#super()#, the compiler will insert a no-arg call 
+    to \verb#super()# as the very first statement in the constructor
+    \item A call to \verb#super()# can be either a no-arg call or can include 
+    arguments passed to the super constructor
+    \item A no-arg constructor is no necessarily the default constructor, 
+    although the default constructor is always a no-arg constructor
+    \item You cannot make a call to an instance method or access an instance 
+    variable until after the super constructor completes
+    \item Only static variables and methods can be accessed as part of the call 
+    to \verb#super()# or \verb#this()#. That is, only static variables and 
+    methods can be passed as arguments to \verb#super()# or \verb#this()#
+    \item Abstract classes have constructors and those constructors are always 
+    called when a concrete subclass is instantiated
+    \item Interfaces do not have constructors -- they are not part of an 
+    object's inheritance tree
+    \item The only way a constructor can be invoked is from within another 
+    constructor. Note that this is different from calling \verb#new# to 
+    instantiate an instance of a class
+\end{itemize}
+
+\subsection{Determining Whether a Default Constructor Will Be Created}
+If no constructor is typed for a class, a default constructor will be created.  
+The default constructor:
+\begin{itemize}
+    \item Has the same access modifier as the class
+    \item Has no arguments
+    \item Includes a no-arg call to the super constructor (\verb#super()#)
+\end{itemize}
+Note that if the superclass does not have a no-arg constructor, then subclasses 
+cannot use the default constructor supplied by the compiler.
+
+\subsection{Overloaded Constructors}
+Overloading a constructor means typing in multiple versions of the constructor, 
+each having a different argument list. Overloading a constructor is typically 
+used to provide alternate ways for clients to instantiate objects of the class.  
+Note that the compiler will not insert a call to \verb#super()# into any 
+constructor which already has a call to \verb#this()#
+
+\subsection{Static Variables and Methods}
+Static members are used to address the utility-method-always-runs-the-same and 
+the keep-a-running-total-of-instances scenarios. Variables and methods marked 
+\verb#static# belong to the class, rather than any particular instance. In 
+fact, you can use a \verb#static# method or variable without having any 
+instances of the class at all. You need only have the class available to be 
+able to invoke a \verb#static# method or access a \verb#static# variable. Note 
+that static variables will be shared by all instances of the class. Note that 
+\verb#static# variables get the same default values instance variables get.
+
+Note that a \verb#static# method can't access a nonstatic (instance) variable 
+or method of its own class. Making the JVM \verb#main()# method a static method 
+means the JVM doesn't have to create an instance of the class just to start 
+running code
+
+\subsection{Accessing Static Methods and Variables}
+To access a static method or variable, use the dot operator on the class name.  
+However, you can also use an object reference to access a static member. Note 
+that this is simply a syntax trick and the runtime object is not inspected.  
+Note that static methods cannot be overridden -- this doesn't mean they cannot 
+be redefined in a subclass, but redefining and overriding are not the same 
+thing.
+
+\subsection{Coupling and Cohesion}
+Coupling and Cohesion related to the quality of an OO design. In general, good 
+OO design calls for loose coupling and shuns tight coupling, and good OO design 
+calls for high cohesion and shuns low cohesion.
+
+\subsection{Coupling}
+Coupling is the degree to which one class knows about another class. If A knows 
+more than it should about the way in which B is implemented, then A and B are 
+tightly coupled
+
+\subsection{Cohesion}
+Cohesion is the degree to which each class has a single well focused purpose
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+a1 1
+\section{Chapter 2 -- some title here...}
+d64 251
+a314 1
+\subsection{Up to page 19}
+@

@@ -1,0 +1,554 @@
+\section{Chapter 6 -- Strings, IO, Formatting and Parsing}
+\subsection{String, StringBuffer and StringBuilder}
+\subsubsection{The String class}
+Once a \verb#String# object is created, it can never be changed
+
+\subsubsection{Important Facts About Strings and Memory}
+To make java more efficient, the JVM sets aside a special area of memory called 
+the ``String constant pool". When the compiler encounters a String literal, it 
+checks the pool to see if an identical String already exists. If a match is 
+found, the reference to the new literal is directed to the existing String, and 
+no new String literal object is created (the existing String simply has an 
+additional reference)
+
+\subsubsection{Creating New Strings}
+There are a few ways to create Strings:
+\begin{itemize}
+    \item \verb#String s = "abc";# // ``abc'' will be placed in the String pool 
+    and \verb#s# will refer to it
+    \item \verb#String s = new String("abc");# // since `new' is used, a new 
+    String object will be created in normal (non-pool) memory and \verb#s# will 
+    refer to it. Also, ``abc" will be placed in the String pool
+\end{itemize}
+
+\subsubsection{Important Methods in the String Class}
+\begin{description}
+    \item[charAt()] Returns the character located at the specified 0-index
+    \item[concat()] Appends one String to the end of another (`+' also works)
+    \item[equalsIgnoreCase()] Determines the equality of two Strings, ignoring 
+    case
+    \item[length()] Returns the number of characters in a String. Note that 
+    Strings have a \verb#length()# method whereas Arrays have a \verb#length# 
+    attribute
+    \item[replace()] Replace all occurrences of a character with a new 
+    character
+    \item[substring()] Returns a part of a String. Note that the first index is 
+    0-based and the second 1-based
+    \item[toLowerCase()] Returns a String with uppercase characters converted
+    \item[toUpperCase()] Returns a String with lowercase characters converted
+    \item[toString()] Returns the value of a String
+    \item[trim()] Removes leading and trailing whitespace from a String
+\end{description}
+
+\subsubsection{The StringBuffer and StringBuilder Classes}
+The \verb#java.lang.StringBuffer# and \verb#java.lang.StringBuilder# classes 
+should be used when you need to make lots of modifications to strings of 
+characters. They can be modified without leaving discarded Strings in memory as 
+is the case when using the \verb#String# class
+
+\subsubsection{StringBuffer versus StringBuilder}
+The \verb#StringBuilder# class was added in java 5 and has the same API as the 
+\verb#StringBuffer# class except that \verb#StringBuilder# is not thread safe.  
+In other words, its methods are not synchronized
+
+\subsubsection{Important Methods in the StringBuffer and StringBuilder Classes}
+\begin{description}
+    \item[append(String s)] Takes many argument types though most common is 
+    \verb#String# and appends the argument to the invoking object
+    \item[delete(int start, int end)] Deletes the substring between the 0-based 
+    start index and the 1-based end index
+    \item[insert(int offset, String s)] Takes many arguments types for the 
+    second argument, though most common is \verb#String# and inserts the 
+    argument at the given 0-based offset in the invoking object
+    \item[reverse()] Reverses the characters of the invoking object
+    \item[toString()] Returns the value of the invoking object
+    \item[equals()] Note that neither \verb#StringBuilder# nor
+    \verb#StringBuffer# override Object's \verb#equals()# method
+\end{description}
+
+\subsection{File Navigation and IO}
+Here is a summary of the IO classes for the exam:
+\begin{description}
+    \item[File] An abstract representation of file and directory pathnames
+    \item[FileReader] Used to read character files. Usually wrapped by 
+    higher-level Reader objects such as BufferedReaders
+    \item[BufferedReader] Used to make lower-level Reader classes (like 
+    FileReader) more efficient and easier to use
+    \item[FileWriter] Used to write character files. Usually wrapped by 
+    higher-level Writer objects such as BufferedWriters or PrintWriters
+    \item[BufferedWriter] Used to make lower-level Writer classes (like 
+    FileWriter) more efficient and easier to use
+    \item[PrintWriter] Enhanced significantly in java 5 to make it easier to use
+    rather than wrapping a Writer in a FileWriter and BufferedWriter. More of a 
+    convenience class
+    \item[Console] Introduced in java 6, it allows reading from and writing to 
+    the console
+\end{description}
+
+\subsubsection{Flushing Output and Closing the File}
+The \verb#flush()# method guarantees that data is actually written to a file.  
+Once you have finished either reading or writing a file, you should close it 
+using the \verb#close()# method
+
+\subsubsection{Combining IO Classes}
+\begin{center}
+\begin{tabular}{llll}
+    \textbf{java.io Class} & \textbf{Extends} & \textbf{Key Constructor 
+    Arguments} & \textbf{Key Methods} \\
+    \hline
+    File & Object & String & createNewFile() \\
+    & & File, String & delete() \\
+    & & String, String & exists() \\
+    & & & isDirectory() \\
+    & & & isFile() \\
+    & & & list() \\
+    & & & mkdir() \\
+    & & & renameTo() \\
+    \hline
+    FileReader & Reader & File & read() \\
+    & & String & close() \\
+    \hline
+    BufferedReader & Reader & Reader & read() \\
+    & & & readLine() \\
+    \hline
+    FileWriter & Writer & File & close() \\
+    & & String & flush() \\
+    & & & write() \\
+    \hline
+    BufferedWriter & Writer & Writer & close() \\
+    & & & flush() \\
+    & & & write() \\
+    & & & newLine() \\
+    \hline
+    PrintWriter & Writer & File (as of java 5) & close() \\
+    & & String (as of java 5) & flush() \\
+    & & OutputStream & format(), printf() \\
+    & & & print(), println() \\
+    & & & write() \\
+\end{tabular}
+\end{center}
+
+\subsubsection{Working with Files and Directories}
+The statement \verb#File f = new File("foo");# always creates a File and does 
+one of two things:
+\begin{itemize}
+    \item If ``foo" does not exist, no file is created
+    \item If ``foo" does exist, \verb#f# refers to the existing file
+\end{itemize}
+Note that the statement will never create an actual file. There are two ways to 
+create a file:
+\begin{itemize}
+    \item Invoke \verb#createNewFile()# on a File object
+    \item Create a Writer or Stream. Note that if creating a file within a 
+    directory, then the directory must exist, otherwise a 
+    \verb#java.io.IOException# is thrown
+\end{itemize}
+Notes on \verb#delete()# and \verb#renameTo()#:
+\begin{description}
+    \item[delete()] Directories can only be deleted if they are empty
+    \item[renameTo()] Must be invoked using an existing File object and a valid 
+    new File object as the argument (a \verb#NullPointerException# will occur 
+    if the argument is null). Note that non-empty directories can be renamed
+\end{description}
+
+\subsubsection{The java.io.Console Class}
+If you're running java SE6 from the command line, you'll typically have access 
+to a console object, to which you can get a reference by invoking 
+\verb#System.console()#. The \verb#Console# class makes it easy to read input 
+from the command line, both echoed and nonechoed (such as passwords), and makes 
+it easy to write formatted output to the command line. On the input side, the 
+two methods to understand are:
+\begin{description}
+    \item[readLine()] Returns a String containing the input
+    \item[readPassword()] Returns a char array (to prevent the password from 
+    being stored in a String pool)
+\end{description}
+
+\subsection{Serialization}
+Serialization lets you simply say ``save this object and all of its instance 
+variables unless I've explicitly marked an instance variable as tranisient"
+
+\subsubsection{Working with ObjectOutputStream and ObjectInputStream}
+The magic of basic serialization uses two methods:
+\begin{description}
+    \item[ObjectOutputStream.writeObject()] Serialize and write
+    \item[ObjectInputStream.readObject()] Read and deserialize
+\end{description}
+The \verb#java.io.ObjectOutputStream# and \verb#java.io.ObjectInputStream# 
+classes are usually wrapped around lower level classes such as 
+\verb#java.io.FileOutputStream# and \verb#java.io.FileInputStream#
+
+When you serialise an object, java serialisation takes care of caving that 
+object's entire `object graph'. This means that a deep copy of everything 
+saved needs to be restored. Remember that you need to make a conscious choice 
+to create objects that are serialisable, by implementing the (marker) 
+\verb#java.io.Serializable# interface
+
+\subsubsection{Using writeObject and readObject}
+\verb#writeObejct()# and \verb#readObject()# can be used to save and restore 
+the values of transient variables. These are private methods which you can 
+implement in your class that, if present, will be invoked automatically during 
+serialisation and deserialisation. It's almost as if these methods were defined 
+in the Serializable interface, but they aren't. They are part of a special 
+callback contract the serialisation system offers. The methods must have 
+signatures matching:
+\begin{verbatim}
+    private void writeObject(ObjectOutputStream os) {}
+    private void readObject(ObjectInputStream is) {}
+\end{verbatim}
+Like most IO related methods, \verb#writeObject()# and \verb#readObject()# can 
+throw exceptions. When invoking \verb#defaultWriteObject()# 
+(\verb#defaultReadObject()#) from within \verb#writeObject()# 
+(\verb#readObject()#), you're telling the JVM To perform the normal 
+serialisation process, however, usually some custom writing and reading is 
+performed as well. Note that any custom components written need to be read back 
+in the same order they were written.
+
+Not all classes are serialisable (i.e. Object is not serialisable) as there are 
+some objects which are runtime specific
+
+\subsubsection{How Inheritance Affects Serialisation}
+If a superclass is Serializable, then according to normal java interface rules, 
+all subclasses of that class automatically implement Serializable implicitly.  
+In other words, a subclass of a class marked Serializable passes the IS-A test 
+for Serializable, and can be saved without having to explicitly mark the
+    subclass as Serializable. You simply cannot tell whether a class is or is 
+    not Serializable unless you can see the class inheritance tree to see if 
+    any superclasses implement Serializable. If the class does not explicitly 
+    extend any other class, and does not implement Serializable, then you know 
+    for certain that the class is not Serializable, because Object does not 
+        implement Serializable
+
+\subsubsection{Object Construction using new}
+\begin{itemize}
+    \item All instance variables are assigned default values
+    \item The constructor is invoked which immediately invokes the superclass 
+    constructor (or another overloaded constructor, until one of the overloaded 
+    constructors invokes the superclass constructor)
+    \item All superclass constructors complete
+    \item Instance variables that are initialised as part of their declaration 
+    are assigned their initial values (as opposed to the default values they're 
+    given prior to the superclass constructor completing)
+    \item The constructor completes
+\end{itemize}
+
+\subsubsection{Object Construction when Deserialising}
+When an instance of a serializable class is deserialised, the constructor does 
+not run, and instance variables are not given their initially assigned values.  
+If there are variables marked \verb#transient#, they will not be restored to 
+their original state (unless you implement \verb#readObeject()#), but will 
+instead be given the default value for that data type.
+
+If class B is serialisable, but it's superclass A is not, then any instance 
+variables which are inherited from A will be reset to the values they were 
+given during the original construction of the object. This is because A's 
+constructor will run. In fact, every constructor above the first 
+non-serialisable class constructor will also run since once the first super 
+constructor is invoked (during deserialisation), it invokes its super 
+constructor and so on up the inheritance tree.
+
+Note that if you serialise a collection or an array, every element must be 
+serialisable. A single non-serialisable element will cause serialisation to 
+fail. Note also that while the collection interfaces are not serialisable, the 
+concrete collection classes in the java api are
+
+\subsubsection{Serialisation is Not for Statics}
+Static variables are never saved as part of an object's state as they do not 
+belong to the object
+
+\subsection{Working with Dates, Numbers and Currencies}
+There are few classes needed for the exam:
+\begin{description}
+    \item[java.util.Date] Most of the methods have been deprecated, but this 
+    class can be used to bridge between the \verb#Calendar# and 
+    \verb#DateFormat# classes. An instance of \verb#Date# represents and mutable
+    date and time, to a millisecond
+    \item[java.util.Calendar] Provides a variety of methods that help to 
+    convert and manipulate dates and times
+    \item[java.text.DateFormat] Used to format dates using different styles and 
+    locales
+    \item[java.text.NumberFormat] Used to format numbers and currencies for 
+    different locales
+    \item[java.util.Locale] Used in conjunction with \verb#DateFormat# and 
+    \verb#NumberFormat# to format dates, numbers and currency for specific 
+    locales. If you want to manipulate dates without producing formatted 
+    output, you can use the \verb#Locale# class directly ith the 
+    \verb#Calendar# class
+\end{description}
+
+\subsubsection{The Date class}
+Although most of \verb#Date#'s methods have been depricated, it's still 
+acceptable to use the \verb#getTime()# and \verb#setTime()# methods, although 
+it's a bit painful
+
+\subsubsection{The Calendar Class}
+The \verb#Calendar# class is designed to make date manipulation easy (compared to 
+using the \verb#Date# class directly). Note that \verb#Calendar# is an abstract 
+class and in order to create an instance of \verb#Calendar#, you use one of the 
+overloaded \verb#getInstance()# static factory methods:
+\verb#Calendar c = Calendar.getInstance()#. \verb#Calendar#'s \verb#add()# 
+method lets you add or subtract units of time appropriate for whichever 
+\verb#Calendar# field you specify, for example:
+\begin{verbatim}
+    c.add(Calendar.HOUR, -4);
+    c.add(Calendar.YEAR, 2);
+    c.add(Calendar.DAY_OF_WEEK, -2);
+\end{verbatim}
+Another important method is \verb#roll()#, which acts like \verb#add()#, except 
+that when a part of a \verb#Date# gets incremented and decremented, larger 
+parts of the \verb#Date# will not get incremented or decremented
+
+\subsubsection{The DateFormat Class}
+\verb#DateFormat# is an abstract class and has two factory methods -- 
+\verb#getInstance()# and \verb#getDateInstance()#. Note that 
+\verb#getDateInstance()# is overloaded to accept locales in addition to static 
+fields which customise \verb#DateFormat# instance. Another important method is 
+\verb#parse()# which takes a \verb#String# formatted in the style of the 
+\verb#DateFormat# instance being used, and converts the \verb#String# into a 
+\verb#Date# object. Note that \verb#parse()# can throw a \verb#ParseException#
+
+\subsubsection{The Locale Class}
+The two \verb#Locale# constructors needed for the exam are:
+\begin{verbatim}
+    Locale(String language)
+    Locale(String language, String country)
+\end{verbatim}
+They can be used as follows:
+\begin{verbatim}
+    Calendar c = Calendar.getInstance();
+    Date d = c.getTime();
+    Locale locIT = new Locale("it", "IT");  // Italy
+    DateFormat dfUsFull = DateFormat.getDateInstance(DateFormat.FULL);
+    System.out.println("US full " + dfUsFull.format(d));
+    DateFormat dfItFull = DateFormat.getDateInstance(DateFormat.FULL, locIT);
+    System.out.println("Italy full " + dfItFull.format(d));
+\end{verbatim}
+There are two other \verb#Local# methods which are needed for the exam -- 
+\verb#getDisplayCountry()# and \verb#getDisplayLanguage()#. These methods allow 
+you to create Strings that represent a given locale's country and language in 
+terms of both the default locale and any other locale:
+\begin{verbatim}
+    Calendar c = Calendar.getInstance();
+    Date d = c.getTime();
+    Locale locBR = new Locale("pt", "BR");  // Brazil
+    System.out.println("default " + locBR.getDisplayCountry());
+    System.out.println("locale " + locBR.getDisplayCountry(locBR));
+    System.out.println("default " + locBR.getDisplayLanguage());
+    System.out.println("locale " + locBR.getDisplayLanguage(locBR));
+\end{verbatim}
+
+\subsubsection{DateFormat and NumberFormat Locales}
+Note that \verb#DateFormat# and \verb#NumberFormat# objects can have their 
+locales set only during instantiation -- no methods exist to change the locale 
+of an existing instance
+
+\subsubsection{The NumberFormat Class}
+Like the \verb#DateFormat# class, \verb#NumberFormat# is abstract, so you'll 
+typically use some version of either \verb#getInstance()# or 
+\verb#getCurrencyInstance()# to create a \verb#NumberFormat# object. You use 
+this class to format numbers or currency values using the \verb#format()# 
+method. There are methods other than \verb#format# on the exam including, 
+\verb#getMaximumFractionDigits()#, \verb#setMaxImumFractionDigits#, 
+\verb#parse()# and \verb#setParseIntegerOnly()#. Note that \verb#format()# 
+rounds the value being displayed to the number of digits specified by 
+\verb#setMaximumFractionDigits()#
+
+\subsubsection{Instance Creation for Key java.text and java.util Classes}
+\begin{center}
+\begin{tabular}{ll}
+    \textbf{Class} & \textbf{Key Instance Creation Options} \\
+    \verb#util.Date# & \verb#new Date()# \\
+    & \verb#new Date(long millisecondsSince_01_01_1970)# \\
+    \verb#util.Calendar# & \verb#Calendar.getInstance()# \\
+    & \verb#Calendar.getInstance(Locale)# \\
+    \verb#util.Locale# & \verb#Locale.getDefault()# \\
+    & \verb#new Locale(String language)# \\
+    & \verb#newLocale(String language, String country)# \\
+    \verb#text.DateFormat# & \verb#DateFormat.getInstance()# \\
+    & \verb#DateFormat.getDateInstance()# \\
+    & \verb#DateFormat.getDateInstance(style)# \\
+    & \verb#DateFormat.getDateInstance(style, Locale)# \\
+    \verb#text.NumberFormat# & \verb#NumberFormat.getInstance()# \\
+    & \verb#NumberFormat.getInstance(Locale)# \\
+    & \verb#NumberFormat.getNumberInstance()# \\
+    & \verb#NumberFormat.getNumberInstance(Locale)# \\
+    & \verb#NumberFormat.getCurrencyInstance()# \\
+    & \verb#NumberFormat.getCurrencyInstance(Locale)# \\
+\end{tabular}
+\end{center}
+
+\subsection{Parsing, Tokenising and Formatting}
+\subsubsection{Simple Searches}
+\begin{verbatim}
+    import java.util.regex.*;
+    class SimpleRegex {
+        public static void main(String[] args) {
+            Pattern p = Pattern.compile("aba");
+            Matcher m = p.matcher("abababa");
+            while(m.find())
+                System.out.print(m.start() + " ");
+        }
+    }
+\end{verbatim}
+This produces \verb#0 4#. In general, a regex search runs from left to right, 
+and once a character has been used in a match, it cannot be reused
+
+\subsubsection{Searches Using Metacharacters}
+Regex provides a rich set of metacharacters. Those needed for the exam are:
+\begin{itemize}
+    \item \verb#\d# A digit
+    \item \verb#\s# A whitespace character
+    \item \verb#\w# A `word' character (letter, digit or underscore)
+\end{itemize}
+You can also specify sets of characters to search for using square brackets and 
+ranges of characters to search for using square brackets and a dash:
+\begin{itemize}
+    \item \verb#[abc]# Searches only for a's, b's or c's
+    \item \verb#[a-f]# Searches only for a, b, c, d, e or f characters
+    \item \verb#[a-fA-F]# Searches for characters in the ranges a-f or A-F
+\end{itemize}
+Quantifiers can also be used (optionally with parenthesis):
+\begin{itemize}
+    \item \verb#?# Zero or one occurrence
+    \item \verb#*# Zero or more occurrences
+    \item \verb#+# One or more occurrences
+\end{itemize}
+Negation of a group of characters can be achieved by using \verb#^# with square 
+brackets
+
+\subsubsection{The Predefined Dot}
+The \verb#.# metacharacter can be used to refer to any single character
+
+\subsubsection{Greddy Quantifiers}
+When using the \verb#*#, \verb#+# and \verb#?# quantifiers, they can be fine 
+tuned to produce behaviour known as `greedy', `relucant', or `possessive'. You 
+only need to know `greedy' for the exam:
+\begin{itemize}
+    \item \verb#?# is greedy, \verb#??# is reluctant for zero or one
+    \item \verb#*# is greedy, \verb#*?# is reluctant for zero or more
+    \item \verb#+# is greedy, \verb#+?# is reluctant for one or more
+\end{itemize}
+The greedy quantifier reads as much input as possible and then works backwards 
+until is finds the rightmost match. At that point, it includes everything from 
+earlier in the data up to and including the char that is part of the rightmost 
+match
+
+\subsubsection{When Metacharacters and Strings Collide}
+Metacharacters and Strings don't mix well -- for example,
+\verb#String pattern = "\d"# results in a compiler error and the workaround is 
+to escape the metacharacter with another \verb#\#. If you want to have a 
+literal \verb#.# in a String which is used to compile a pattern, it must be 
+double escaped (i.e. \verb#String p = "\\."#)
+
+\subsubsection{Locating Data via Pattern Matching}
+The \verb#java.util.regex.Pattern# and \verb#java.util.regex.matcher# classes 
+are used to perform pattern matching. The \verb#Pattern# class is used to hold 
+representation of a regex expression, that that it can be used and reused by 
+instances of the \verb#Matcher# class. The \verb#Matcher# class is used to 
+invoke the regex engine with the intention of performing match operations. Note 
+that we create a \verb#Pattern# using the static \verb#compile(String pattern)# 
+method. To create a \verb#Matcher#, we use the
+\verb#Pattern.matcher(String sourceData)# method.
+
+The \verb#Matcher.find()# method returns \verb#true# if a match is found and 
+remembers the starting index of the match. The \verb#Matcher.start()# method 
+can be used to obtain the starting index of the match, and the 
+\verb#Matcher.group()# mathod can be used to obtain the whole match.
+
+To provide the most flexibility, \verb#Matcher.find()#, when coupled with the 
+greedy quantifiers \verb#?# or \verb#*#, allow for the idea of a zero-length 
+match. Zero-length matches can occur in several places:
+\begin{itemize}
+    \item After the last character of source data
+    \item In between characters after a match has been found
+    \item At the beginning of source data
+    \item At the beginning of zero-length source data
+\end{itemize}
+
+\subsubsection{Searching Using the Scanner Class}
+Although the \verb#java.util.Scanner# class is primarily intended for 
+tokenizing data, it can also be used to perform searches like the 
+\verb#Pattern# and \verb#Matcher# classes. While \verb#Scanner# does not 
+provide location information or search and replace functionality, it can be 
+used to apply regex expressions to source data to determine how many instances 
+of an expression exist in a given piece of source data. A \verb#Scanner# is 
+created using \verb#Scanner s = new Scanner(System.in)# and the 
+\verb#findInLine(String regex)# method returns the matching String or 
+\verb#null#
+
+\subsubsection{Tokenising with String.split()}
+The String's class \verb#split(String regex)# returns a String array populated 
+with the tokens produced by the tokenising process. This is a handy way to 
+tokenise relatively small pieces of data. One drawback of the 
+\verb#String.split()# method is that it is not possible to inspect the tokens 
+as they are produced and break out of the tokenising process early. The 
+\verb#Scanner# class provides a rich API for doing such on-the-fly tokenisation 
+operations
+
+\subsubsection{Tokenising with the Scanner Class}
+In addition to the basic tokenising capabilities provided by 
+\verb#String.split()#, the \verb#Scanner# class offers the following features:
+\begin{itemize}
+    \item \verb#Scanner#s can be constructed using files, streams or Strings as 
+    a source
+    \item Tokenising is performed within a loop so you can exit the tokenising 
+    process at any point
+    \item Tokens can be converted to their appropriate primitive types 
+    automatically
+\end{itemize}
+Note that \verb#Scanner#'s default delimiter is whitespace and that the methods 
+named \verb#hasNextXxx()# test the value of the next token but do not actually 
+get the token, nor do they move to the next token in the source data. The 
+\verb#nextXxx()# methods all perform two functions: they get the next token and 
+then they move to the next token. The \verb#Scanner# class has 
+\verb#hasNextXxx()# and \verb#nextXxx()# methods for every primitive type 
+except \verb#char#. It also has a \verb#useDelimiter()# method that allows you 
+to set the delimiter to be any valid regex expression
+
+\subsection{Formatting with printf() and format()}
+The \verb#format()# and \verb#printf()# methods were added to 
+\verb#java.io.PrintStream# is java 5 and the two methods behave exactly the 
+same way. Behind the scenes, the \verb#format()# method uses the 
+\verb#java.util.Formatter# class to perform the formatting work. You can use 
+the \verb#Formatter# class directly if you choose, but for the exam you'll only 
+have to know the basic syntax of the arguments passed to the \verb#format()# 
+method. The basic format is: \verb#printf("format string", argument(s))#. The 
+format string can contain both normal String literal information that isn't 
+associated with any arguments, and argument secific formatting data. The clue 
+to determining whether you're looking at formatting data, is that the 
+formatting data will always start with a percentage sign. The format strings 
+have the following format:
+\verb#%[arg_index$][flags][width][.precision]conversion_char#. Note that the 
+only required elements are the percentage sign and the conversion character.  
+The format string elements needed for the exam are:
+\begin{description}
+    \item[arg\_index] An integer followed directly by a \verb#$#. This 
+    indicates which argument should be printed in this position
+    \item[flags] While many flags are available, for the exam, you'll need to 
+    know:
+        \begin{itemize}
+            \item \verb#"-"# Left justify this argument
+            \item \verb#"+"# Include a sign (\verb#+# or \verb#-#) with this 
+            argument
+            \item \verb#"0"# Pad this argument with zeros
+            \item \verb#","# Use locale-specific grouping separators
+            \item \verb#"("# Enclose negative numbers in 
+            parentheses
+        \end{itemize}
+    \item[width] This value indicates the minimum number of characters to print
+    \item[precision] For the exam, you'll only need this when formatting a 
+    floating-point number, and in the case of floating point numbers, precision 
+    indicates the number of digits to print after the decimal point
+    \item[conversion] The type of argument you'll be formatting. You'll need to 
+    know:
+        \begin{itemize}
+            \item \verb#b# boolean
+            \item \verb#c# char
+            \item \verb#d# integer
+            \item \verb#f# floating point
+            \item \verb#s# String
+        \end{itemize}
+\end{description}
+Note that if there is a mismatch between the type specified in the conversion 
+character and the argument, you'll get a 
+\verb#java.util.IlligalFormatConversionException# runtime exception

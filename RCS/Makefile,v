@@ -1,0 +1,36 @@
+head	1.1;
+access;
+symbols;
+locks
+	khenshal:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	2011.05.30.22.56.28;	author khenshal;	state Exp;
+branches;
+next	;
+
+
+desc
+@Makefile for building the notes pdf
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@TEX_FILE=scjp
+TEX_OUTPUT=build
+
+all : ${TEX_FILE}.pdf
+
+${TEX_FILE}.pdf : ${TEX_FILE}.tex
+	mkdir -p ${TEX_OUTPUT}
+	pdflatex -output-directory=${TEX_OUTPUT} ${TEX_FILE}
+
+clean :
+	rm -r ${TEX_OUTPUT}
+@

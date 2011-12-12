@@ -1,0 +1,428 @@
+\section{Chapter 5 -- Flow Control, Exceptions and Assertions}
+\subsection{if and switch Statements}
+\subsubsection{if-else Branching}
+The expression in an \verb#if# statement must be a \verb#boolean# expression. 
+The basic format is:
+\begin{verbatim}
+    if(boolean expression) {
+        // statements to execute if true
+    }
+    else if(boolean expression) {
+        // statements to execute if true
+    }
+    else {
+        // statements to execute if no other `if' was true
+    }
+\end{verbatim}
+There are a few rules regarding \verb#else# and \verb#else if#:
+\begin{itemize}
+    \item There can be zero or one \verb#else# block for a given \verb#if#, and 
+    it must come after any \verb#else if#s
+    \item There can be zero to many \verb#else if#s for a given \verb#if# and 
+    they must come before the (optional) \verb#else#
+    \item Once any \verb#if# or \verb#else if# succeeds, none of the remaining 
+    \verb#else if#s or the (optional) \verb#else# will be tested
+\end{itemize}
+For nested \verb#if# statements, an \verb#else# clause belongs to the innermost 
+\verb#if# statement to which is might possibly belong (in other words, the 
+closest preceeding \verb#if# that doesn't have an \verb#else#)
+
+\subsubsection{switch Statements}
+A \verb#switch# statement can emulate a nested \verb#if# by using \verb#break# 
+statements within each \verb#case#. In general, \verb#break# statements are 
+optional and their presence can alter the execution flow within a \verb#switch# 
+statement. The basic format is:
+\begin{verbatim}
+    switch(expression) {
+        case constant1: code block
+        case constant2: code block
+        default: code block
+    }
+\end{verbatim}
+The expression must evaluate to a \verb#char#, \verb#byte#, \verb#short#, 
+\verb#int# or \verb#enun# (note that boxing is permitted). In other words, 
+anything that can be implicitly cast to an \verb#int#. Other types will fail 
+compilation.  Each \verb#case# constant must evaluate to the same type as the 
+expression (without losing precision) with the additional constraint that it 
+must be a compile time constant. Note that using a final variable isn't a 
+compile time constant unless it is declared and initialised in a single 
+statement (eg \verb#final int a = 1#). Also note that a \verb#switch# can only 
+check for equality and that it is illegal to have multiple \verb#case# labels 
+using the same value
+
+\subsubsection{Break and Fall-Through in switch Blocks}
+\verb#case# constants are evaluated from the top down, and the first match is 
+the execution entry point. If the \verb#break# keyword is encountered during 
+the execution of a \verb#switch# statement, execution will immediately move out 
+of the \verb#switch# block to the next statement after the \verb#switch#. If 
+\verb#break# is omitted, the program will continue to execute the remaining 
+\verb#case# blocks until either a \verb#break# is encountered or the 
+\verb#switch# statement ends
+
+\subsubsection{The default Case}
+Note that the \verb#default# case doesn't have to appear at the end of the 
+\verb#switch# and it acts just like any other \verb#case# in terms of 
+fall-through
+
+\subsection{Loops and Iterators}
+There are three types of loops: \verb#while#, \verb#do# and \verb#for#. All 
+allow the repetition of a block of code as long as some condition is true, or 
+for a specific number of iterations
+
+\subsubsection{Using while Loops}
+The \verb#while# loop is useful for scenarios where you don't know how many 
+times a block should repeat but you want to continue looping as long as some 
+condition is true. The basic syntax is:
+\begin{verbatim}
+    while(boolean expression) {
+        // statements to execute if condition is true
+    }
+\end{verbatim}
+Note that any variables used in the while expression must be declared before 
+the expression is evaulated (i.e. they cannot be declared within the while 
+expression)
+
+\subsubsection{Using do Loops}
+The \verb#do# loop is similar to the \verb#while# loop, except that the 
+expression is not evaluated until after the loop's code is executed. Therefore, 
+the code in a \verb#do# loop is guaranteed to execute at least once. The basic 
+syntax is:
+\begin{verbatim}
+    do {
+        // statements to execute at least once
+    } while(boolean expression);    // NOTE: semicolon is required
+\end{verbatim}
+
+\subsubsection{Using Basic for Loops}
+The \verb#for# loop is especially useful for flow control when you know how 
+many times the statements should be executed. There are four main parts to the 
+structure:
+\begin{itemize}
+    \item Declaration and initialisation of variables
+    \item The \verb#boolean# expression (conditional test)
+    \item The iteration expression
+    \item The loop body
+\end{itemize}
+The first three parts are separated by semicolons. The basic syntax is:
+\begin{verbatim}
+    for(/* initialisation*/ ; /* boolean condition */ ; /* iteration */) {
+        // loop body
+    }
+\end{verbatim}
+The initialisation part of the \verb#for# statement allows for the declaration 
+and initialisation of zero or more variables of the same type separated by 
+commas. Note that the scope of any newly declared variables ends with the scope 
+of the \verb#for# loop. Note that there can be only one \verb#boolean# 
+condition (unlike the initialisation and iteration sections). The iteration 
+expression is executed after each execution of the loop body. Multiple 
+iteration expressions of variables of the same type are allowed (separated by 
+commas). Note that barring a forced exit (eg. \verb#break#, \verb#return# or 
+\verb#System.exit()#), evaluating the iteration expression and then evaluating 
+the conditional expression are always the last two things that happen in a 
+\verb#for# loop
+
+\subsubsection{Basic for Loop Issues}
+\begin{itemize}
+    \item None of the three sections of the \verb#for# declaration are required
+    \item Variables declared in the \verb#for# loop statement are all local to 
+    the \verb#for# statement
+    \item The three expressions in the \verb#for# statement do not need to 
+    operate on the same variables
+\end{itemize}
+
+\subsubsection{Using the Enhanced for Loop (for Arrays)}
+The enhanced \verb#for# loop has the following syntax:
+\begin{verbatim}
+    for(declaration : expression) {
+        // loop body
+    }
+\end{verbatim}
+The two pieces of the enhanced \verb#for# loop are:
+\begin{description}
+    \item[declaration] The newly declared block variable of type compatible 
+    with the elements of the array you are iterating over. This variable will 
+    be available within the loop body and its value will be the same as the 
+    current array element
+    \item[expression] This must evaluate to the array (of any type) you want to 
+    iterate over
+\end{description}
+The enhanced \verb#for# loop assumes that, barring an early exit from the loop 
+(eg. \verb#break#, \verb#return# or \verb#System.exit()#), you will always loop 
+through every element of the array
+
+\subsection{Using break and continue}
+The \verb#break# statement causes the program to stop execution of the 
+innermost loop and start processing the next line of code after the block. The 
+\verb#continue# statement causes only the current iteration of the innermost 
+loop to cease and the next iteration of the same loop to start once the 
+iteration expression has run if the condition of the loop is met. Note that 
+\verb#continue# statements must be inside a loop, otherwise a compilation error 
+will occur; \verb#break# statements must be used inside either a loop or a 
+\verb#switch# statement. Note that this does not apply to labeled \verb#break# 
+statements
+
+\subsubsection{Labeled and Unlabeled Statements}
+Both \verb#break# and \verb#continue# statements can be labeled or unlabeled.  
+Although many statements can be labeled, it's most common to use labels with 
+loop statements in conjunction with \verb#break# and \verb#continue#. A label 
+statement must be placed just before the statement being labeled and consists 
+of a valid identifier that ends with a colon. Labeled \verb#break# and 
+\verb#continue# statements are only needed within nested loops to indicate 
+which loop you want to break from or continue with the next iteration. A 
+labeled \verb#break# statement will exit the labeled loop (as opposed to the 
+innermost loop). A labeled \verb#continue# statement will cause execution to 
+continue with the next iteration of the labeled loop. Note that labeled 
+\verb#break# and \verb#continue# statements must be within a loop that has the 
+same label name, otherwise compilation will fail
+
+\subsection{Handling Exceptions}
+Exception handling allows developers to detect errors easily without writing 
+special code to test return values. It allows for exception-handling code to be 
+kept separate from the exception-generating code and allows for the 
+exception-handling code to deal with a range of possible exceptions
+
+\subsubsection{Catching an Exception Using try and catch}
+Exception handling works by transferring the execution of a program to an 
+appropriate exception handler when an exception occurs. The \verb#try# keyword 
+is used to define a block of code in which exceptions can occur. One or more 
+\verb#catch# clauses match a specific exception (or classes of exceptions) to a 
+block of code that handles it. If one or more \verb#catch# blocks are present, 
+they must immediately follow the \verb#try# block. Additionally, the 
+\verb#catch# blocks must all follow each other, without any other statements or 
+blocks in between. Also, the ordering of the \verb#catch# blocks affects which 
+\verb#catch# block is executed
+
+\subsubsection{Using finally}
+A \verb#finally# block encloses code that is always executed (unless a 
+\verb#System.exit()# occurs) at some point after the \verb#try# block, whether 
+an exception is thrown or not. Even if there is a \verb#return# statement 
+within the \verb#try# block, the \verb#finally# block executes right after the 
+return statement is encountered, and before the \verb#return# statement is 
+executed. If the \verb#try# block executes without exceptions, the 
+\verb#finally# block is executed immediately after the \verb#try# block 
+completes. If an exception was thrown, the \verb#finally# block exeuctes 
+immediately after the appropriate \verb#catch# block completes. Note that it is 
+illegal to use a \verb#try# clause without either a \verb#catch# or a 
+\verb#finally# clause. Any \verb#catch# clauses must immediately follow the 
+\verb#try# block. Any \verb#finally# clause must immediately follow the last 
+\verb#catch# clause (or it must immediately follow the \verb#try# block if 
+there is no \verb#catch#). In summary, it is legal to omit either the 
+\verb#catch# or the \verb#finally# clause, but not both
+
+\subsubsection{Defining Exceptions}
+Exceptions are always a subclass of \verb#java.lang.Exception#
+
+\subsubsection{Exception Hierarchy}
+All exception classes are subtypes of class \verb#java.lang.Exception#. This 
+class derives from the class \verb#Throwable# (which derives from 
+\verb#Object#). The hierarchy is as follows:
+\begin{verbatim}
+    Object
+        - Throwable
+            - Error
+            - Exception
+                - RuntimeException
+\end{verbatim}
+There are two ways to get information about an exception. The first is from the 
+type of the exception itself. The second is by calling methods inherited from 
+\verb#Throwable# such as \verb#printStackTrace()#. For the exam, it is not 
+necessary to know any of the methods contained in the \verb#Throwable# classes, 
+including \verb#Exception# and \verb#Error#. However, you do need to know that 
+\verb#Exception#, \verb#Error#, \verb#RuntimeException# and \verb#Throwable# 
+types can all be thrown using the keyword \verb#throw#, and all can be caught 
+(although you will rarely catch anything other than \verb#Exception#s)
+
+\subsubsection{Handling an Entire Class Hierarchy of Exceptions}
+It is possible to catch more than one type of exception in a single 
+\verb#catch# clause since if the type specified has subclasses, they will be 
+caught too. While this is convernient, it means you have less information 
+available when handling the exception (unless you test to dertermine which 
+class the exception belongs to using \verb#instanceof# --which is just as much 
+work as writing multiple \verb#catch# blocks)
+
+\subsubsection{Exception Matching}
+When an exception is thrown, java will try to find (by looking at the available 
+\verb#catch# clauses from the top down) a \verb#catch# clause for the exception 
+type. If it does not find a \verb#catch# clause that matches, then the 
+exception is propagated down the call stack. This process is called exception 
+matching
+
+\subsubsection{Exception Declaration and the Public Interface}
+Just as a method must specify what type and how many arguments it accepts and 
+what it returns, the exceptions that a method can throw must be declared 
+(unless the excptions are subclasses of \verb#RuntimeException#). The list of 
+thrown exceptions is part of a method's public interface. The \verb#throws# 
+keyword is used as follows to list the exceptions that a method can throw:
+\begin{verbatim}
+    void myFunction() throws MyException1, MyException2 {}
+\end{verbatim}
+Each method must either handle all checked (non-runtime) exceptions by 
+supplying a \verb#catch# clause or list each handled checked exception as a 
+thrown exception. Note that exceptions of type \verb#RuntimeException# may be 
+thrown from any method without being specified as part of the method's public 
+interface (and a handler need not be present). Even if the method does declare 
+that it throws a \verb#RuntimeException#, the calling method is under no 
+obligation to handle or declare it. \verb#RuntimeException#, \verb#Error# and 
+all of their subtypes are unchecked exceptions and therefore do no need to be 
+specified or handled.
+
+Objects of type \verb#Error# are not \verb#Exception# objects, although they do 
+represent exceptional conditions. Both \verb#Exception# and \verb#Error# share 
+a common superclass, \verb#Throwable#, thus both can be thrown using the 
+\verb#throw# keyword. When an \verb#Error# or one of its subclasses is thrown, 
+it's unchecked, meaning you are not required to catch or declare it
+
+\subsubsection{Rethrowing the Same Exception}
+Just as you can throw a new exception from a \verb#catch# clause, you can also 
+rethrow the same exception you just caught. All other \verb#catch# clauses 
+associated with the same \verb#try# are ignored, if a \verb#finally# block 
+exists, it runs before the exception is thrown. Note that if you throw a 
+checked exception (even if it is from within a \verb#catch# block), you must 
+still declare the exception as being thrown
+
+\subsection{Common Exceptions and Errors}
+For the purposes of the exam, there are two broad categories of exceptions and 
+errors:
+\begin{description}
+    \item[JVM exceptions] Exceptions or errors that are either exclusively or 
+    most logically thrown by the JVM
+    \item[Programmatic exceptions] Exceptions that are thrown explicitly by 
+    application and/or API programmers
+\end{description}
+
+\subsubsection{JVM Thrown Exceptions}
+\begin{description}
+    \item[NullPointerException] Occurs when you attempt to access an object 
+    using a reference variable with a current value of \verb#null#.  There's no 
+    way for the compiler to detect these problems before runtime
+    \item[StackOverflowException] Occurs when the stack becomes too large
+\end{description}
+
+\subsubsection{Summary of Exam's Exceptions and Errors}
+\begin{center}
+    \begin{tabular}{p{0.35\textwidth}p{0.4\textwidth}l}
+        \textbf{Exception} & \textbf{Description} & \textbf{Typically Thrown 
+        By} \\
+        \hline
+        \verb#IllegalArgumentException# & Thrown when a method receives an 
+        argument formatted differently than the method expected & Programmer \\
+        \hline
+        \verb#IllegalStateException# & Thrown when the state of the environment 
+        doesn't match the operation being attempted & Programmer \\
+        \hline
+        \verb#NumberFormatException# (extends \verb#IllegalArgumentException#) 
+        & Thrown when a method that converts a String to a number receives a 
+        String that it cannot convert & Programmer \\
+        \hline
+        \verb#AssertionError# & Thrown when an assertion fails & Programmer \\
+        \hline
+        \verb#ArrayIndexOutOfBoundsException# & Thrown when attempting to 
+        access an array with an invalid index (negative or beyond the length of 
+        the array) & JVM \\
+        \hline
+        \verb#NullPointerException# & Thrown when attempting to access an 
+        object with a reference variable whose current value is \verb#null# & 
+        JVM \\
+        \hline
+        \verb#ClassCastException# & Thrown when attempting to cast a reference 
+        variable to an incompatible type & JVM \\
+        \hline
+        \verb#ExceptionInInitializerError# & Thrown when attempting to 
+        initialise a static variable or initialisation block & JVM \\
+        \hline
+        \verb#StackOverflowError# & Thrown when the stack overflows & JVM \\
+        \hline
+        \verb#NoClassDefFoundError# & Thrown when the JVM can't find a class it 
+        requires & JVM \\
+    \end{tabular}
+\end{center}
+
+\subsection{Working with Assertions}
+Added in java in 1.4, assertions allow for testing assumptions during 
+development without the expense (in both programmer time and execution 
+overhead) of writing exception handlers for exceptions that you assume will 
+never occur once the program is deployed
+
+\subsubsection{Assertions Overview}
+You always assert that a condition is \verb#true#. If it is not, an 
+\verb#AssertionError# is thrown (that you should never handle). There are two 
+assertion syntaxes:
+\begin{verbatim}
+    assert(boolean condition);
+    assert(boolean condition): Value to be added to stack trace;
+\end{verbatim}
+Note that in the second format, anything which results in a value can be used 
+(note that \verb#void# method calls are not legal)
+
+\subsubsection{assert Keyword}
+Since assertions were introduced in java 1.4, prior to this version, ``assert" 
+was not a keyword.  It is possible to compile code using java 1.3 or earlier 
+using ``assert" as an identifier using the \verb#-source 1.3# javac flag. Note 
+that if doing this, a compiler warning will be displayed
+
+\subsubsection{Enabling Assertions at Runtime}
+You can enable assertions at runtime using either:
+\begin{verbatim}
+    java -ea com.unico.TestAssertions
+    java -enableassertions com.unico.TestAssertions
+\end{verbatim}
+
+\subsubsection{Disabling Assertions at Runtime}
+You can disable assertions at runtime using either:
+\begin{verbatim}
+    java -da com.unico.TestAssertions
+    java -disableassertions com.unico.TestAssertions
+\end{verbatim}
+
+\subsubsection{Selective Enabling and Disabling Assertions}
+The command line switches for assertions can be used in various ways by 
+appending `:' where necessary:
+\begin{description}
+    \item[With no arguments (as above)] Enables or disables assertions in all 
+    classes (except system classes). Note that no ``:" is needed in this case
+    \item[With a package name] Enables or disables assertions in the package 
+    specified, and any packages below this package in the same directory 
+    hierarchy. The package name should be followed by \ldots\ when used in this 
+    fashion
+    \item[With a class name] Enables or disables assertions in the class 
+    specified
+\end{description}
+Some examples of selectively enabling and disabling assertions are:
+\begin{center}
+    \begin{tabular}{lp{.6\textwidth}}
+        \textbf{Command Line} & \textbf{Meaning} \\
+        \hline
+        \verb#java -ea# & Enable assertions \\
+        \hline
+        \verb#java -da# & Disable assertions \\
+        \hline
+        \verb#java -eacom.foo.Bar# & Enable assertions in class com.foo.Bar \\
+        \hline
+        \verb#java -eacom.foo...# & Enable assertions in package com.foo and 
+        any of its subpackages \\
+        \hline
+        \verb#java -ea -dsa# & Enable assertions but disable assertions in 
+        system classes \\
+        \hline
+        \verb#java -ea -dacom.foo...# & Enable assertions but disable 
+        assertinos in package com.foo and any of its subpackages \\
+    \end{tabular}
+\end{center}
+
+\subsubsection{Using Assertions Appropriately}
+AssertionErrors should never be handled. To discourage you from handling them, 
+\verb#AssertionError# doesn't provide access to the object that generated it.
+\begin{itemize}
+    \item Don't use assertions to validate arguments to a public method, since 
+    they are not guaranteed to run at all. Throw an 
+    \verb#IllegalArgumentException# instead
+    \item Don't use assertions to validate command-line arguments (special case 
+    of above)
+    \item Use assertions to validate arguments to private methods, since you 
+    often want to ensure assumptions in your code are valid
+    \item Use assertions (even in public methods) to check for cases which you 
+    know should never happen (for example, by using \verb#assert false;# in the 
+    default \verb#case# of a switch which should never match)
+    \item Assert statements should never cause side effects since they are not 
+    guaranteed to run
+\end{itemize}

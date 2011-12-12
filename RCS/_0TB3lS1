@@ -1,0 +1,89 @@
+head	1.1;
+access;
+symbols;
+locks
+	Kevin:1.1; strict;
+comment	@% @;
+
+
+1.1
+date	2011.06.02.23.12.44;	author khenshal;	state Exp;
+branches;
+next	;
+
+
+desc
+@Chapter 2 notes
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@\section{Chapter 2 -- some title here...}
+\subsection{Encapsulation}
+The ability to make changes in implementation code without breaking the code of 
+users of the code is a key benefit of encapsulation. You want to hide 
+implementation details behind a public programming interface
+
+\subsection{Inheritance, Is-A, Has-A}
+You can create inheritance relationships by extanding a class. The two most 
+common reasons to use inheritance are:
+\begin{itemize}
+    \item To promote code reuse
+    \item To promote polymorphism
+\end{itemize}
+
+\subsection{Object Orientation}
+The methods you can call on a reference variable are totally dependent on the 
+declared type of the variable, regardless of what the type of the referenced 
+object
+
+\subsection{Is-A}
+The concept os Is-A is based on class inheritance or interface implementation.  
+You express the Is-A relationship through the keywords \verb#extends# for class 
+inheritance, and \verb#implements# for interface implementation. If the 
+expression \verb#Foo instanceof Bar# is true, then class Foo Is-A Bar, even if 
+Foo does not directly extend Bar, but instead extends some other class that is 
+a subclass of Bar
+
+\subsection{Has-A}
+Has-A relationships are based on usage, rather than inheritance. In other 
+words, class A Has-A B if code in class A has a reference to an instance of 
+class B
+
+\subsection{Polymorphism}
+The obly way to access an object is through a reference variable, and there are 
+a few key things to remember about references:
+\begin{itemize}
+    \item A reference variable can be of only one type and once declared, that 
+    type can never be changed (although the object it refers to can change)
+    \item A reference is a variable, so it can be reassigned to other objects 
+    (unless the reference is declared \verb#final#
+    \item A reference variable's type determines the methods that can be 
+    invoked on the object the variable is referencing
+    \item A reference variable can refer to any object of the same type as the 
+    declared reference, or a subtype of the declared type
+    \item A reference variable can be declared as a class type or an interface 
+    type. If the variable is declared as an interface type, it can reference 
+    any object of any class that implements the interface
+\end{itemize}
+Remember that method invocations allowed by the compiler are based solely on 
+the declared type of the reference, regardless of the object type. However, the 
+compiler always knows that you can invoke the methods of class Object on any 
+object, so those are safe to call regardless of the reference -- class or 
+interface -- used to refer to the object. At runtime, the JVM knows what the 
+object really is and it can determine which method will be invoked in cases of 
+overridden methods.
+
+Polymorphic method invocations apply only to instance methods. You can refer to 
+an object with a more general reference variable type (a superclass or 
+interface), but at runtime, the only things that are dynamically selected based 
+on the actual object (rather than the reference type) are instance methods -- 
+not static variables or variables. Only overridden instance methods are 
+dynamically invoked based on the object's real type.
+
+\subsection{Up to page 19}
+@

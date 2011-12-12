@@ -1,0 +1,503 @@
+\section{Chapter 3 -- Assignments}
+\subsection{Stack and Heap -- Quick Review}
+For the most part, the various pieces (methods, variables and objects) of java 
+programs live in one of two places -- the stack or the heap:
+\begin{itemize}
+    \item Instance variables and objects live on the heap
+    \item Local variables live on the stack
+\end{itemize}
+
+\subsection{Literal Values for All Primitive Types}
+\subsubsection{Integer Literals}
+There are three ways to represent integer numbers in java -- decimal (base 10), 
+octal (base 8) and hexadecimal (base 16)
+
+\subsubsection{Decimal Literals}
+Represented as is, with no prefix of any kind
+
+\subsubsection{Octal Literals}
+Use only the digits 0 to 7. In java, represent an integer in octal form by 
+placing a zero in front of the number. You can have up to 21 digits in an octal 
+number, not including the leading zero
+
+\subsubsection{Hexadecimal Literals}
+Use digits 0 to 9 and letters a to f. Java will accept lower or upper case for 
+the letters. You can have up to 16 digits in a hexadecimal number, not 
+including the case insensitive 0x prefix
+
+\subsubsection{Long literals}
+Any decimal, octal or hexedecimal integer literals are defined as \verb#int# by 
+default, but they can be made \verb#long# by using the case insensitive
+extension L
+
+\subsection{Floating-Point Literals}
+Defined as a number, a decimal symbol, and more numbers representing the 
+fraction. Floating point literals are defined as double (64 bits) by default, 
+so if you want to assign a floating-point literal to a variable of type float 
+(32 bits), you must attach the suffix F (or f) to the number. If you don't, the 
+compiler will complain about a possible loss of precision. You can also 
+optionally arrach a D (or d) to double literals, but this is not necessary 
+since this is the default debaviour
+
+\subsection{Boolean Literals}
+Can either be true or false. Note that numbers can not be used in place of 
+boolean values
+
+\subsection{Character Literals}
+Represented by a single character in single quotes. Can also use the unicode 
+value of the character (prefixing \\u) within single quotes. Remember that 
+characters are just 16 bit unsigned integers under the hood
+
+\subsection{Literal Values for Strings}
+Although strings are not primitives, they can be represented as literals -- in 
+other words, typed directly into code. The only other nonprimitive type that 
+has a literal representation is an array.
+
+\subsection{Assignment Operators}
+Variables are just bit holders with a designated type. For primitives, the bits 
+represent a numeric value (although we don't know what the bit pattern looks 
+like for boolean). A reference variable bit holder contains bits representing a 
+way to get to an object, or null.
+
+\subsection{Primitive Assignments}
+The equals sign is used for assigning a value to a variable. A literal integer 
+(such as 7) is always implicitly an \verb#int#. However, the compiler will 
+automatically insert the required cast when assigning an integer literal to a 
+primitive type of size less than 32 bits. For example, \verb#byte b = 27;# is 
+fine and is identical to \verb#byte b = (byte)27;#. The result of any 
+expression involving anything \verb#int#-sized or smaller is also an \verb#int#
+
+\subsection{Primitive Casting}
+Casting lets you convert primitive values from one type to another. An implicit 
+cast means you don't have to write any code for the cast; the conversion 
+happens automatically. Typically, an implicit cast happens during a widening 
+conversion. The narrowing conversion requires an explicit cast. When casting 
+floating-point numbers to integer types, the value loses all the digits after 
+the decimal point. Note that when performing an explicit narrowing cast when 
+the value being narrowed is too large for the type, the leftmost (i.e.  
+higher-order) bits are truncated
+
+\subsection{Assigning Floating-Point Numbers}
+Floating-point numbers have slightly different assignment behaviour than 
+integer types. Every floating-point literal is implicitly a double (64 bits), 
+not a float.
+
+\subsection{Assigning a Literal That is Too Large for the Variable}
+If we try to assign a literal which is too large for the variable type, we'll 
+get a compilation error, eg. \verb#byte b = 128;#
+
+\subsection{Compound Assignment Operators}
+The compound assignment operators (\verb#+=#,\verb#-=#,\verb#*=#,\verb#/=#) all 
+insert an implicit cast
+
+\subsection{Assigning One Primitive Variable to Another Primitive Variable}
+When you assign one primitive variable to another, the contents of the 
+right-hand variable are copied. If we change the contents of either, the other 
+variable is not affected
+
+\subsection{Reference Variable Assignments}
+You can assign a newly created object to an object referent variable as 
+follows: \verb#Button b = new Button();#. This does three things:
+\begin{itemize}
+    \item Creates a reference variable named \verb#b#, of type \verb#Button#
+    \item Creates a new \verb#Button# object on the heap
+    \item Assigns the newly created \verb#Button# object to the reference 
+    variable \verb#b#
+\end{itemize}
+You can also assign \verb#null# to a reference variable, which simply means the 
+variable is not referring to any object. \verb#Button c = null;#. This creates 
+space for the Button reference variable, but doesn't create an actual 
+\verb#Button# object. You can assign a subclass of the declared type, but not a 
+superclass of the declared type.
+
+\subsection{Variable Scope}
+For the purposes of discussing the scope of variables, we can say that there 
+are four basic scopes:
+\begin{itemize}
+    \item Static variables have the longest scope; they are created when the 
+    class is loaded, and they survive as long as the class stays loaded in the 
+    JVM
+    \item Instance variables are the next most long-lived; they are created 
+    when a new instance is created and they survive until the instance is 
+    removed
+    \item Local variables are next, they survive as long as their method 
+    remains on the stack
+    \item Block variable live only as long as the code block is executing
+\end{itemize}
+One common scoping error occurs when trying to access a variable which is not 
+in scope:
+\begin{itemize}
+    \item Attempting to access an instance variable from a static context
+    \item Attempting to access a local variable from a nested method
+    \item Attempting to use a block variable after the code block has completed
+\end{itemize}
+
+\subsection{Using a Variable or Array Element That is Uninitialised and 
+Unassigned}
+\subsubsection{Primitive and Object Type Instance Variables}
+Instance variables are initialised to a default value each time a new instance 
+is created, although they may be given an explicit value after the 
+super-constructors have been completed.
+
+\begin{center}
+\begin{tabular}{ll}
+    \textbf{Variable Type} & \textbf{Default Value} \\
+    \hline
+    Object reference & \verb#null# (not referencing any object) \\
+    byte, short, int, long & 0 \\
+    float, double & 0.0 \\
+    boolean & false \\
+    char & \verb#'\u0000'# \\
+\end{tabular}
+\end{center}
+Remember that for String reference variables, null is not the same as the empty 
+string (\verb#""#)
+
+\subsubsection{Array Instance Variables}
+An array is an object, so any array instance variable that is declared but not 
+explicitly initialised will have a value of \verb#null#. If the array is 
+initialised, all array elements are given their default values -- the same 
+default values that elements of that type receive when they are instance 
+variables. Array elements are always given default values, regardless of where 
+the array itself is declared or instantiated
+
+\subsection{Local (Stack, Automatic) Primitives and Objects}
+Local variables, including primitives must always be initialised before they 
+are used (though not necessarily in the same line of code). Java does not give 
+local variables a default value. The compiler can't always tell whether a local 
+variable has been initialised before use. For example, if you initialise within 
+a conditional block (in other words, a code block that may not be run, such as 
+an \verb#if# block or \verb#for# loop without a literal value of \verb#true# or 
+\verb#false# in the test), the compiler knows that the initialisation might not 
+happen and can produce an error
+
+\subsection{Local Object References}
+Local reference variables are not given a default value -- that is, they aren't 
+\verb#null#. If you don't initialise a local reference variable, then by 
+default is doesn't have any value
+
+\subsection{Local Arrays}
+Just like any other object reference, array references declared with a method 
+must be assigned a value before use. This means you must declare and construct 
+the array, but you don't have to explicitly initialise the elements in the
+array -- remember that the elements of the array are automatically initialised 
+anyway
+
+\subsection{Assigning One Reference Variable to Another}
+With primitives, an assignment of one variable to another means the contents 
+(bit pattern) of one variable are copied into another. Object refernce variable 
+work exactly the same way -- the contens of the reference variable (a bit 
+pattern) are copied to the other reference variable. One exception to the way 
+object references are assigned is String. String objects are given special 
+treatment -- they are immutable. For another other type, where two references 
+refer to the same object, if either reference is used to modify the object, 
+both references will see the change because there is still only one object.  
+However, any time we change a String, the JVM will update the reference 
+variable to refer to a different object. The different object might be a new 
+object, or it might not, but it will definitely be a different object.
+
+When you use a String reference variable to modify a String:
+\begin{itemize}
+    \item A new String is created (or a matching String is found in the String 
+    pool), leaving the original String object untouched
+    \item The reference used to modify the String (or rather, make a new String 
+    String by modifying a copy of the original) is then assigned the new String 
+    object
+\end{itemize}
+
+\subsection{Passing Variables into Methods}
+\subsubsection{Passing Object Reference Variables}
+When you pass an object reference variable into a method, you must keep in mind 
+that you're passing the object reference, and not the object itself. More 
+importantly, remember that you aren't even passing the actual reference 
+variable, but a copy of the reference variable
+
+\subsection{Java and Pass-By-Value Semantics}
+It makes no difference if passing a primitive or reference variable, you are 
+always passing a copy of the bits in the variable. The bottom line on 
+pass-by-value: the called method can't change the caller's variable, although 
+for object reference variables, the called method can change the object the 
+    variable referred to. For object references, this means the called method 
+    can't reassign the caller's original reference variable and make it refer 
+    to a different object, or \verb#null#
+
+\subsection{Array Declaration, Construction and Initialisation}
+\subsubsection{Declaring an Array}
+Arrays are declared by stating the type of element teh array will hold, which 
+can be an object or a primitive, followed by square brackets to the left or 
+right of the identifier. It is never legal to include the size of the array in 
+the declaration. The JVM doesn't allocate space until you actually instantiate 
+the array object
+
+\subsubsection{Constructing an Array}
+Constructing an array means creating the array object on the heap, where all 
+objects (and instance variables) live. To create an array object, java must 
+know how much space to allocate on the heap, so you must specify the size of 
+the array at construction time.
+
+\subsubsection{Constructing 1-D Arrays}
+The most straightforward way to  construct an array is to use the keyword 
+\verb#new# followed by the array type, with a bracket specifying how many 
+elements of that type the array will hold. Remember that when constructing an 
+array of object references, the object's constructor is not invoked. Note that 
+the words `construct', `create' and `instantiate' all refer to an object being 
+created on the heap. Note that due to syntax shortcuts, objects can be created 
+without even invoking \verb#new#
+
+\subsubsection{Constructing Multidimensional Arrays}
+Multidimensional arrays are simply arrays of arrays. So a 2D array of type int 
+is really an object of type int array (\verb#int[]#), with each element in the 
+array holding a reference to another int array. Note that only the first 
+dimension is required when constructing the array and the other dimensions need 
+not all be the same size
+
+\subsubsection{Initialising an Array}
+Initialising an array means putting things into it. The `things' in the array 
+are the array's elements, and they're either primitives or reference variables.
+If you have an array of objects, the array doesn't actually hold the object, 
+but instead holds a reference to the object. The individual elements in the 
+array can be accessed with an index number. The index number always begin with 
+zero. Note that an \verb#ArrayIndexOutOfBoundsException# will be thrown at 
+runtime for invalid index values -- compilation will not fail even if using an 
+invalid index
+
+\subsubsection{Initialising Elements in a Loop}
+Array objects have a single public variable, \verb#length#, that gives the 
+number of elements in the array
+
+\subsubsection{Declaring, Constructing and Initialising on One Line}
+There are two array-specific syntax shortcuts to both construct (instantiate 
+the array object itself) and initialise (put explicit values into an array's 
+elements) in a single statement. The first is used to declare, create and 
+intialise as follows: \verb#int x = 9; int[] a = {6,x,8};# You can also use 
+this syntax shortcut with multidimensional arrays
+
+\subsubsection{Constructing and Initialising an Anonymous Array}
+The second shortcut is called `anonymous array creation' and can be used to 
+construct and initialise an array, and then assign the array to a previously 
+declared array reference variable: \verb#int[] a; a = new int[] {4,7,2};#.  
+Remember that it is illegal to speicify a size when creating an anonymous array
+
+\subsubsection{Legal Array Element Assignments}
+\subsubsection{Arrays of Primitives}
+Primitive arrays can accept any value that can be implicitly promoted to the 
+declared type of the array
+
+\subsubsection{Arrays of Object References}
+If the declared array type is a class (or interface), you can put objects of 
+any subclass of the declared type (or implementing class) into the array
+
+\subsubsection{Array Reference Assignments for 1-D Arrays}
+If you declare a primitive array, the reference variable you declared can be 
+reassigned to any array of the same type (of any size), but cannot be 
+reassigned to any other type of array (or anything else). For object reference 
+arrays, the array reference can be assigned to an array of any subclass of the 
+declared class (or an implementing class in cases of interface type arrays)
+
+\subsubsection{Array Reference Assignments for Multidimensional Arrays}
+When assigning an array to a previously declared array reference, the array 
+you're assigning must be the same dimension as the refernce being assigned to.  
+Note to be careful with array assignments using different dimensions
+
+\subsection{Initialisation Blocks}
+Initialisation blocks are the third place in a java program where operations 
+can be performed (the others being constructors and methods). They run when the 
+class is first loaded (if static) or when an instance is created (if instance).  
+The syntax is fairly simple -- they don't have names, can't take arguments and 
+don't return antyhing. The rules regarding initialisation blocks are:
+\begin{itemize}
+    \item Init blocks execute in the order they appear
+    \item Static init blocks run once, when the class is first loaded
+    \item Instance init blocks run every time a class instance is created
+    \item Instance init blocks run after the constructor's call to 
+    \verb#super()#
+\end{itemize}
+Instance init blocks are often used as a place to put code that all the 
+constructors in the class should share. Note that an 
+ExceptionInitializationError can be thrown from within a static initialisation 
+block
+
+\subsection{Using Wrapper Classes and Boxing}
+The wrapper classes in the java api serve two main purposes:
+\begin{itemize}
+    \item To a provide a means to `wrap up' primitive values in an object so 
+    they can be used in activities reserved for objects
+    \item To provide an assortment of utility functions for primitives -- 
+    mostly related to various conversions
+\end{itemize}
+
+\subsection{An Overview of the Wrapper Classes}
+There are wrapper classes for every primitive in java. The wrapper name is just 
+the capitalised form of the primitive except for \verb#char# (which is 
+\verb#Character#) and \verb#int# (which is \verb#Integer#)
+
+\subsection{Creating Wrapper Objects}
+Creation methods which take a String throw a NumberFormatException if the 
+String provided cannot be parsed into the appropriate primitive. Note that 
+wrapper objects are immutable
+
+\subsubsection{Wrapper Constructors}
+All of the wrapper classes except Character provide two constructors -- one 
+that takes a primitive, and one that takes a String. The Character class 
+provides only one constructor which takes a char. The constructors for 
+Boolean's String constructor return the object `true' if the String argument is 
+case insensitive the same as `true', otherwise `false' is returned. Note that 
+as of java 5m a Boolean object can be used in a boolean test (due to unboxing)
+
+\subsubsection{The valueOf() Methods}
+The static \verb#valueOf()# methods provided in most of the wrapper classes 
+provide another means of creating wrapper objects. They take a String 
+representation of the primitive and sometimes a second argument specifying the 
+radix of the first argument. Note that a NumberFormatException may be thrown
+
+\subsection{Using Wrapper Conversion Utilities}
+\subsubsection{xxxValue()}
+When converting the value of a wrapped numeric to a primitive, use one of the
+\verb#xxxValue()# methods. 
+
+\subsubsection{parseXxx() and valueOf()}
+The six \verb#parseXxx()# methods (one for each numeric wrapper type) are 
+closely related to the \verb#valueOf()# method. Both take a String argument, 
+throw a NumberFormatException and can convert String objects from different 
+bases. The difference between them is:
+\begin{itemize}
+    \item \verb#parseXxx()# returns the named primitive
+    \item \verb#valueOf()# returns a newly created wrapper object of the type 
+    that invoked the method
+\end{itemize}
+
+\subsection{toString()}
+All of the wrapper classes classes have a no-arg, non-static instance version 
+of \verb#toString()#. This method returns a String with teh value of the 
+primitive wrapped in the object. All of the numeric wrapper classes provide an 
+overloaded, static \verb#toString()# method that takes a primitive numeric of 
+the appropriate type and returns a String. Integer and Long provide a third 
+\verb#toString()# method which is static and accepts the primitive and a radix
+
+\subsection{toXxxstring() (Binary, Hexadecimal and Octal)}
+The Integer and Long wrapper classes provide static \verb#toXxxString()# 
+methods which take a primitive and return the String representation in the 
+appropriate radix.
+
+\subsection{Wrapper Conversion Summary}
+In summary, the essential method signatures for wrapper conversion methods are:
+\begin{description}
+    \item[primitive xxxValue()] Converts a wrapper to a primitive
+    \item[primitive parseXxx(String)] Converts a String to a primitive
+    \item[Wrapper valueOf(String)] Converts a String to a wrapper
+\end{description}
+
+\subsection{Autoboxing}
+As of java 5, java can automatically box and unbox wrapper objects. For 
+example, this means you can do this: \verb#Integer y = new Integer(5); y++;# 
+Note that this is simply a convenience -- behind the scenes, the compiler 
+inserts the boxing and unboxing for you and a second object is created (since 
+wrapper objects are immutable)
+
+\subsection{Boxing, == and equals()}
+In order to save memory, two instance of the following wrapper obejcts (created 
+through boxing), will always be \verb#==# when their primitive values are the 
+same:
+\begin{itemize}
+    \item Boolean
+    \item Byte
+    \item Character from \\u0000 to \\u007f (7f is 127 in decimal)
+    \item Short and Integer from -128 to 127
+\end{itemize}
+Note that when \verb#==# is used to compare a primitive to a wrapper, the 
+wrapper will be unwrapped and the comparison will be primitive to primitive
+
+\subsection{Where Boxing Can be Used}
+The general rule is that boxing and unboxing will work whereever you can 
+normally use a primitive or a wrapped object. Note that wrapper reference 
+variables can be \verb#null# -- be aware of primitive operations which may 
+throw a NullPointerException if the wrapper object is null
+
+\subsection{Overloading}
+\subsubsection{Primitive Arguments}
+When an exact match isn't found, teh JVM uses the method with the smallest 
+argument that is wider than the parameter
+
+\subsubsection{Boxing and Var-Args}
+The compiler will choose widening over boxing (this is to maintain backwards 
+compatibility). In summary:
+\begin{itemize}
+    \item Widening beats boxing
+    \item Boxing beats var-args
+\end{itemize}
+
+\subsubsection{Widening Reference Variables}
+Reference widening depends on inheritance (i.e. the IS-A test). Therefore, it 
+is not legal to widen from one wrapper to another
+
+\subsubsection{Overloading When Combining WIdening and Boxing}
+It is not possible to widen and then autobox. However, it is possible to box 
+and then widen (through inheritance)
+
+\subsubsection{Overloading in Combination with Var-Args}
+Var-args can be combined with either widening or boxing
+
+\subsubsection{Widening, Boxing and Var-Args Summary}
+\begin{itemize}
+    \item Primitive widening uses the `smallest' method argument possible
+    \item Used individually, boxing and var-args are compatible with 
+    overloading
+    \item It is not possible to widen from one wrapper to another (IS-A fails)
+    \item It is not possible to widen and then box (an \verb#int# can't become 
+    a \verb#Long#)
+    \item Is it possible to box and then widen (an \verb#int# can become an 
+    \verb#Object#)
+    \item Var-args can be combined with either widening or boxing
+\end{itemize}
+
+\subsection{Garbage Collection}
+Java's garbage collector provides an automatic solution to memory management.  
+In most cases, it frees you from having to add memory management logic to your 
+application. The downside of automatic garbage collection is that you cannot 
+control when it runs. Objects live in the heap and this is the only part of 
+memory that is involved with garbage collection. When the garbage collector 
+runs, its purpose is to find and delete objects that cannot be reached.
+
+\subsubsection{When does the Garbage Collector Run?}
+The garabge collector is under the control of the JVM and it decides when to 
+run it. We can ask the JVM to run the garbage collector, but there are no 
+guarantees that it will run when 
+
+\subsubsection{How does the Garbage Collector Work}
+You can't be sure -- the java specification doesn't guarantee any particular 
+implementation. An object is eligible for garbage collection when no live 
+thread can access it. If object A has a reference to object B and object A is 
+available to a live thread, then object B is considered reachable. Note that 
+due to the vagaries of the String constant poll, the exam focuses its garbage 
+collection questions on non-String objects
+
+\subsubsection{Writing Code that Makes Objects Eligible for Garbage Collection}
+There are a few ways to remove a reference to a reference variable:
+\begin{itemize}
+    \item Nulling a reference is
+    \item Reassigning a reference variable
+    \item Objects created within a method (whose reference is not returned from 
+    the method) are eligible for collection once the method has returned
+    \item Objects may form `islands of isolation' whereby objects refer to one 
+    one another but cannot be reached by any live thread. The garbage collector 
+    can usually discover and remove these islands
+\end{itemize}
+
+\subsubsection{Requesting Garbage Collection}
+The garbage collection routines that java provides are members of hte Runtime 
+class. The Runtime class is a special class that has a singleton for each main 
+program. You can get the singleton through \verb#Runtime.getRuntime()# and then 
+request garbage collection through \verb#gc()#. Alternatively, you can call 
+\verb#System.gc()# which does the same thing. 
+
+\subsubsection{Cleaning Up Before Garbage Collection -- the finalize() Method}
+Java provides a mechanism to run some code just before an object is deleted by 
+the garbage collector. This code is located in the \verb#finalize()# method 
+that all classes inherit from \verb#Object#. At first, this seems like a good 
+idea, however since the garbage collector might not ever run, there is no 
+guarantee that the \verb#finalize()# method runs. Also, not that:
+\begin{itemize}
+    \item For any given object, \verb#finalize()# will be called at most once 
+    by the garbage collector
+    \item The finalize method can result in an object being saved from deletion
+\end{itemize}

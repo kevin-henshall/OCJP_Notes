@@ -1,0 +1,52 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@% @;
+
+
+1.1
+date	2011.12.12.11.38.54;	author khenshal;	state Exp;
+branches;
+next	;
+
+
+desc
+@renamed scjp.tex to oc4j.tex
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@\documentclass[10pt]{article}
+
+% use for controlling margins
+\usepackage{anysize}
+\marginsize{2cm}{2cm}{2cm}{2cm}
+% use for images
+\usepackage{graphicx}
+% use for multirow
+\usepackage{multirow}
+
+\title{OCJP Notes}
+\author{Kevin Henshall}
+
+\begin{document}
+
+%\maketitle
+\include{ch1}
+\include{ch2}
+\include{ch3}
+\include{ch4}
+\include{ch5}
+\include{ch6}
+\include{ch7}
+\include{ch8}
+\include{ch9}
+\include{ch10}
+
+\end{document}
+@

@@ -1,0 +1,359 @@
+head	1.6;
+access;
+symbols;
+locks; strict;
+comment	@% @;
+
+
+1.6
+date	2011.11.30.21.51.23;	author khenshal;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2011.11.29.21.39.59;	author khenshal;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2011.11.22.21.53.52;	author khenshal;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2011.11.21.21.44.00;	author khenshal;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2011.11.20.21.58.30;	author khenshal;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.11.20.21.35.42;	author khenshal;	state Exp;
+branches;
+next	;
+
+
+desc
+@chapter 10 notes
+@
+
+
+1.6
+log
+@corrected typos
+@
+text
+@\section{Chapter 10 -- Development}
+\subsection{Using the java and javac Commands}
+\subsubsection{Compiling with javac}
+The \verb#javac# command is used to invoke java's compiler. For the exam, you 
+will need to understand the \verb#-classpath# and \verb#-d# options. The 
+structured overview for \verb#javac# is: \verb#javac [options] [source files]#.
+There are additional command-line options called \verb#@@argfiles#, bu you will 
+not need to study them for the exam. Both the \verb#[options]# and the 
+\verb#[source files]# are optional parts of the command, and both allow 
+multiple entries. Whenever you specify multiple options and/or files they 
+should be separated by spaces
+
+\subsubsection{Compiling with -d}
+By default, the compiler puts a \verb#.class# file in the same directory as the 
+\verb#.java# source file. The \verb#-d# option lets you tell compiler in which 
+directory to put the \verb#.class# file(s) it generates ('d' is for 
+destination). For example:
+\begin{verbatim}
+    package com.wickedlysmart;
+    public class MyClass {}
+
+    myProject/
+        source/
+            com/
+                wichedlysmart/
+                    MyClass.java
+        classes/
+\end{verbatim}
+If the following command is run from the \verb#source# directory, it would 
+compile \verb#MyClass.java# and puts the resulting \verb#MyClass.class# into 
+the \verb#classes/com/wickedlysmart/# directory:
+\begin{verbatim}
+    javac -d ../classes com/wickedlysmart/MyClass.java
+\end{verbatim}
+Since \verb#MyClass.java# is in a package, the compiler knew to put the 
+resulting \verb#.class# file into the \verb#classes/com/wickedlysmart/# 
+directory. The \verb#javac# command can create some of the directories it 
+needs, however, the class file destination (specified with \verb#-d#) must 
+exist, otherwise compilation will fail
+
+\subsubsection{Launching Applications with java}
+The \verb#java# command is used to invoke the jvm. When running the \verb#java# 
+command, you will need to understand the \verb#-classpath# (and its twin 
+\verb#-cp#) and \verb#-D# options. In iddition, it is important to understand 
+the structure of this command: \verb#java [options] class [args]#. The 
+\verb#[options]# and \verb#[args]# parts are optional, and they can both have 
+multiple values. You must specify exactly one class file to execute and the 
+\verb#java# command assumes you are invoking a \verb#.class# file, so you do 
+not need to specify the \verb#.class# extension on the command line
+
+\subsubsection{Using System Properties}
+As of java 5, the \verb#java.util.Properties# class can be used to access a 
+system's persistent information as well as your own properties. Note that to 
+obtain the system properties, we use \verb#System.getProperties()#, then 
+\verb#getProperty()# and \verb#setProperty()# as required. There is also a 
+\verb#list()# method:
+\begin{verbatim}
+    import java.util.*;
+    public class TestProperties {
+        public static void main(String[] args) {
+            Properties properties = System.getProperties();
+            p.setProperty("myProperty", "myValue");
+            p.list(System.out);
+        }
+    }
+\end{verbatim}
+This example can be compiled and invoked as \verb#java -DcmdProperty=cmdValue TestProperties#. Note that if the value provided to a \verb#-D# option contains 
+a space, it should be enclosed in double quotes. Also note that there is no 
+space between the \verb#-D# and the property name.
+
+The \verb#getProperty()# method is used to retrieve a single property. It can 
+be invoked with a single argument (a \verb#String# that represents the name (or 
+key)), or it can be invoked with two arguments (a \verb#String# that represents 
+the name (or key), and a default \verb#String# value to return if the property 
+does not exist). In both cases, \verb#getProperty()# returns a \verb#String#
+
+\subsubsection{Handling Command-Line Arguments}
+Like all arrays, the \verb#String[] args# array passed to \verb#main()# is zero 
+based. Arguments on the command line directly follow the class name. The first 
+argument is assigned to \verb#args[0]#, the second to \verb#args[1]# and so on
+
+\subsubsection{Searching for Other Classes}
+Both \verb#java# and \verb#javac# use the same basic search algorithm:
+\begin{enumerate}
+    \item They both have the same list of places (directories) they search for 
+    classes
+    \item They both search through this list of directories in the same order
+    \item As soon as they find the class they are looking for, they stop 
+    searching for that class. In the case that the search list contains 
+    duplicates, the first file found will be used
+    \item The first place they look is in the directories that contain the 
+    classes which are shipped with J2SE
+    \item The second place they look is in the directories defined by 
+    classpaths
+\end{enumerate}
+Classpaths should be thought of as `class search paths'. They are lists of 
+directories in which classes might be found. There are two places where 
+classpaths can be declared:
+\begin{itemize}
+    \item A classpath can be declared as an OS environment variable. The 
+    classpath declared here is used by default, whenever \verb#java# or 
+    \verb#javac# is invoked
+    \item A classpath can be declared as a command-line option for either 
+    \verb#java# or \verb#javac#. Classpaths declared as command-line options 
+    override the classpath declared as an environment variable, but they 
+    persist only for the length of invocation
+\end{itemize}
+
+\subsubsection{Declaring and Using Classpaths}
+Classpaths consist of a variable number of directory locations, separated by a 
+colon (:). Note that when you specify a subdirectory, you are not specifying 
+its parent directories. When searching for class files, the \verb#java# and 
+\verb#javac# commands do not search the current directory by default. However, 
+\verb#javac# does search the current directory for java files when compiling.  
+Note that classpaths are searched from left to right and so order is important. 
+Finally, note that when used with the \verb#java# command, you can abbreviate 
+\verb#-classpath# to \verb#-cp#. While most \verb#javac# implementtations 
+support the same abbreviation, there are no guarantees
+
+\subsubsection{Packages and Searching}
+If a class (\verb#MyClass#) is within a package (\verb#com.foo#), then the 
+fully qualified name of the class is \verb#com.foo.Myclass#. Once a class is in 
+a package, the package part of its fully qualfied name is atomic -- it can 
+never be divided. You cannot split it up on the command line, and you cannot 
+split it up in an \verb#import# statement.
+
+The \verb#import# statement is like an alias for a class's fully qualified 
+name. You define the fully qualified name for the class with an \verb#import# 
+statement (or with a wildcard in an \verb#import# statement of the package).  
+Once you've defined teh fully aualified name, you can use the alias in your 
+code -- just remember that the alias is referring back to the fully qualified 
+name.
+
+Whe you are searching for a class using its fully qualified name, that fully 
+qualified name relates closely to a specific directory structure. In order to 
+find a class in a package, you need to have a directory in your classpath that 
+has the package's leftmost entry (the package's root) as a subdirectory.
+\begin{verbatim}
+    import com.wickedlysmart.Utils;
+    class TestClass {
+        void doStruff() {
+            Utils u = new Utils();                                          // alias
+            u.doX("arg1", "arg2");
+            com.wickedlysmart.Date d = new new com.wickedlysmart.Date();    // full name
+            d.getMonth("Oct");
+        }
+    }
+\end{verbatim}
+In this case, we are using two classes from hte package 
+\verb#com.wickedlysmart#. We imported the fully qualified name for the 
+\verb#Utils# class, and we did not for the \verb#Date# class. The only 
+difference is that becuase we listed \verb#Utils# in an \verb#import# 
+statement, we do not have to type its fully qualified name within the class. In 
+both cases, the package is \verb#com.wickedlysmart#. When compiling or running 
+\verb#TestClass#, the classpath will need to include a directory with the 
+following attributes:
+\begin{itemize}
+    \item A subdirectory named \verb#com# (we will call this the `package root' 
+    directory)
+    \item A subdirectory within \verb#com# named \verb#wickedlysmart#
+    \item Tow files within \verb#wickedlysmart# named \verb#Utils.class# and 
+    \verb#Date.class#
+    \item Finally, the directory that has all of these attributes needs to be 
+    accessible (via a classpath) in one of two ways:
+    \begin{itemize}
+        \item The path to the directory must be absolute, or
+        \item The path to the directory has be correct valid to the current 
+        directory
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Absolute and Relative Paths}
+A classpath is a collection of one or more paths. Each path in a classpath is 
+either an absolute or relative path. Note that with absolute paths, it does not 
+matter what the current directory is since an absolute path is always the same.
+Note that the current directory is only searched if \verb#.# is in the 
+classpath, or if it is covered by an absolute or relative path
+
+\subsection{Jar Files}
+\subsubsection{Jat Files and Searching}
+Once a jar is created, it can be moved and copied to different machines, and 
+all of the classes within it can be accessed, via classpaths, by \verb#java# 
+and \verb#javac#, without unjaring the jar file. Some rules concerning the 
+structure of jar files are:
+\begin{itemize}
+    \item The \verb#jar# command creates the \verb#META-INF# directory 
+    automatically
+    \item The \verb#jar# command creates the \verb#MANIFEST.MF# file 
+    automatically
+    \item The \verb#jar# command will not place any of your files within 
+    \verb#META-INF#
+    \item The directory hierarchy is maintained within the jar file
+    \item \verb#java# and \verb#javac# will use the jar file like a normal 
+    directory tree
+\end{itemize}
+Finding a jar file using a classpath is similar to finding a package file in a 
+classpath. The difference is that when you specify a path for a jar file, you 
+must include the name of the jar file at the end of the path. Remember that 
+when using classpaths, the last directory in the path must be the super 
+directory of the root directory of the package.
+
+When you use an \verb#import# statement, you are declaring only one package.  
+When you say \verb#import java.util.*#, you are saying, `use the short name for 
+all of the classes in the \verb#java.util# package'. You are not getting the 
+\verb#java.util.jar# classes or the \verb#java.util.regex# packages. Those 
+packages are completely independent of each other; the only thing they share is 
+the same `root' directory, but they are not in the same packages
+
+\subsubsection{Using jre/lib/ext with Jar Files}
+If you put jar files into the \verb#$JAVA_HOME/jre/lib/ext/# directory, 
+\verb#java# and \verb#javac# can find them and use the class files thay 
+contain. You do not have to mention these subdirectories in a classpath 
+statement -- searching this directory is a function that is built-in to java
+
+\subsection{Using Static Imports}
+Ultimately, the only value \verb#import# statements have is that they save 
+typing and they can make your code easier to read. In java 5, the \verb#import# 
+statement was enhanced to provide even greater keystroke-reduction capabilities 
+-- although would argue that this comes at the expense of readability.
+
+Some rules for using static imports:
+\begin{itemize}
+    \item Even though the feature is referred to as `static imports', the code 
+    must read \verb#import static#, followed by the fully qualified name of the 
+    \verb#static# member you want to import
+    \item Be aware of ambiguously named \verb#static# members. For instance, if 
+    you have a \verb#static# import for both the \verb#Integer# and \verb#Long# 
+    classes, referring to \verb#MAX_VALUE# will cause a compilation error, 
+    since both \verb#Integer# and \verb#Long# have a \verb#MAX_VALUE# constant
+    \item You can use a \verb#static import# on \verb#static# object 
+    references, constants (remember they are \verb#static# and \verb#final#), 
+    and \verb#static# methods
+\end{itemize}
+@
+
+
+1.5
+log
+@finished chapter 10 notes
+@
+text
+@d2 1
+a2 1
+\subsection{Using the java and javac Commans}
+d15 1
+a15 1
+\verb#.java# source file. The \verb#-d# options lets you tell compiler in which 
+d54 1
+a54 1
+obtain the system properties, we use \verb#System.getProperties#, then 
+d69 1
+a69 1
+space between the \verb#-D# and the property name>
+d85 2
+a86 2
+    \item They both have the same list of places (directories) they search to 
+    look for classes
+d89 1
+a89 1
+    searching for that class. IN the case that the search list contains 
+d121 1
+a121 1
+In a class (\verb#MyClass#) is within a package (\verb#com.foo#), then the 
+@
+
+
+1.4
+log
+@updated notes
+@
+text
+@d149 22
+d172 62
+a233 1
+up to page 12
+@
+
+
+1.3
+log
+@updated notes
+@
+text
+@d110 9
+d120 31
+a150 1
+up to page 9
+@
+
+
+1.2
+log
+@updated notes
+@
+text
+@d42 8
+d51 61
+a111 1
+up to page 5
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 43
+a43 1
+\section{Chapter 10 -- Developmnet}
+@

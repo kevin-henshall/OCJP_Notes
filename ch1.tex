@@ -1,0 +1,354 @@
+\section{Chapter 1 -- Declarations and Access Control}
+\subsection{Legal Identifiers}
+\begin{itemize}
+    \item Identifiers must start with a letter, currency character or a 
+    connecting character (eg. underscore but not minus)
+    \item Following the first character, identifiers may contain any 
+    combination of currency characters, connecting characters or digits
+\end{itemize}
+
+\subsection{JavaBeans Standards}
+Property Naming Rules
+\begin{itemize}
+    \item If the property is not a boolean, the getter's method prefix must be 
+    \verb#get#
+    \item If the property is a boolean, the getter's method prefix must be 
+    either \verb#get# or \verb#is#
+    \item The setter's method prefix must be \verb#set#
+    \item The setter's method must be \verb#public void# and take an argument 
+    type which represents the property type
+    \item The getter's method must be \verb#public#, take no arguments and have 
+    a return type which matches the argument type of the setter
+\end{itemize}
+Listener Naming Rules
+\begin{itemize}
+    \item Listener methods used to ``register" a listener must use the prefix 
+    \verb#add#, followed by the listener type
+    \item Listener methods used to ``unregister" a listener must use the prefix 
+    \verb#remove#, followed by th listener type
+    \item The type of listener must be passed as the argument to the method
+\end{itemize}
+
+\subsection{Source File Declaratoin Rules}
+\begin{itemize}
+    \item There can be at most one \verb#public# class per file
+    \item If there is a public class, the filename must match the class name
+    \item Package statement must be before any imports
+    \item Import statements must be before the class declaration
+    \item Import and package statements apply to all classes within the file
+    \item A file may have more than one non-public class
+    \item A file with no public class may have a name that does not match any 
+    of the classes declared within it
+\end{itemize}
+
+\subsection{Class Declarations and Modifiers}
+There are four access controls (levels of access):
+\begin{description}
+    \item[public] All classes from all packages have access
+    \item[protected]
+    \item[private]
+    \item[default] No modifier preceeding the class declaration. Can be thought 
+    of as package-level access
+\end{description}
+
+\subsection{Other (Non-Access) Class Modifiers}
+Class declaractions can be modified using the kaywords \verb#final#, 
+\verb#abstract# or \verb#strictfp# . These modifiers are in addition to the 
+access modifiers already present, however not all combinations of non-access 
+and access modifiers can be used (eg. \verb#final# and \verb#abstract#).
+\begin{description}
+    \item[strictfp] Is a modifier which can be applied to a class or method 
+    (not variable) and indicates that the code conforms to the IEEE 754 
+    standard for floating point numbers. Without this modifier, the code may 
+    behave in a platform dependent manner
+    \item[final] A \verb#final# class can not be subclassed
+    \item[Abstract] An \verb#abstract# class can not be instantiated -- it's 
+    sole purpose is to be extended (subclassed). Note that methods can also be 
+    marked as \verb#abstract#, in which case, they are declared (not defined) 
+    in the abstract class (be wary of method definitions within abstract 
+    classes). Also note that if a method is marked as abstract, then the class 
+    must be marked as abstract too, however not all methods need be 
+    \verb#abstract# within an \verb#abstract# class
+\end{description}
+
+\subsection{Declaring Interfaces}
+An interface can be thought of as a 100\% abstract class, however an interface 
+can have only abstract methods. There are strict rules regarding interfaces:
+\begin{itemize}
+    \item All interface methods are implicitly \verb#public# and 
+    \verb#abstract# (note that the modifiers can appear in any order)
+    \item All variables are implicitly \verb#public#, \verb#static# and 
+    \verb#final# (note that the modifiers can appear in any order)
+    \item Methods cannot be marked \verb#static#
+    \item Since methods are \verb#abstract#, they cannot be marked 
+    \verb#final#, \verb#strictfp# or \verb#native#
+    \item An interface can extend multiple interfaces
+    \item An interface can only extend other interfaces
+    \item An interface cannot cannot implement another interface or class
+    \item An interface must be declared with the keyword \verb#interface#
+    \item Interface types can be use polymorphically
+\end{itemize}
+
+\subsection{Class Member Access Modifiers}
+Class members can use all four access modifiers:
+\begin{description}
+    \item[public] All other classes, regardless of the package they belong to, 
+    can access the member (assuming the class is visible). For a subclass, if a 
+    member of its superclass is declared \verb#public#, the subclass inherits 
+    that member regardles of package
+    \item[protected] Can be accessed through inheritence by classes in a 
+    different package. Think package + kids (where kids are subclasses). Note 
+    that once a subclass-outside-the-package inherits a \verb#protected# 
+    member, that member (as inherited by the subclass) becomes private to any 
+    code outside the subclass, with the exception of subclasses of the subclass
+    \item[default] Can only be accesed through inheritance by classes within 
+    the same package. Think package restriction
+    \item[private] Can't be accessed by any class other than the class in which 
+    the \verb#private# member was declared. Note that private members are not 
+    inherited and cannot be overridden
+\end{description}
+
+\subsection{Local Variables and Access Modifiers}
+There is never a case where an access modifier can be applied to a local 
+variable. There is only one modifier which can be applied to local variables -- 
+\verb#final#
+
+\subsection{Determining Access to Class Members}
+\begin{center}
+\begin{tabular}{lcccc}
+    \textbf{Visibility} & \textbf{Public} & \textbf{Protected} & 
+    \textbf{Default} & \textbf{Private} \\
+    \hline
+    From the same class & Yes & Yes & Yes & Yes \\
+    \hline
+    From any class in the same package & Yes & Yes & Yes & No \\
+    \hline
+    From a subclass in the same package & Yes & Yes & Yes & No \\
+    \hline
+    From a subclass outside the same package & Yes & Yes (through inheritence) 
+    & No & No \\
+    \hline
+    From any non-subclass class outside the package & Yes & No & No & No \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsection{Final Methods}
+The \verb#final# keyword prevents a method from being subclassed. Preventing a 
+subclass from overriding a method provides safety and security but also stifles 
+many of the benefits of OO including extensibility and polymorphism
+
+\subsection{Final Arguments}
+Method arguments are essentially the same as local variables -- final arguments 
+follow the same rules as final local variables.
+
+\subsection{Abstract Methods}
+An abstract method is a method which is declared (as abstract) but not 
+implemented. Note that an abstract method declaration must end in a semicolon 
+and contains no code -- not even \verb#{}#. Note that abstract methods can only 
+be declared in abstract classes or interfaces. However, an abstract class need 
+not have any abstract methods. Any class that extends an abstract class must 
+implement all abstract methods of the superclass, unless teh subclass is also 
+abstract. The rule is:
+\begin{itemize}
+    \item The first concrete subclass of an abstract class must implement all 
+    abstract methods of the superclass
+\end{itemize}
+Note that if the subclass is abstract, there is no need to re-declare an 
+abstract method of the superclass as being abstract. Additional notes regarding 
+abstract classes and modifiers:
+\begin{itemize}
+    \item A method can never be marked as both \verb#abstract# and 
+    \verb#final#, or both \verb#abstract# and \verb#private#
+    \item The \verb#abstract# modifier can never be combined with the 
+    \verb#static# modifier
+\end{itemize}
+
+\subsection{Synchronized Methods}
+The \verb#synchronized# modifier indicates that a method (not variable) can be 
+accessed by only one thread at a time
+
+\subsection{Native Methods}
+The \verb#native# modifier indicates that a method is implemented in 
+platform-dependent code, often in C. Note that \verb#native# methods are only 
+declared (not defined)
+
+\subsection{Strictfp Methods}
+The \verb#strictfp# modifier can be applied to both classes and methods to 
+indicate that the class or method conforms to the IEEE 754 standard. Note that 
+a method can be declared as \verb#strictfp# even if the enclosing class is not
+
+\subsection{Var-args}
+Declaration rules for var-args:
+\begin{description}
+    \item[Var-arg type] Must specify the type of argument(s) this parameter can
+    receive
+    \item[Syntax] Follow the type with an ellipses (\ldots) and then the name 
+    of the array which will hold the parameters received
+    \item[Other parameters] Other parameters may be specified
+    \item[Var-arg limits] The var-arg must be the last parameter in the
+    method's signature and only one var-arg parameter can be 
+    specified
+\end{description}
+
+\subsection{Constructors}
+Constructors must have the same name as the class in which they are defined.
+Constructors never have a return type, however than can have all of the normal 
+access modifiers for methods, and can take arguments (including var-args. They 
+cannot be marked \verb#static#, \verb#final# or \verb#abstract#
+
+\subsection{Variable Declarations}
+There are two types of variables in java:
+\begin{description}
+    \item[Primitives] Can be one of the eight types: \verb#char#, 
+    \verb#boolean#, \verb#byte#, \verb#short#, \verb#int#, \verb#long#, 
+    \verb#float# or \verb#double#. Once a primitive is declared, its type can 
+    never change
+    \item[References] Used to refer to (or access) an object. They are declared 
+    with a specific type and can never change. A reference can be used to refer 
+    to any object of the declared type, or a subtype of the declared type
+\end{description}
+
+\subsection{Primitive sizes}
+\verb#boolean# primitives do not have a range - only true or false. The bit 
+depth of a boolean is virtual machine dependent. \verb#char# contains a 16 bit 
+(unsigned) unicode character, meaning that a char can be assigned to anything 
+larger than a \verb#short#
+
+\begin{center}
+\begin{tabular}{lll}
+    \textbf{Type} & \textbf{Bits} & \textbf{Bytes} \\
+    \hline
+    \verb#byte# & 8 & 1 \\
+    \verb#short# & 16 & 2 \\
+    \verb#int# & 32 & 4 \\
+    \verb#long# & 64 & 8 \\
+    \verb#float# & 32 & 4 \\
+    \verb#double# & 64 & 8 \\
+\end{tabular}
+\end{center}
+
+\subsection{Instance Variables}
+Instance variables are defined within the class, but outside of any method and 
+are only initialised when the class is instantiated. Instance variables are the 
+fields which belong to each unique object. Instance variables:
+\begin{itemize}
+    \item Can use any of the four access levels
+    \item Can be marked as \verb#final#
+    \item Can be marked \verb#transient#
+    \item Cannot be marked \verb#abstract#
+    \item Cannot be marked \verb#synchronized#
+    \item Cannot be marked \verb#strictfp#
+    \item Cannot be marked \verb#native#
+    \item Cannot be marked \verb#static# -- in this case, they would be class 
+    variables
+\end{itemize}
+
+\subsection{Summary of Modifiers}
+\begin{center}
+\begin{tabular}{ccc}
+    \textbf{Local Variables} & \textbf{Variables (non-local)} & 
+    \textbf{Methods} \\
+    \hline
+    final & final & final \\
+    & public & public \\
+    & protected & protected \\
+    & private & private \\
+    & static & static \\
+    & transient & \\
+    & volitile & \\
+    & & abstract \\
+    & & synchronized \\
+    & & strictfp \\
+    & & native \\
+\end{tabular}
+\end{center}
+
+\subsection{Local (Automatic/Stack/Method) Variables}
+Local variables are variables within a method. They are in scope only for the 
+duration of the block in which they are defined and always reside on the stack, 
+not the heap -- even for local reference variables. Remember that there is no 
+such thing as a stack object, only a stack variable. Although the value of a 
+variable may be passed to another method that then stores the value, the 
+variable itself is only alive for the scope in which it was defined. Local 
+variables cannot utilise most of the modifiers with the exception of 
+\verb#final#. Note that a local variable must be initialised before it can be 
+used, otherwise compilation will fail, since local variables do not get default 
+values (unlike instance variables). It is possible to declare a local variable 
+with the same name as an instance variable (known as shadowing)
+
+\subsection{Array Declarations}
+Arrays are objects that store multiple variables of the same type, or variables 
+that are all subclasses of the same type. Arrays can hold either primitives or 
+or object references, but the array will always be an object on teh heap, even 
+if it contains primitives
+
+\subsection{Array Declaration}
+Arrays are declared by stating the type of elements the array will hold, 
+followed by square brackets to either side of the identifier. Arrays can be 
+multidimensional (arrays of arrays), in which case, the square brackets can be 
+mixed between the left and right of the identifier. Note that it is never legal 
+to include the size of an array in the declaration.
+
+\subsection{Final Variables}
+Decalring a variable as \verb#final# makes it impossible to reinitialise once 
+it has been explicitly initialised. A reference variable marked as \verb#final# 
+cannot be reassigned to refer to another object. The data within the object can 
+be modified, but the reference cannot be changed. Remember that there are no 
+final objects, only final references. Note that final instance variables must 
+be assigned before the constructor completes
+
+\subsection{Transient Variables}
+Instance variables can be marked as \verb#transient#, meaning that the JVM will 
+ignore this variable when attempting to serialise the object containing it.
+
+\subsection{Volatile Variables}
+Instance variables can be marked as \verb#volatile#, meaning that a thread 
+accessing the variable must always recolcile its own private copy of the 
+variable with the master copy in memory
+
+\subsection{Static Variables and Methods}
+The \verb#static# modifier is used to create variables and methods that will 
+exist independently of any instances of the class. All \verb#static# members 
+exist once the class is loaded, and there will only be one copy of each, 
+regardless of the number of instances of that class. Things which can be marked 
+as \verb#static#:
+\begin{itemize}
+    \item Methods
+    \item Variables
+    \item A class nested within another class, but not within a method
+    \item Initialization blocks
+\end{itemize}
+Things which cannot be marked as \verb#static#:
+\begin{itemize}
+    \item Constructors
+    \item Classes (unless they are nested)
+    \item Interfaces
+    \item Method local inner classes
+    \item Inner class methods and instance variables
+    \item Local variables
+\end{itemize}
+
+\subsection{Declaring Enums}
+Enums can be declared as their own separate class, or as a class member, 
+however they must not be declared within a method. An enum that isn't enclosed 
+in a class can be declared with only the \verb#public# or default modifier, 
+just like a non-inner class. Note that the syntax for accessing an enum's 
+members depends on where the enum was declared (i.e. if declared in a class, 
+the enclosing class name is required when accessing the enum's members). Note 
+that it is optional to place a semicolon following an enum declaration. One can 
+iterate through the values of an enum by invoking the values() method on any 
+enum type
+
+\subsection{Declaring Constructors, Methods and Variables in an Enum}
+Since an enum is really a special kind of class, you can do more than just list 
+the enumerated constant values. You can add constructors, instance variables, 
+methods and also constant specific class bodies. The key points to remember 
+about enum constructors are:
+\begin{itemize}
+    \item An enum constructor can never be invoked directly -- it is invoked 
+    automatically, with the arguments you define after the constant value
+    \item You can define multiple arguments, and overload the enum constructor
+\end{itemize}
+Constant spcific class bodies can be used to override a method for a specific 
+constant defined in the enum

@@ -1,0 +1,385 @@
+head	1.5;
+access;
+symbols;
+locks; strict;
+comment	@% @;
+
+
+1.5
+date	2011.11.01.02.34.51;	author khenshal;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2011.10.25.21.32.49;	author khenshal;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2011.10.23.05.51.54;	author khenshal;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2011.10.18.21.48.17;	author khenshal;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.10.11.21.30.07;	author khenshal;	state Exp;
+branches;
+next	;
+
+
+desc
+@added chapter 8
+@
+
+
+1.5
+log
+@typo fixes
+@
+text
+@\section{Chapter 8 -- Inner Classes}
+Inner classes allow you to define one class within another. They provide a type 
+of scoping for your classes since you can make one class a member of another 
+class. Just as classes have member variables and methods, a class can also have 
+member classes. They come in several varieties, depending on how and where you 
+define the inner class.
+
+\subsection{Inner Classes}
+Sometimes you find yourself designing a class where you discover you need 
+behaviour that belongs in a separate, specialised class, but also needs to be 
+intimately tied to the class you are designing. Inner classes, address this 
+problem.
+
+One of the key benefits of an inner class is the `special relationship' an 
+inner class instance shares with an instance of the outer class. This 
+relationship gives code in the inner class access to members of the enclosing 
+(outer) class, as if the inner class were part of the outer class. In fact, that 
+is exactly what it means -- the inner class is a part of the outer class. Not 
+just a `part', but a member of the outer class. An inner class instance has 
+access to all members of the outer class, even those marked private
+
+\subsubsection{Coding a `Regular' Inner Class}
+We use the term `regular' to represent inner classes that  are not:
+\begin{itemize}
+    \item Static
+    \item Method-local
+    \item Anonymous
+\end{itemize}
+You define an inner class within the curly braces of the outer class:
+\begin{verbatim}
+    class Outer {
+        class Inner {}
+    }
+\end{verbatim}
+Compiling results in two class files: \verb#Outer.class# and 
+\verb#Outer$Inner.class#. In the end, the inner class is still a separate 
+class, so a separate class file is generated for it. However, the inner class 
+file is not accessible in the usual way. You can not say \verb#java Outer$Inner# in the hope of running the \verb#main()# method of the inner 
+class, because a regular inner class can not have static declarations of any 
+kind. The only way you can access the inner class is through a live instance of 
+the outer class.
+
+Just as any member of the outer class (eg. an instance method) can acess any 
+other member of the outer class (\verb#private# or otherwise), the inner class 
+can do the same
+
+\subsubsection{Instantiating an Inner Class}
+To create an instance of an inner class, you must have an instance of the outer 
+class to tie to the inner class. There are no exceptions to this rule: an inner 
+class can never stand alone without a direct relationship to an instance of the 
+outer class.
+
+Summary of the differences between inner class instantiation code that is 
+within the outer class (but not static), and inner class instantiation code 
+that is outside the outer class:
+\begin{itemize}
+    \item From within the outer class instance code, use the inner class name 
+    in the normal fashion:
+        \begin{verbatim}
+            Inner inner = new Inner();
+        \end{verbatim}
+    \item From outside the outer class instance code (including static method code 
+    within the outer class), the inner class name must include the outer 
+    class's name: \verb#Outer.Inner#. To instantiate it, you must use a 
+    reference to the outer class:
+        \begin{verbatim}
+            Outer.Inner inner = new Outer().new Inner();
+        \end{verbatim}
+    or
+        \begin{verbatim}
+            Outer outer = new Outer();
+            Outer.Inner inner = outer.new Inner();
+        \end{verbatim}
+\end{itemize}
+
+\subsubsection{Referencing the Inner or Outer Instance from Within the Inner 
+Class}
+A quick review of \verb#this#:
+\begin{itemize}
+    \item The keyword \verb#this# can be used only from within instance code -- 
+    not within \verb#static# code
+    \item The \verb#this# reference is a reference to the currently executing 
+    object. In other words, the object whose reference was used to invoke the 
+    currently running method
+    \item The \verb#this# reference is the way an object can pass a reference 
+    to itself to some other code as a method argument
+\end{itemize}
+
+The rules for an inner class referencing itself or the outer instance are:
+\begin{itemize}
+    \item To reference the inner class itself from within the inner class code, 
+    use \verb#this#
+    \item To reference the `outer \verb#this#' (the outer class instance) from 
+    within the inner class code, use \verb#OuterClassName.this#
+\end{itemize}
+
+\subsubsection{Member Modifiers Applied to Inner Classes}
+A regular inner class is a member of the outer class just as instance variables 
+and methods are, so the following modifiers can be applied to an inner class:
+\begin{itemize}
+    \item \verb#final#
+    \item \verb#abstract#
+    \item \verb#public#
+    \item \verb#private#
+    \item \verb#protected#
+    \item \verb#strictfp#
+    \item \verb#static# -- but \verb#static# turns it into a \verb#static# 
+    nested class, not an inner class
+\end{itemize}
+
+\subsection{Method-Local Inner Classes}
+A regular inner class is scoped inside another class's curly braces, but 
+outside any method code (in other words, at the same level that an instance 
+variable is declared). However, you can also define an inner class within a 
+method.
+
+To use the inner class you must make an instance of it somewhere within the 
+method but below the inner class definition (or the compiler will not be able 
+to find the inner class). The following legal code shows how to instantiate and 
+use a method-local inner class:
+\begin{verbatim}
+    class Outer {
+        private String x = "Outer";
+        void doStuff() {
+            class Inner {
+                public void seeOuter() {
+                    System.out.println("Outer x is " + x);
+                }
+            }
+            Inner inner = new Inner();  // must instantiate after class definition
+            inner.seeOuter();
+        }
+    }
+\end{verbatim}
+
+\subsubsection{What a Method-Local Inner Class Object Can and Cannot Do}
+A method-local inner class can be instantiated only within the method where the 
+inner class is defined. In other words, no other code running in any other 
+method (inside or outside the outer class) can ever instantiate the 
+method-local inner class. Like regular inner class objects, the method local 
+inner class object shaers a special relationship with the enclosing (outer) 
+class object, and can access its \verb#private# (or any other) members.  
+However, the inner class object cannot use the local variables of the method 
+the inner class is in, unless the local variables are marked \verb#final#.
+
+Note that the only modifiers you can apply you a method-local inner class are 
+\verb#abstract# and \verb#final#, though never both at the same time. Note that 
+a local class defined within a \verb#static# method has access to only 
+\verb#static# members of the enclosing class, since there is no associated 
+instance of the enclosing class
+
+\subsection{Anonymous Inner Classes}
+An anonymous inner class is an inner class without any class name at all. They 
+can be defined within a method, or within an argument to a method
+
+\subsubsection{Plain-Old Anonymous Inner Classes, Flavour One}
+\begin{verbatim}
+    class Popcorn {
+        public void pop() {
+            System.out.println("popcorn");
+        }
+    }
+    class Food {
+        Popcorn p = new Popcorn() {
+            public void pop() {
+                System.out.println("anonymous popcorn");
+            }
+        };          // Note: semicolon required
+    }
+\end{verbatim}
+In the above, the \verb#Popcorn# reference variable does not refer to an 
+instance of \verb#Popcorn#, but to an instance of an anonymous (unnamed) 
+subclass of \verb#Popcorn#. The idea behind this is to override one or more 
+methods of the superclass (or to implement an interface). Note that you can 
+only call methods on an anonymous inner class reference that are defined in the 
+reference variable type. If you attempt to invoke a method which is not defined 
+in the reference variable type, compilation will fail (even if the method is 
+defined in the anonymous inner class)
+
+\subsubsection{Plain-Old Anonymous Inner Classes, Flavour Two}
+The only difference between flavour one and flavour two is that flavour one 
+creates an anonymous subclass of the specified type, whereas flavour two 
+creates an anonymous implementer of the specified interface type
+\begin{verbatim}
+    interface Cookable {
+        public void cook();
+    }
+    class Food {
+        Cookable c = new Cookable() {
+            public void cook() {
+                System.out.println("anonymous cookable implementer");
+            }
+        };          // Note: semicolon required
+    }
+\end{verbatim}
+Note that this is the only time you will see the syntax \verb#new Cookable()# 
+where \verb#Cookable# is an interface rather than a non-abstract class type.
+
+Note that anonymous interface implementers can implement only one interface.  
+There simply is not a mechanism that allows an anonymous inner class to 
+implement multiple interfaces. In fact, an anonymous inner class can not even 
+extend a class and implement an interface at the same time. The inner class has 
+to choose either to be a subclass of a named class -- and not directly (by 
+using the keyword \verb#implements#) implement any interfaces at all -- or to 
+implement a single interface. If the anonymous inner class is a subclass of a 
+class type, it automatically becomes an implementer of any interfaces 
+implemented by the superclass
+
+\subsubsection{Argument-Defined Anonymous Inner Classes}
+It is possible to define an anonymous inner class as an argument to a method.  
+In this case, pay special attention to the syntax used to end the method 
+invocation.
+
+\subsection{Static Nested Classes}
+You will sometimes hear static nested classes referrred to as static inner 
+classes, but they are not inner classes at all by the standard definition of an 
+inner class. While an inner class (regardless of the flarour) has a special 
+relationship with instances of the outer class, a static nested class does not.
+It is simply a non-inner (also called `top-level') class scoped within another.
+So with static classes, it is really more about namespace resolution than an 
+implicit relationship between the two classes.
+
+A static nested class is simply a class that is a static member of the 
+enclosing class:
+\begin{verbatim}
+    class Outer {
+        static class Inner {}
+    }
+\end{verbatim}
+The class itself is not really `static' -- there is no such thing as a static 
+class. The \verb#static# modifier in this case means that the class is a static 
+member of the outer class. This means it can be accessed (as with other static 
+members), without having an instance of the outer class
+
+\subsubsection{Instantiating and Using Static Nested Classes}
+You use standard syntax to access a static nested class from its enclosing 
+class. The syntax for instantiating a static nested class from a non-enclosing 
+class is a little different from a normal inner class:
+\begin{verbatim}
+    class OuterA {
+        static class InnerA {
+            void go() { System.out.println("hiA"); }
+        }
+    }
+    class OuterB {
+        static class InnerB {
+            void go() { System.out.println("hiB"); }
+        }
+        public static void main(String[] args) {
+            OuterA.InnerA a = new OuterA.InnerA();      // both class names, one `new'
+            a.go();                                     // produces "hiA"
+            InnerB b = new InnerB();                    // only one class name
+            b.go();                                     // produces "hiB"
+        }
+    }
+\end{verbatim}
+Just as a static method does not have access to the instance variables and 
+non-static methods of a class, a static nested class does not have access to 
+the instance variables and non-static methods of the outer class
+@
+
+
+1.4
+log
+@finished chapter 8 notes
+@
+text
+@d10 2
+a11 2
+behaviour that delongs in a separate, specialised class, but also needs to be 
+intimately ties to the class you are designing. Inner classes, address this 
+d17 1
+a17 1
+(outer) class, as if the inner class ertr psty og hr outer class. In fact, that 
+d51 1
+a51 1
+outer class
+d62 1
+a62 1
+    \item From outside the class instance code (including static method code 
+d72 1
+a72 1
+            Inner inner = outer.new Inner();
+d146 1
+a146 1
+Note that the only modifiers you can apply yo a method-local inner class are 
+d150 1
+a150 4
+instance of the enclosing class. Within a \verb#static# method, there is no 
+\verb#this#, so an inner class in a \verb#static# method is subject to the same 
+restrictions as the \verb#static# method -- i.e. no access to instance 
+variables
+d154 1
+a154 1
+can be defined within a method, or within an argument to a method.
+d204 1
+a204 1
+using the keyword \verb#implements# implement any interfaces at all -- or to 
+d237 1
+a237 1
+class. The syntax for instantiating a static nested class from a no -enclosing 
+d250 1
+a250 1
+            OuterA.InnerA a = new OuterA.InnerA();      // both class names
+@
+
+
+1.3
+log
+@updated notes
+@
+text
+@d218 7
+d226 11
+d238 25
+a262 2
+
+up to page 20
+@
+
+
+1.2
+log
+@updated notes
+@
+text
+@d111 5
+d117 105
+a221 1
+up to page 10
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 112
+a112 1
+\section{Chapter 8 -- Generics and Collections}
+@

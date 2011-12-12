@@ -1,0 +1,173 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@% @;
+
+
+1.1
+date	2011.08.11.22.29.19;	author khenshal;	state Exp;
+branches;
+next	;
+
+
+desc
+@Chapter 4 notes
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@\section{Chapter 4 -- Operators}
+\subsection{Java Operators}
+Java operators typically are not overloaded. There are however, a few 
+exceptions:
+\begin{itemize}
+    \item The \verb#+# operator can be used to add two numeric primitives 
+    together, or to perform a concatenation operation if either operand is a 
+    String
+    \item The \verb#&#, \verb#|# and \verb#^# operators can all be used for bit 
+    manipulation and also for boolean conditionals
+\end{itemize}
+
+\subsection{Assignment Operators}
+A summary of the assignment operator:
+\begin{itemize}
+    \item When assigning a value to a primitive, size matters
+    \item Remember that a reference variable isn't an object -- it's a way to 
+    get to an object
+    \item When assigning a value to a reference variable, type matters.  
+    Remember the rules for supertypes, subtypes and arrays
+\end{itemize}
+
+\subsection{Compound Assignment Operators}
+The four most commonly used compound operators (\verb#+=#, \verb#-=#, 
+\verb#*=#, \verb#/=#) are on the exam
+
+\subsection{Relational Operators}
+The exam covers six relational operators (\verb#<#, \verb#<=#, \verb#>#, 
+\verb#>=#, \verb#==#, \verb#!=#) which always result in a \verb#boolean#. Java 
+has four relational operators that can be used to compare \emph{any 
+combination} of integers, floating-point numbers or characters (\verb#<#, 
+\verb#<=#, \verb#>#, \verb#>=#). Note that when comparing a char with another 
+char, or a char with a number, java will use the Unicode value of the char as 
+the numerical value for comparison
+
+\subsection{Equality Operators}
+Two of the relational operators are also equality operators (\verb#==#, 
+\verb#!=#). Each individual comparison can involve two numbers (including 
+\verb#char#), two \verb#boolean# values, or two reference variables. Note that 
+you cannot compare incompatible types for equality. When comparing variables 
+for equality, \verb#==# and \verb#!=# compare the bit patterns
+
+\subsection{Equality for Primitives}
+If a floating-point number is compared with an integer and the values are the 
+same, \verb#==# returns \verb#true# as expected
+
+\subsection{Equality for Reference Variables}
+Reference variables can be tested to see if they refer to the same object by 
+using the \verb#==# operator
+
+\subsection{Equality Gotchas}
+\begin{itemize}
+    \item Don't mistake \verb#=# for \verb#==# in a boolean expression
+    \item Be wary of using \verb#=# rather than \verb#==# within a conditional 
+    expression. Remember that the result of any assignment is the value of the 
+    variable following the assignment, so the substitution of \verb#=# for 
+    \verb#==# in a conditional expression only works for \verb#boolean#s
+\end{itemize}
+
+\subsection{Equality for Enums}
+Once an enum has been declared, it's not expandable. At runtime there is no way 
+to make additional enum constants. You can use either \verb#==# or the 
+\verb#equals()# method to test equality of enums
+
+\subsection{instanceof Comparison}
+The \verb#instanceof# operator is used for object reference variables only and 
+it can be used to check whether an object is of a particular type (i.e. IS-A 
+test). If the object being tested is not an actual instantiation of the class 
+type on the right side of the operator, \verb#instanceof# will still return 
+\verb#true# if the object being compared is assignment compatible with the type 
+on the right. Note that \verb#instanceof# can only be used to test an object 
+reference against a type from the same class hierarchy -- if a type from a 
+different hierarchy is used, compilation will fail. Also note that it is legal 
+to test whether \verb#null# is an instance of a class (the result of which is 
+always \verb#false#)
+
+\subsection{Arithmetic Operators}
+The basic arithmetic operators (\verb#+#, \verb#-#, \verb#*#, \verb#/#) are 
+used in the standard way
+
+\subsection{Modulus (\%) Operator}
+Divides the left operand by the right and returns the remainder. Remember that 
+expressions are evaluated from left to right by default. Parentheses can be 
+used to alter the precedence. Also note that \verb#*#, \verb#/# and \verb#%# 
+have a higher precedence than \verb#+# and \verb#-#
+
+\subsection{String Contatenation Operator}
+The plus sign (\verb#+#) can be used to concatenate two \verb#String#s 
+together.  If either operand is a \verb#String#, the \verb#+# operator acts as 
+a concatenation operator. If both operands are numbers, it acts as the addition 
+operator
+
+\subsection{Increment and Decrement Operators}
+Java has two operators that will increment or decrement a variable by exactly 
+one. These are composed of either two plus signs (\verb#++#) or two minus signs 
+(\verb#--#):
+\begin{itemize}
+    \item \verb#++# increment (prefix and postfix)
+    \item \verb#--# decrement (prefix and postfix)
+\end{itemize}
+Be wary of using the increment or decrement operators on a \verb#final# 
+variable. Any attempt to do so will result in a compilation error
+
+\subsection{Conditional Operator}
+A ternary operator used to evaluate a \verb#boolean# expression and then assign 
+a value to a variable based on the outcome of the conditional. Its format is: x 
+= (\verb#boolean# expression) ? value to assign if \verb#true# : value to 
+assign if \verb#false#. Note that the parentheses are optional and conditional 
+operators can be nested into one statement
+
+\subsection{Logical Operators}
+Note that as of java 1.5, bitwise operators are not on the exam
+
+\subsection{Short-Circuit Logical Operators}
+There are five logical operators on the exam that are used to evaluate 
+statements that contain more than one \verb#boolean# expression. The most 
+commonly used of the five are the two short-circuit operators:
+\begin{itemize}
+    \item \verb#&&# short-circuit AND
+    \item \verb#||# short-circuit OR
+\end{itemize}
+For an \verb#&&# expression to be \verb#true#, both operands must be 
+\verb#true#. A short-circuit \verb#&&# evaluates the left side of the operation 
+first and if it resolves to \verb#false#, doesn't bother evaluating the right 
+side. For an \verb#||# expression to be \verb#true#, either operand must be 
+\verb#true#. A short-cirsuit \verb#||# evaulates the left side of the operation 
+first and if it evaluates to \verb#true#, doesn't bother evaluating the right 
+side
+
+\subsection{Non-Short-Circuit Logical Operators}
+There are two non-short circuit logical operators:
+\begin{itemize}
+    \item \verb#&# non-short-circuit AND
+    \item \verb#|# non-short-circuit OR
+\end{itemize}
+These are used in logical expressoins just like \verb#&&# and \verb#||#, but 
+don't have the short-circuit functionality -- they always evaluate both sides 
+of the expression
+
+\subsection{Logical Operators XOR and NOT}
+The last two logical operators on the exam are:
+\begin{itemize}
+    \item \verb#^# exclusive-OR (XOR)
+    \item \verb#!# boolean invert (NOT)
+\end{itemize}
+The \verb#^# (exclusive-OR) operator evaluates only boolean values and always 
+evaluates both operands. For an exclusive-OR expression to be \verb#true#, 
+excatly one operand must be \verb#true#. The \verb#!# (boolean invert) operator 
+returns the opposite of the boolean argument
+@

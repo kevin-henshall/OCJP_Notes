@@ -1,0 +1,178 @@
+head	1.10;
+access;
+symbols;
+locks; strict;
+comment	@% @;
+
+
+1.10
+date	2011.11.20.21.36.22;	author khenshal;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2011.10.30.21.37.07;	author khenshal;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2011.10.18.21.48.47;	author khenshal;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2011.10.03.21.36.49;	author khenshal;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2011.09.22.22.57.54;	author khenshal;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2011.09.18.22.27.08;	author khenshal;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2011.08.11.22.52.06;	author khenshal;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2011.06.20.12.39.08;	author Kevin;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2011.06.02.22.44.52;	author khenshal;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2011.05.30.22.56.28;	author khenshal;	state Exp;
+branches;
+next	;
+
+
+desc
+@Top level latex file for combining the individual chapter notes
+@
+
+
+1.10
+log
+@added chapter 10 notes
+@
+text
+@\documentclass[10pt]{article}
+
+% use for controlling margins
+\usepackage{anysize}
+\marginsize{2cm}{2cm}{2cm}{2cm}
+% use for images
+\usepackage{graphicx}
+% use for multirow
+\usepackage{multirow}
+
+\title{SCJP Notes}
+\author{Kevin Henshall}
+
+\begin{document}
+
+%\maketitle
+\include{ch1}
+\include{ch2}
+\include{ch3}
+\include{ch4}
+\include{ch5}
+\include{ch6}
+\include{ch7}
+\include{ch8}
+\include{ch9}
+\include{ch10}
+
+\end{document}
+@
+
+
+1.9
+log
+@added chapter 9
+@
+text
+@d26 1
+@
+
+
+1.8
+log
+@added chapter 8
+@
+text
+@d25 1
+@
+
+
+1.7
+log
+@added multirow package
+@
+text
+@d24 1
+@
+
+
+1.6
+log
+@added include for graphicx
+@
+text
+@d8 2
+@
+
+
+1.5
+log
+@added chapter 7
+@
+text
+@d6 2
+@
+
+
+1.4
+log
+@Added chapters
+@
+text
+@d19 1
+@
+
+
+1.3
+log
+@added chapter 3
+@
+text
+@d16 3
+@
+
+
+1.2
+log
+@added ch2
+@
+text
+@d15 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d14 1
+@
