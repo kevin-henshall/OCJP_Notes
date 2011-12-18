@@ -27,8 +27,8 @@ destination). For example:
         classes/
 \end{verbatim}
 If the following command is run from the \verb#source# directory, it would 
-compile \verb#MyClass.java# and puts the resulting \verb#MyClass.class# into 
-the \verb#classes/com/wickedlysmart/# directory:
+compile \verb#MyClass.java# and put the resulting \verb#MyClass.class# into the 
+\verb#classes/com/wickedlysmart/# directory:
 \begin{verbatim}
     javac -d ../classes com/wickedlysmart/MyClass.java
 \end{verbatim}
@@ -177,7 +177,7 @@ Note that the current directory is only searched if \verb#.# is in the
 classpath, or if it is covered by an absolute or relative path
 
 \subsection{Jar Files}
-\subsubsection{Jat Files and Searching}
+\subsubsection{Jar Files and Searching}
 Once a jar is created, it can be moved and copied to different machines, and 
 all of the classes within it can be accessed, via classpaths, by \verb#java# 
 and \verb#javac#, without unjaring the jar file. Some rules concerning the 
@@ -216,7 +216,7 @@ statement -- searching this directory is a function that is built-in to java
 Ultimately, the only value \verb#import# statements have is that they save 
 typing and they can make your code easier to read. In java 5, the \verb#import# 
 statement was enhanced to provide even greater keystroke-reduction capabilities 
--- although would argue that this comes at the expense of readability.
+-- although som would argue that this comes at the expense of readability.
 
 Some rules for using static imports:
 \begin{itemize}
@@ -227,7 +227,7 @@ Some rules for using static imports:
     you have a \verb#static# import for both the \verb#Integer# and \verb#Long# 
     classes, referring to \verb#MAX_VALUE# will cause a compilation error, 
     since both \verb#Integer# and \verb#Long# have a \verb#MAX_VALUE# constant
-    \item You can use a \verb#static import# on \verb#static# object 
-    references, constants (remember they are \verb#static# and \verb#final#), 
-    and \verb#static# methods
+    \item You can use a static imports on \verb#static# object references, 
+    constants (remember they are \verb#static# and \verb#final#), and 
+    \verb#static# methods
 \end{itemize}

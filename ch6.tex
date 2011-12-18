@@ -27,7 +27,7 @@ There are a few ways to create Strings:
     \item[concat()] Appends one String to the end of another (`+' also works)
     \item[equalsIgnoreCase()] Determines the equality of two Strings, ignoring 
     case
-    \item[length()] Returns the number of characters in a String. Note that 
+    \item[length()] Returns the number of characters in the String. Note that 
     Strings have a \verb#length()# method whereas Arrays have a \verb#length# 
     attribute
     \item[replace()] Replace all occurrences of a character with a new 
@@ -178,7 +178,7 @@ The \verb#java.io.ObjectOutputStream# and \verb#java.io.ObjectInputStream#
 classes are usually wrapped around lower level classes such as 
 \verb#java.io.FileOutputStream# and \verb#java.io.FileInputStream#
 
-When you serialise an object, java serialisation takes care of caving that 
+When you serialise an object, java serialisation takes care of saving that 
 object's entire `object graph'. This means that a deep copy of everything 
 saved needs to be restored. Remember that you need to make a conscious choice 
 to create objects that are serialisable, by implementing the (marker) 
@@ -199,7 +199,7 @@ signatures matching:
 Like most IO related methods, \verb#writeObject()# and \verb#readObject()# can 
 throw exceptions. When invoking \verb#defaultWriteObject()# 
 (\verb#defaultReadObject()#) from within \verb#writeObject()# 
-(\verb#readObject()#), you're telling the JVM To perform the normal 
+(\verb#readObject()#), you're telling the JVM to perform the normal 
 serialisation process, however, usually some custom writing and reading is 
 performed as well. Note that any custom components written need to be read back 
 in the same order they were written.
@@ -249,7 +249,7 @@ constructor and so on up the inheritance tree.
 
 Note that if you serialise a collection or an array, every element must be 
 serialisable. A single non-serialisable element will cause serialisation to 
-fail. Note also that while the collection interfaces are not serialisable, the 
+fail. Also note that while the collection interfaces are not serialisable, the 
 concrete collection classes in the java api are
 
 \subsubsection{Serialisation is Not for Statics}

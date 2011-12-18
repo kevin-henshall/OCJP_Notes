@@ -236,9 +236,9 @@ types can all be thrown using the keyword \verb#throw#, and all can be caught
 It is possible to catch more than one type of exception in a single 
 \verb#catch# clause since if the type specified has subclasses, they will be 
 caught too. While this is convernient, it means you have less information 
-available when handling the exception (unless you test to dertermine which 
-class the exception belongs to using \verb#instanceof# --which is just as much 
-work as writing multiple \verb#catch# blocks)
+available when handling the exception (unless you test to determine which class 
+the exception belongs to using \verb#instanceof# -- which is just as much work 
+as writing multiple \verb#catch# blocks)
 
 \subsubsection{Exception Matching}
 When an exception is thrown, java will try to find (by looking at the available 
@@ -257,9 +257,9 @@ keyword is used as follows to list the exceptions that a method can throw:
     void myFunction() throws MyException1, MyException2 {}
 \end{verbatim}
 Each method must either handle all checked (non-runtime) exceptions by 
-supplying a \verb#catch# clause or list each handled checked exception as a 
-thrown exception. Note that exceptions of type \verb#RuntimeException# may be 
-thrown from any method without being specified as part of the method's public 
+supplying a \verb#catch# clause or list each checked exception as a thrown 
+exception. Note that exceptions of type \verb#RuntimeException# may be thrown 
+from any method without being specified as part of the method's public 
 interface (and a handler need not be present). Even if the method does declare 
 that it throws a \verb#RuntimeException#, the calling method is under no 
 obligation to handle or declare it. \verb#RuntimeException#, \verb#Error# and 
@@ -338,7 +338,7 @@ errors:
 \end{center}
 
 \subsection{Working with Assertions}
-Added in java in 1.4, assertions allow for testing assumptions during 
+Added in Java in 1.4, assertions allow for testing assumptions during 
 development without the expense (in both programmer time and execution 
 overhead) of writing exception handlers for exceptions that you assume will 
 never occur once the program is deployed
@@ -405,13 +405,14 @@ Some examples of selectively enabling and disabling assertions are:
         system classes \\
         \hline
         \verb#java -ea -dacom.foo...# & Enable assertions but disable 
-        assertinos in package com.foo and any of its subpackages \\
+        assertions in package com.foo and any of its subpackages \\
     \end{tabular}
 \end{center}
 
 \subsubsection{Using Assertions Appropriately}
 AssertionErrors should never be handled. To discourage you from handling them, 
-\verb#AssertionError# doesn't provide access to the object that generated it.
+\verb#AssertionError# doesn't provide access to the object that generated it.  
+Some notes on the usage of assertions:
 \begin{itemize}
     \item Don't use assertions to validate arguments to a public method, since 
     they are not guaranteed to run at all. Throw an 

@@ -62,7 +62,7 @@ and access modifiers can be used (eg. \verb#final# and \verb#abstract#).
     standard for floating point numbers. Without this modifier, the code may 
     behave in a platform dependent manner
     \item[final] A \verb#final# class can not be subclassed
-    \item[Abstract] An \verb#abstract# class can not be instantiated -- it's 
+    \item[abstract] An \verb#abstract# class can not be instantiated -- it's 
     sole purpose is to be extended (subclassed). Note that methods can also be 
     marked as \verb#abstract#, in which case, they are declared (not defined) 
     in the abstract class (be wary of method definitions within abstract 
@@ -139,8 +139,8 @@ subclass from overriding a method provides safety and security but also stifles
 many of the benefits of OO including extensibility and polymorphism
 
 \subsection{Final Arguments}
-Method arguments are essentially the same as local variables -- final arguments 
-follow the same rules as final local variables.
+Method arguments are essentially the same as local variables -- \verb#final# 
+arguments follow the same rules as \verb#final# local variables
 
 \subsection{Abstract Methods}
 An abstract method is a method which is declared (as abstract) but not 
@@ -148,7 +148,7 @@ implemented. Note that an abstract method declaration must end in a semicolon
 and contains no code -- not even \verb#{}#. Note that abstract methods can only 
 be declared in abstract classes or interfaces. However, an abstract class need 
 not have any abstract methods. Any class that extends an abstract class must 
-implement all abstract methods of the superclass, unless teh subclass is also 
+implement all abstract methods of the superclass, unless the subclass is also 
 abstract. The rule is:
 \begin{itemize}
     \item The first concrete subclass of an abstract class must implement all 
@@ -193,8 +193,8 @@ Declaration rules for var-args:
 
 \subsection{Constructors}
 Constructors must have the same name as the class in which they are defined.
-Constructors never have a return type, however than can have all of the normal 
-access modifiers for methods, and can take arguments (including var-args. They 
+Constructors never have a return type, however they can have all of the normal 
+access modifiers for methods, and can take arguments (including var-args). They 
 cannot be marked \verb#static#, \verb#final# or \verb#abstract#
 
 \subsection{Variable Declarations}
@@ -256,7 +256,7 @@ fields which belong to each unique object. Instance variables:
     & private & private \\
     & static & static \\
     & transient & \\
-    & volitile & \\
+    & volatile & \\
     & & abstract \\
     & & synchronized \\
     & & strictfp \\
@@ -280,15 +280,14 @@ with the same name as an instance variable (known as shadowing)
 \subsection{Array Declarations}
 Arrays are objects that store multiple variables of the same type, or variables 
 that are all subclasses of the same type. Arrays can hold either primitives or 
-or object references, but the array will always be an object on teh heap, even 
-if it contains primitives
+object references, but the array will always be an object on the heap, even if 
+it contains primitives
 
-\subsection{Array Declaration}
 Arrays are declared by stating the type of elements the array will hold, 
 followed by square brackets to either side of the identifier. Arrays can be 
 multidimensional (arrays of arrays), in which case, the square brackets can be 
 mixed between the left and right of the identifier. Note that it is never legal 
-to include the size of an array in the declaration.
+to include the size of an array in the declaration
 
 \subsection{Final Variables}
 Decalring a variable as \verb#final# makes it impossible to reinitialise once 
@@ -300,11 +299,11 @@ be assigned before the constructor completes
 
 \subsection{Transient Variables}
 Instance variables can be marked as \verb#transient#, meaning that the JVM will 
-ignore this variable when attempting to serialise the object containing it.
+ignore this variable when attempting to serialise the object containing it
 
 \subsection{Volatile Variables}
 Instance variables can be marked as \verb#volatile#, meaning that a thread 
-accessing the variable must always recolcile its own private copy of the 
+accessing the variable must always reconcile its own private copy of the 
 variable with the master copy in memory
 
 \subsection{Static Variables and Methods}
@@ -317,7 +316,7 @@ as \verb#static#:
     \item Methods
     \item Variables
     \item A class nested within another class, but not within a method
-    \item Initialization blocks
+    \item Initialisation blocks
 \end{itemize}
 Things which cannot be marked as \verb#static#:
 \begin{itemize}

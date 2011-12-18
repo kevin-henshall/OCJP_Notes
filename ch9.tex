@@ -285,7 +285,7 @@ at a time can be executing that code. This is done using the
 
 \subsubsection{Synchronisation and Locks}
 Synchronisation works through locks. Every object in java has a build-in lock 
-that only comes into play whent the object has synchronised method code. When a 
+that only comes into play when the object has synchronised method code. When a 
 thread enters a synchronised non-static method, it automatically acquires the 
 lock associated with the current instance of the class whose code the thread is 
 executing (the \verb#this# instance).
@@ -342,7 +342,7 @@ lock -- every class loaded in java has a corresponding instance of
 need to do to synchronise a \verb#static# method:
 \begin{verbatim}
     class MyClass {
-        static int count;
+        private static int count;
 
         public static synchronized int getCount() {
             return count;
@@ -352,7 +352,7 @@ need to do to synchronise a \verb#static# method:
 This method could be re-written to use a synchronised code block:
 \begin{verbatim}
     class MyClass {
-        static int count;
+        private static int count;
 
         public static int getCount() {
             synchronized(MyClass.class) {       // MyClass.class is a class literal
@@ -370,7 +370,7 @@ until the lock is released and the thread can again enter the
 `runnable/running' state.  When thinking about blocking, it is important to pay 
 attention to which objects are being used for locking:
 \begin{itemize}
-    \item Threads calling non-\verb#static synchronixed# methods in the same 
+    \item Threads calling non-\verb#static synchronized# methods in the same 
     class will only block each other if they are invoked using the same 
     instance, since they each lock on the \verb#this# instance
     \item Threads calling \verb#static synchronized# methods in the same class 
@@ -440,13 +440,13 @@ thrown at runtime).
 Remember that \verb#wait()# and \verb#notify()# are instance methods of 
 \verb#Object#. In the same way that every object has a lock, every object can 
 have a list of threads that are waiting for a notification from the object. A 
-thread gets on this waiting list by invoking executing the \verb#wait()# method 
-of the target object. From that moment, it does not execute any further until 
-the \verb#notify()# (or \verb#notifyAll()#) method of the target object is 
-called (and the thread is chosen by the thread scheduler to run). If multiple 
-threads are waiting on the same object, \verb#notify()# will cause only one to 
-be chosen (in no guaranteed order) to proceed with its execution. If there are 
-no threads waiting, then no particular action is taken.
+thread gets on this waiting list by invoking the \verb#wait()# method of the 
+target object. From that moment, it does not execute any further until the 
+\verb#notify()# (or \verb#notifyAll()#) method of the target object is called 
+(and the thread is chosen by the thread scheduler to run). If multiple threads 
+are waiting on the same object, \verb#notify()# will cause only one to be 
+chosen (in no guaranteed order) to proceed with its execution. If there are no 
+threads waiting, then no particular action is taken.
 
 When a thread waits, it temporarily releases the lock for other threads to use, 
 but it will need it again to continue execution. It is common to find code like 
@@ -496,7 +496,7 @@ In most scenarios, it is preferable to notify all of the threads that are
 waiting on a particular object. If so, you can use \verb#notifyAll()# on the 
 object to let all the threads rush out of the `waiting' state and back to 
 `runnable'. This is especially important if you have several threads waiting on 
-one object, but for different reasons, and ou want to be sure that the right 
+one object, but for different reasons, and you want to be sure that the right 
 thread (along with all the others) gets notified.
 
 Using \verb#notifyAll()# means that all the notified threads will start 
@@ -523,7 +523,7 @@ in some situations -- a thread may wake up even though no code has called
 called these methods. Sometimes the jvm may call \verb#notify()# for reasons of 
 its own, or code in some other class calls it for reasons you just do not know.
 What this means is, when your thread wakes up from a \verb#wait()#, you do not 
-know for sure why it was awoken. By puttig the \verb#wait()# invocation in a 
+know for sure why it was awoken. By putting the \verb#wait()# invocation in a 
 \verb#while# loop and re-checking the condition that represents what we were 
 waiting for, we ensure that whatever the reason we woke up, we will re-enter 
 the \verb#wait()# if the thing we were waiting for has not happened yet. 

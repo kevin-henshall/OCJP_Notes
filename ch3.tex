@@ -16,7 +16,7 @@ octal (base 8) and hexadecimal (base 16)
 Represented as is, with no prefix of any kind
 
 \subsubsection{Octal Literals}
-Use only the digits 0 to 7. In java, represent an integer in octal form by 
+Use only the digits 0 to 7. In java, we represent an integer in octal form by 
 placing a zero in front of the number. You can have up to 21 digits in an octal 
 number, not including the leading zero
 
@@ -37,7 +37,7 @@ so if you want to assign a floating-point literal to a variable of type float
 (32 bits), you must attach the suffix F (or f) to the number. If you don't, the 
 compiler will complain about a possible loss of precision. You can also 
 optionally arrach a D (or d) to double literals, but this is not necessary 
-since this is the default debaviour
+since this is the default behaviour
 
 \subsection{Boolean Literals}
 Can either be true or false. Note that numbers can not be used in place of 
@@ -45,19 +45,19 @@ boolean values
 
 \subsection{Character Literals}
 Represented by a single character in single quotes. Can also use the unicode 
-value of the character (prefixing \\u) within single quotes. Remember that 
-characters are just 16 bit unsigned integers under the hood
+value of the character (prefixing \verb#\u#) within single quotes. Remember 
+that characters are just 16 bit unsigned integers under the hood
 
 \subsection{Literal Values for Strings}
 Although strings are not primitives, they can be represented as literals -- in 
-other words, typed directly into code. The only other nonprimitive type that 
-has a literal representation is an array.
+other words, typed directly into code. The only other non-primitive type that 
+has a literal representation is an array
 
 \subsection{Assignment Operators}
 Variables are just bit holders with a designated type. For primitives, the bits 
 represent a numeric value (although we don't know what the bit pattern looks 
 like for boolean). A reference variable bit holder contains bits representing a 
-way to get to an object, or null.
+way to get to an object, or null
 
 \subsection{Primitive Assignments}
 The equals sign is used for assigning a value to a variable. A literal integer 
@@ -80,7 +80,7 @@ higher-order) bits are truncated
 \subsection{Assigning Floating-Point Numbers}
 Floating-point numbers have slightly different assignment behaviour than 
 integer types. Every floating-point literal is implicitly a double (64 bits), 
-not a float.
+not a float
 
 \subsection{Assigning a Literal That is Too Large for the Variable}
 If we try to assign a literal which is too large for the variable type, we'll 
@@ -96,7 +96,7 @@ right-hand variable are copied. If we change the contents of either, the other
 variable is not affected
 
 \subsection{Reference Variable Assignments}
-You can assign a newly created object to an object referent variable as 
+You can assign a newly created object to an object reference variable as 
 follows: \verb#Button b = new Button();#. This does three things:
 \begin{itemize}
     \item Creates a reference variable named \verb#b#, of type \verb#Button#
@@ -105,10 +105,10 @@ follows: \verb#Button b = new Button();#. This does three things:
     variable \verb#b#
 \end{itemize}
 You can also assign \verb#null# to a reference variable, which simply means the 
-variable is not referring to any object. \verb#Button c = null;#. This creates 
+variable is not referring to any object: \verb#Button c = null;#. This creates 
 space for the Button reference variable, but doesn't create an actual 
 \verb#Button# object. You can assign a subclass of the declared type, but not a 
-superclass of the declared type.
+superclass of the declared type
 
 \subsection{Variable Scope}
 For the purposes of discussing the scope of variables, we can say that there 
@@ -177,7 +177,7 @@ Local reference variables are not given a default value -- that is, they aren't
 default is doesn't have any value
 
 \subsection{Local Arrays}
-Just like any other object reference, array references declared with a method 
+Just like any other object reference, array references declared within a method 
 must be assigned a value before use. This means you must declare and construct 
 the array, but you don't have to explicitly initialise the elements in the
 array -- remember that the elements of the array are automatically initialised 
@@ -201,8 +201,7 @@ When you use a String reference variable to modify a String:
     \item A new String is created (or a matching String is found in the String 
     pool), leaving the original String object untouched
     \item The reference used to modify the String (or rather, make a new String 
-    String by modifying a copy of the original) is then assigned the new String 
-    object
+    by modifying a copy of the original) is then assigned the new String object
 \end{itemize}
 
 \subsection{Passing Variables into Methods}
@@ -223,7 +222,7 @@ for object reference variables, the called method can change the object the
 
 \subsection{Array Declaration, Construction and Initialisation}
 \subsubsection{Declaring an Array}
-Arrays are declared by stating the type of element teh array will hold, which 
+Arrays are declared by stating the type of element the array will hold, which 
 can be an object or a primitive, followed by square brackets to the left or 
 right of the identifier. It is never legal to include the size of the array in 
 the declaration. The JVM doesn't allocate space until you actually instantiate 
@@ -233,7 +232,7 @@ the array object
 Constructing an array means creating the array object on the heap, where all 
 objects (and instance variables) live. To create an array object, java must 
 know how much space to allocate on the heap, so you must specify the size of 
-the array at construction time.
+the array at construction time
 
 \subsubsection{Constructing 1-D Arrays}
 The most straightforward way to  construct an array is to use the keyword 
@@ -256,7 +255,7 @@ Initialising an array means putting things into it. The `things' in the array
 are the array's elements, and they're either primitives or reference variables.
 If you have an array of objects, the array doesn't actually hold the object, 
 but instead holds a reference to the object. The individual elements in the 
-array can be accessed with an index number. The index number always begin with 
+array can be accessed with an index number. The index number always start from 
 zero. Note that an \verb#ArrayIndexOutOfBoundsException# will be thrown at 
 runtime for invalid index values -- compilation will not fail even if using an 
 invalid index
@@ -314,8 +313,8 @@ don't return antyhing. The rules regarding initialisation blocks are:
 \end{itemize}
 Instance init blocks are often used as a place to put code that all the 
 constructors in the class should share. Note that an 
-ExceptionInitializationError can be thrown from within a static initialisation 
-block
+\verb#ExceptionInitializationError# can be thrown from within a static 
+initialisation block
 
 \subsection{Using Wrapper Classes and Boxing}
 The wrapper classes in the java api serve two main purposes:
@@ -332,8 +331,8 @@ the capitalised form of the primitive except for \verb#char# (which is
 \verb#Character#) and \verb#int# (which is \verb#Integer#)
 
 \subsection{Creating Wrapper Objects}
-Creation methods which take a String throw a NumberFormatException if the 
-String provided cannot be parsed into the appropriate primitive. Note that 
+Creation methods which take a String throw a \verb#NumberFormatException# if 
+the String provided cannot be parsed into the appropriate primitive. Note that 
 wrapper objects are immutable
 
 \subsubsection{Wrapper Constructors}
@@ -342,24 +341,25 @@ that takes a primitive, and one that takes a String. The Character class
 provides only one constructor which takes a char. The constructors for 
 Boolean's String constructor return the object `true' if the String argument is 
 case insensitive the same as `true', otherwise `false' is returned. Note that 
-as of java 5m a Boolean object can be used in a boolean test (due to unboxing)
+as of Java 5, a Boolean object can be used in a boolean test (due to unboxing)
 
 \subsubsection{The valueOf() Methods}
 The static \verb#valueOf()# methods provided in most of the wrapper classes 
 provide another means of creating wrapper objects. They take a String 
 representation of the primitive and sometimes a second argument specifying the 
-radix of the first argument. Note that a NumberFormatException may be thrown
+radix of the first argument. Note that a \verb#NumberFormatException# may be 
+thrown
 
 \subsection{Using Wrapper Conversion Utilities}
 \subsubsection{xxxValue()}
 When converting the value of a wrapped numeric to a primitive, use one of the
-\verb#xxxValue()# methods. 
+\verb#xxxValue()# methods
 
 \subsubsection{parseXxx() and valueOf()}
 The six \verb#parseXxx()# methods (one for each numeric wrapper type) are 
 closely related to the \verb#valueOf()# method. Both take a String argument, 
-throw a NumberFormatException and can convert String objects from different 
-bases. The difference between them is:
+throw a \verb#NumberFormatException# and can convert String objects from 
+different bases. The difference between them is:
 \begin{itemize}
     \item \verb#parseXxx()# returns the named primitive
     \item \verb#valueOf()# returns a newly created wrapper object of the type 
@@ -368,7 +368,7 @@ bases. The difference between them is:
 
 \subsection{toString()}
 All of the wrapper classes classes have a no-arg, non-static instance version 
-of \verb#toString()#. This method returns a String with teh value of the 
+of \verb#toString()#. This method returns a String with the value of the 
 primitive wrapped in the object. All of the numeric wrapper classes provide an 
 overloaded, static \verb#toString()# method that takes a primitive numeric of 
 the appropriate type and returns a String. Integer and Long provide a third 
@@ -401,7 +401,7 @@ same:
 \begin{itemize}
     \item Boolean
     \item Byte
-    \item Character from \\u0000 to \\u007f (7f is 127 in decimal)
+    \item Character from \verb#\u0000# to \verb#\u007f# (7f is 127 in decimal)
     \item Short and Integer from -128 to 127
 \end{itemize}
 Note that when \verb#==# is used to compare a primitive to a wrapper, the 
@@ -411,11 +411,11 @@ wrapper will be unwrapped and the comparison will be primitive to primitive
 The general rule is that boxing and unboxing will work whereever you can 
 normally use a primitive or a wrapped object. Note that wrapper reference 
 variables can be \verb#null# -- be aware of primitive operations which may 
-throw a NullPointerException if the wrapper object is null
+throw a \verb#NullPointerException# if the wrapper object is null
 
 \subsection{Overloading}
 \subsubsection{Primitive Arguments}
-When an exact match isn't found, teh JVM uses the method with the smallest 
+When an exact match isn't found, the JVM uses the method with the smallest 
 argument that is wider than the parameter
 
 \subsubsection{Boxing and Var-Args}
@@ -430,7 +430,7 @@ compatibility). In summary:
 Reference widening depends on inheritance (i.e. the IS-A test). Therefore, it 
 is not legal to widen from one wrapper to another
 
-\subsubsection{Overloading When Combining WIdening and Boxing}
+\subsubsection{Overloading When Combining Widening and Boxing}
 It is not possible to widen and then autobox. However, it is possible to box 
 and then widen (through inheritance)
 
@@ -456,39 +456,39 @@ In most cases, it frees you from having to add memory management logic to your
 application. The downside of automatic garbage collection is that you cannot 
 control when it runs. Objects live in the heap and this is the only part of 
 memory that is involved with garbage collection. When the garbage collector 
-runs, its purpose is to find and delete objects that cannot be reached.
+runs, its purpose is to find and delete objects that cannot be reached
 
 \subsubsection{When does the Garbage Collector Run?}
 The garabge collector is under the control of the JVM and it decides when to 
 run it. We can ask the JVM to run the garbage collector, but there are no 
-guarantees that it will run when 
+guarantees that it will run when requested
 
 \subsubsection{How does the Garbage Collector Work}
 You can't be sure -- the java specification doesn't guarantee any particular 
 implementation. An object is eligible for garbage collection when no live 
 thread can access it. If object A has a reference to object B and object A is 
 available to a live thread, then object B is considered reachable. Note that 
-due to the vagaries of the String constant poll, the exam focuses its garbage 
+due to the vagaries of the String constant pool, the exam focuses its garbage 
 collection questions on non-String objects
 
 \subsubsection{Writing Code that Makes Objects Eligible for Garbage Collection}
 There are a few ways to remove a reference to a reference variable:
 \begin{itemize}
-    \item Nulling a reference is
+    \item Nulling a reference
     \item Reassigning a reference variable
     \item Objects created within a method (whose reference is not returned from 
     the method) are eligible for collection once the method has returned
     \item Objects may form `islands of isolation' whereby objects refer to one 
-    one another but cannot be reached by any live thread. The garbage collector 
-    can usually discover and remove these islands
+    another but cannot be reached by any live thread. The garbage collector can 
+    usually discover and remove such islands
 \end{itemize}
 
 \subsubsection{Requesting Garbage Collection}
-The garbage collection routines that java provides are members of hte Runtime 
+The garbage collection routines that java provides are members of the Runtime 
 class. The Runtime class is a special class that has a singleton for each main 
 program. You can get the singleton through \verb#Runtime.getRuntime()# and then 
 request garbage collection through \verb#gc()#. Alternatively, you can call 
-\verb#System.gc()# which does the same thing. 
+\verb#System.gc()# which does the same thing
 
 \subsubsection{Cleaning Up Before Garbage Collection -- the finalize() Method}
 Java provides a mechanism to run some code just before an object is deleted by 
