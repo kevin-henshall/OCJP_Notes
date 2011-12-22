@@ -1,2 +1,12 @@
 OCJP_Notes contains my notes for the Oracle Certified Java Programmer (OCJP) 
 course. These notes were based on the java 6 version
+
+To build the pdf, you will need:
+- pdflatex
+- make
+
+To build the pdf, run:
+make
+
+To remove all generated files, run:
+make clean
