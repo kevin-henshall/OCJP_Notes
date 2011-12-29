@@ -257,7 +257,7 @@ Static variables are never saved as part of an object's state as they do not
 belong to the object
 
 \subsection{Working with Dates, Numbers and Currencies}
-There are few classes needed for the exam:
+There are a few classes needed for the exam:
 \begin{description}
     \item[java.util.Date] Most of the methods have been deprecated, but this 
     class can be used to bridge between the \verb#Calendar# and 
@@ -272,7 +272,7 @@ There are few classes needed for the exam:
     \item[java.util.Locale] Used in conjunction with \verb#DateFormat# and 
     \verb#NumberFormat# to format dates, numbers and currency for specific 
     locales. If you want to manipulate dates without producing formatted 
-    output, you can use the \verb#Locale# class directly ith the 
+    output, you can use the \verb#Locale# class directly with the 
     \verb#Calendar# class
 \end{description}
 
@@ -302,8 +302,8 @@ parts of the \verb#Date# will not get incremented or decremented
 \verb#DateFormat# is an abstract class and has two factory methods -- 
 \verb#getInstance()# and \verb#getDateInstance()#. Note that 
 \verb#getDateInstance()# is overloaded to accept locales in addition to static 
-fields which customise \verb#DateFormat# instance. Another important method is 
-\verb#parse()# which takes a \verb#String# formatted in the style of the 
+fields which customise the \verb#DateFormat# instance. Another important method 
+is \verb#parse()# which takes a \verb#String# formatted in the style of the 
 \verb#DateFormat# instance being used, and converts the \verb#String# into a 
 \verb#Date# object. Note that \verb#parse()# can throw a \verb#ParseException#
 
@@ -348,7 +348,7 @@ typically use some version of either \verb#getInstance()# or
 \verb#getCurrencyInstance()# to create a \verb#NumberFormat# object. You use 
 this class to format numbers or currency values using the \verb#format()# 
 method. There are methods other than \verb#format# on the exam including, 
-\verb#getMaximumFractionDigits()#, \verb#setMaxImumFractionDigits#, 
+\verb#getMaximumFractionDigits()#, \verb#setMaximumFractionDigits#, 
 \verb#parse()# and \verb#setParseIntegerOnly()#. Note that \verb#format()# 
 rounds the value being displayed to the number of digits specified by 
 \verb#setMaximumFractionDigits()#
@@ -357,17 +357,22 @@ rounds the value being displayed to the number of digits specified by
 \begin{center}
 \begin{tabular}{ll}
     \textbf{Class} & \textbf{Key Instance Creation Options} \\
+    \hline
     \verb#util.Date# & \verb#new Date()# \\
     & \verb#new Date(long millisecondsSince_01_01_1970)# \\
+    \hline
     \verb#util.Calendar# & \verb#Calendar.getInstance()# \\
     & \verb#Calendar.getInstance(Locale)# \\
+    \hline
     \verb#util.Locale# & \verb#Locale.getDefault()# \\
     & \verb#new Locale(String language)# \\
     & \verb#newLocale(String language, String country)# \\
+    \hline
     \verb#text.DateFormat# & \verb#DateFormat.getInstance()# \\
     & \verb#DateFormat.getDateInstance()# \\
     & \verb#DateFormat.getDateInstance(style)# \\
     & \verb#DateFormat.getDateInstance(style, Locale)# \\
+    \hline
     \verb#text.NumberFormat# & \verb#NumberFormat.getInstance()# \\
     & \verb#NumberFormat.getInstance(Locale)# \\
     & \verb#NumberFormat.getNumberInstance()# \\
@@ -396,30 +401,30 @@ and once a character has been used in a match, it cannot be reused
 \subsubsection{Searches Using Metacharacters}
 Regex provides a rich set of metacharacters. Those needed for the exam are:
 \begin{itemize}
-    \item \verb#\d# A digit
-    \item \verb#\s# A whitespace character
-    \item \verb#\w# A `word' character (letter, digit or underscore)
+    \item \verb#\d# -- A digit
+    \item \verb#\s# -- A whitespace character
+    \item \verb#\w# -- A `word' character (letter, digit or underscore)
 \end{itemize}
 You can also specify sets of characters to search for using square brackets and 
 ranges of characters to search for using square brackets and a dash:
 \begin{itemize}
-    \item \verb#[abc]# Searches only for a's, b's or c's
-    \item \verb#[a-f]# Searches only for a, b, c, d, e or f characters
-    \item \verb#[a-fA-F]# Searches for characters in the ranges a-f or A-F
+    \item \verb#[abc]# -- Searches only for a's, b's or c's
+    \item \verb#[a-f]# -- Searches only for a, b, c, d, e or f characters
+    \item \verb#[a-fA-F]# -- Searches for characters in the ranges a-f or A-F
 \end{itemize}
-Quantifiers can also be used (optionally with parenthesis):
+Quantifiers can also be used (optionally with parentheses):
 \begin{itemize}
-    \item \verb#?# Zero or one occurrence
-    \item \verb#*# Zero or more occurrences
-    \item \verb#+# One or more occurrences
+    \item \verb#?# -- Zero or one occurrence
+    \item \verb#*# -- Zero or more occurrences
+    \item \verb#+# -- One or more occurrences
 \end{itemize}
-Negation of a group of characters can be achieved by using \verb#^# with square 
-brackets
+Negation of a group of characters can be achieved by using \verb#^# within 
+square brackets
 
 \subsubsection{The Predefined Dot}
 The \verb#.# metacharacter can be used to refer to any single character
 
-\subsubsection{Greddy Quantifiers}
+\subsubsection{Greedy Quantifiers}
 When using the \verb#*#, \verb#+# and \verb#?# quantifiers, they can be fine 
 tuned to produce behaviour known as `greedy', `relucant', or `possessive'. You 
 only need to know `greedy' for the exam:
@@ -441,9 +446,9 @@ literal \verb#.# in a String which is used to compile a pattern, it must be
 double escaped (i.e. \verb#String p = "\\."#)
 
 \subsubsection{Locating Data via Pattern Matching}
-The \verb#java.util.regex.Pattern# and \verb#java.util.regex.matcher# classes 
+The \verb#java.util.regex.Pattern# and \verb#java.util.regex.Matcher# classes 
 are used to perform pattern matching. The \verb#Pattern# class is used to hold 
-representation of a regex expression, that that it can be used and reused by 
+a representation of a regex expression, that it can be used and reused by 
 instances of the \verb#Matcher# class. The \verb#Matcher# class is used to 
 invoke the regex engine with the intention of performing match operations. Note 
 that we create a \verb#Pattern# using the static \verb#compile(String pattern)# 
@@ -467,7 +472,7 @@ match. Zero-length matches can occur in several places:
 
 \subsubsection{Searching Using the Scanner Class}
 Although the \verb#java.util.Scanner# class is primarily intended for 
-tokenizing data, it can also be used to perform searches like the 
+tokenising data, it can also be used to perform searches like the 
 \verb#Pattern# and \verb#Matcher# classes. While \verb#Scanner# does not 
 provide location information or search and replace functionality, it can be 
 used to apply regex expressions to source data to determine how many instances 
@@ -477,9 +482,9 @@ created using \verb#Scanner s = new Scanner(System.in)# and the
 \verb#null#
 
 \subsubsection{Tokenising with String.split()}
-The String's class \verb#split(String regex)# returns a String array populated 
-with the tokens produced by the tokenising process. This is a handy way to 
-tokenise relatively small pieces of data. One drawback of the 
+\verb#String#'s \verb#split(String regex)# method returns a String array 
+populated with the tokens produced by the tokenising process. This is a handy 
+way to tokenise relatively small pieces of data. One drawback of the 
 \verb#String.split()# method is that it is not possible to inspect the tokens 
 as they are produced and break out of the tokenising process early. The 
 \verb#Scanner# class provides a rich API for doing such on-the-fly tokenisation 
@@ -507,33 +512,32 @@ to set the delimiter to be any valid regex expression
 
 \subsection{Formatting with printf() and format()}
 The \verb#format()# and \verb#printf()# methods were added to 
-\verb#java.io.PrintStream# is java 5 and the two methods behave exactly the 
+\verb#java.io.PrintStream# in java 5 and the two methods behave exactly the 
 same way. Behind the scenes, the \verb#format()# method uses the 
 \verb#java.util.Formatter# class to perform the formatting work. You can use 
 the \verb#Formatter# class directly if you choose, but for the exam you'll only 
-have to know the basic syntax of the arguments passed to the \verb#format()# 
-method. The basic format is: \verb#printf("format string", argument(s))#. The 
-format string can contain both normal String literal information that isn't 
-associated with any arguments, and argument secific formatting data. The clue 
-to determining whether you're looking at formatting data, is that the 
-formatting data will always start with a percentage sign. The format strings 
-have the following format:
+have to know the basic syntax of the arguments passed to the \verb#printf()# 
+and \verb#format()# methods. The basic format is:
+\verb#printf("format string", argument(s))#. The format string can contain both 
+normal String literal information that isn't associated with any arguments, and 
+argument specific formatting data. The clue to determining whether you're 
+looking at formatting data, is that the formatting data will always start with 
+a percentage sign. The format strings have the following format:
 \verb#%[arg_index$][flags][width][.precision]conversion_char#. Note that the 
 only required elements are the percentage sign and the conversion character.  
 The format string elements needed for the exam are:
 \begin{description}
     \item[arg\_index] An integer followed directly by a \verb#$#. This 
-    indicates which argument should be printed in this position
+    indicates which argument should be printed in this positionusing 1 index
     \item[flags] While many flags are available, for the exam, you'll need to 
     know:
         \begin{itemize}
-            \item \verb#"-"# Left justify this argument
-            \item \verb#"+"# Include a sign (\verb#+# or \verb#-#) with this 
+            \item \verb#"-"# -- Left justify this argument
+            \item \verb#"+"# -- Include a sign (\verb#+# or \verb#-#) with this 
             argument
-            \item \verb#"0"# Pad this argument with zeros
-            \item \verb#","# Use locale-specific grouping separators
-            \item \verb#"("# Enclose negative numbers in 
-            parentheses
+            \item \verb#"0"# -- Pad this argument with zeros
+            \item \verb#","# -- Use locale-specific grouping separators
+            \item \verb#"("# -- Enclose negative numbers in parentheses
         \end{itemize}
     \item[width] This value indicates the minimum number of characters to print
     \item[precision] For the exam, you'll only need this when formatting a 
@@ -542,13 +546,13 @@ The format string elements needed for the exam are:
     \item[conversion] The type of argument you'll be formatting. You'll need to 
     know:
         \begin{itemize}
-            \item \verb#b# boolean
-            \item \verb#c# char
-            \item \verb#d# integer
-            \item \verb#f# floating point
-            \item \verb#s# String
+            \item \verb#b# -- boolean
+            \item \verb#c# -- char
+            \item \verb#d# -- integer
+            \item \verb#f# -- floating point
+            \item \verb#s# -- String
         \end{itemize}
 \end{description}
 Note that if there is a mismatch between the type specified in the conversion 
-character and the argument, you'll get a 
-\verb#java.util.IlligalFormatConversionException# runtime exception
+character and the argument, a \verb#java.util.IlligalFormatConversionException# 
+will be thrown at runtime

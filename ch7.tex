@@ -3,7 +3,8 @@
 \begin{center}
 \begin{tabular}{lp{.6\textwidth}}
     \textbf{Method} & \textbf{Description} \\
-    \verb#boolean eqauls(Object o)# & Determines whether two objects are 
+    \hline
+    \verb#boolean equals(Object o)# & Determines whether two objects are 
     meaningfully equivalent \\
     \verb#void finalize()# & Called by garbage collector when it sees that the 
     object cannot be referenced \\
@@ -184,7 +185,7 @@ using the \verb#Comparator# interface
 
 \subsection{List Interface}
 A \verb#List# cares about the index. The one thing that \verb#List# has that 
-non-lists don't have is a set of methods related to index. Those key methods 
+non-lists don't have is a set of methods related to index. These key methods 
 include things like \verb#get(int index)#, \verb#indexOf(Object o)#, 
 \verb#add(int index, Object o)# and so on. All three \verb#List# 
 implementations are ordered by index position -- a position that you determine 
@@ -193,7 +194,7 @@ specifying a position, in which case the object is added to the end
 
 \subsubsection{ArrayList}
 An \verb#ArrayList# is like an expandable array. It provides fast iteration and 
-random access. It is an ordered collection (by index) but it not sorted.  
+random access. It is an ordered collection (by index) but is not sorted.  
 \verb#ArrayList# implements the \verb#RandomAccess# marker interface
 
 \subsubsection{Vector}
@@ -221,7 +222,7 @@ implementation, the better access performance provided
 
 \subsubsection{LinkedHashSet}
 A \verb#LinkedHashSet# is an ordered version of \verb#HashSet# that maintains a 
-doubly-linked link across all elements. Objects are iterated in insertion order
+doubly-linked list across all elements. Objects are iterated in insertion order
 
 \subsubsection{HashSet, LinkedHashSet and hashCode()}
 Note that when using \verb#HashSet# or \verb#LinkedHashSet#, the objects you 
