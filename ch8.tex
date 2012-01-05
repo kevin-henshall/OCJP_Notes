@@ -3,12 +3,12 @@ Inner classes allow you to define one class within another. They provide a type
 of scoping for your classes since you can make one class a member of another 
 class. Just as classes have member variables and methods, a class can also have 
 member classes. They come in several varieties, depending on how and where you 
-define the inner class.
+define the inner class
 
 \subsection{Inner Classes}
 Sometimes you find yourself designing a class where you discover you need 
 behaviour that belongs in a separate, specialised class, but also needs to be 
-intimately tied to the class you are designing. Inner classes, address this 
+intimately tied to the class you are designing. Inner classes address this 
 problem.
 
 One of the key benefits of an inner class is the `special relationship' an 
@@ -115,7 +115,7 @@ variable is declared). However, you can also define an inner class within a
 method.
 
 To use the inner class you must make an instance of it somewhere within the 
-method but below the inner class definition (or the compiler will not be able 
+method but after the inner class definition (or the compiler will not be able 
 to find the inner class). The following legal code shows how to instantiate and 
 use a method-local inner class:
 \begin{verbatim}
@@ -145,8 +145,8 @@ the inner class is in, unless the local variables are marked \verb#final#.
 
 Note that the only modifiers you can apply you a method-local inner class are 
 \verb#abstract# and \verb#final#, though never both at the same time. Note that 
-a local class defined within a \verb#static# method has access to only 
-\verb#static# members of the enclosing class, since there is no associated 
+a method-local inner class defined within a \verb#static# method has access to 
+only \verb#static# members of the enclosing class, since there is no associated 
 instance of the enclosing class
 
 \subsection{Anonymous Inner Classes}
@@ -209,7 +209,7 @@ implemented by the superclass
 \subsubsection{Argument-Defined Anonymous Inner Classes}
 It is possible to define an anonymous inner class as an argument to a method.  
 In this case, pay special attention to the syntax used to end the method 
-invocation.
+invocation
 
 \subsection{Static Nested Classes}
 You will sometimes hear static nested classes referrred to as static inner 

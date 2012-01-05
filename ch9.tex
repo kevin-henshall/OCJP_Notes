@@ -91,7 +91,7 @@ When a thread has been instantiated but not started (in other words, the \verb#s
 To start a thread, invoke the \verb#start()# method. When \verb#start()# is called:
 \begin{itemize}
     \item A new thread of execution starts (with a new call stack)
-    \item The tread moves from the `new' state to the `runnable' state
+    \item The thread moves from the `new' state to the `runnable' state
     \item When the thread gets a chance to execute, its target \verb#run()# method will run
 \end{itemize}
 
@@ -201,11 +201,11 @@ one thread can put another to sleep
 
 \subsubsection{Thread Priorities and yield()}
 Threads always run with a priority, usually represented as a number between 1 
-and 10 (although in some cases, the range is less than 10). In most jvms, the 
+and 10 (although in some cases, the range is less than 10). In most JVMs, the 
 scheduler uses thread priorities to help determine which thread to run. If a 
 thread enters the `runnable' state and has a higher priority than any of the 
-threads in the pool and a higher priority then the currently executing thread, 
-the lower riority running thread will usually be moved back to the `runnable' 
+threads in the pool and a higher priority than the currently executing thread, 
+the lower priority running thread will usually be moved back to the `runnable' 
 state and the higher priority thread will be chosen to run. In most cases, the 
 running thread will be of equal or greater priority than the highest priority 
 thread in the pool. Never rely on thread priorities to guarantee the correct 
@@ -228,7 +228,7 @@ priority to be chosen to run. However, the \verb#yield()# method is not
 guaranteed to do what it claims, and even if \verb#yield()# does cause a thread 
 to move from `running' back to `runnable', there is no guarantee that the same 
 thread will not be chosen to run again. Note that invoking \verb#yield()# will 
-never cuase a thread to enter the `Waiting/Sleeping/Blocked' state. At most, 
+never cause a thread to enter the `Waiting/Sleeping/Blocked' state. At most, 
 \verb#yield()# will cause a thread to go from `running' to `runnable', but it 
 might also have no effect at all
 
@@ -252,7 +252,7 @@ takes a timeout duration. Note that if the timeout expires, the thread becomes
     although typically it will cause the currently running thread to move back 
     to `runnable' so that a thread of the same priority can have the 
     opportunity to start running. Note that threads with higher priority should 
-    be managed by the jvm
+    be managed by the JVM
     \item A call to \verb#join()# -- Guaranteed to cause the current thread to 
     stop executing until the thread it joins with (in other works, the thread 
     it calls \verb#join()# on) completes, however, if the thread it's trying to 
@@ -262,7 +262,7 @@ takes a timeout duration. Note that if the timeout expires, the thread becomes
 There are also the following scenarios in which a thread might leave the 
 `running' state:
 \begin{itemize}
-    \item The tread's \verb#run()# method completes
+    \item The thread's \verb#run()# method completes
     \item A call to \verb#wait()# on an object (note that we do not call 
     \verb#wait()# on a \verb#Thread#)
     \item A thread cannot acquire the lock on an object whose method code it is 
@@ -503,7 +503,7 @@ Using \verb#notifyAll()# means that all the notified threads will start
 competing to get the lock. As the lock is used and released by each thread, all 
 of them will enter into action without a need for further notification.  
 Remember that using \verb#notify()# will only affect one of the possibly many 
-waiting threads. Which one depends on jvm implementation, and so program 
+waiting threads. Which one depends on JVM implementation, and so program 
 correctness should never rely upon one thread being notified in preference to 
 another
 
@@ -520,7 +520,7 @@ not yet happened.
 There is also a possible situation called `spontaneous wakeup' that may exist 
 in some situations -- a thread may wake up even though no code has called 
 \verb#notify()# or \verb#notifyAll()#. At least, no code you know about has 
-called these methods. Sometimes the jvm may call \verb#notify()# for reasons of 
+called these methods. Sometimes the JVM may call \verb#notify()# for reasons of 
 its own, or code in some other class calls it for reasons you just do not know.
 What this means is, when your thread wakes up from a \verb#wait()#, you do not 
 know for sure why it was awoken. By putting the \verb#wait()# invocation in a 

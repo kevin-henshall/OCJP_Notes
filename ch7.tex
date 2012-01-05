@@ -286,27 +286,27 @@ be handled with a \verb#LinkedList#
 
 \subsection{Summary of 11 of the 13 Concrete Collection-Oriented Classes}
 \begin{center}
-\begin{tabular}{llllp{4cm}p{4cm}}
+\begin{tabular}{llllp{4cm}p{4cm}l}
     \textbf{Class} & \textbf{List} & \textbf{Set} & \textbf{Map} & 
-    \textbf{Ordered} & \textbf{Sorted} \\
+    \textbf{Ordered} & \textbf{Sorted} & Synchronised \\
     \hline
-    \verb#ArrayList# & Y & & & By index & No \\
-    \verb#Vector# & Y & & & By index & No \\
-    \verb#LinkedList# & Y & & & By index & No \\
+    \verb#ArrayList# & Y & & & By index & No & No \\
+    \verb#Vector# & Y & & & By index & No & Yes \\
+    \verb#LinkedList# & Y & & & By index & No & No \\
     \hline
-    \verb#HashSet# & & Y & & No & No \\
-    \verb#LinkedHashSet# & & Y & & By insertion order & No \\
+    \verb#HashSet# & & Y & & No & No & No \\
+    \verb#LinkedHashSet# & & Y & & By insertion order & No & No \\
     \verb#TreeSet# & & Y & & Sorted & By natural order or custom comparison 
-    rules \\
+    rules & No \\
     \hline
-    \verb#HashMap# & & & Y & No & No \\
-    \verb#Hashtable# & & & Y & No & No \\
+    \verb#HashMap# & & & Y & No & No & No \\
+    \verb#Hashtable# & & & Y & No & No & Yes \\
     \verb#LinkedHashMap# & & & Y & By insertion order or last access order & No 
-    \\
-    \verb#TreeMap# & & & Y & Sorted & By natural order or custom compatison 
-    rules \\
+    & No \\
+    \verb#TreeMap# & & & Y & Sorted & By natural order or custom comparison 
+    rules & No \\
     \hline
-    \verb#PriorityQueue# & & & & Sorted & By priority \\
+    \verb#PriorityQueue# & & & & Sorted & By priority & No \\
 \end{tabular}
 \end{center}
 
@@ -342,11 +342,12 @@ must implement \verb#Comparable#. Note that there is also a two-arg
 for sorting
 
 \subsubsection{The Comparable Interface}
-The \verb#Compatable# interface is used by the \verb#java.util.Collections.sort()# method 
-and the \verb#java.util.Arrays.sort()# method to sort \verb#List#s and arrays 
-of objects. To implement \verb#Comparable#, a class must implement a single 
-method -- \verb#int compareTo(Object anotherObject)#. The \verb#compareTo()# 
-method returns an \verb#int# with the following characteristics:
+The \verb#Comparable# interface is used by the 
+\verb#java.util.Collections.sort()# and the \verb#java.util.Arrays.sort()# 
+methods to sort \verb#List#s and arrays of objects. To implement 
+\verb#Comparable#, a class must implement a single method --
+\verb#int compareTo(Object anotherObject)#. The \verb#compareTo()# method 
+returns an \verb#int# with the following characteristics:
 \begin{itemize}
     \item negative -- if \verb#this < anotherObject#
     \item zero -- if \verb#this == anotherObject#
@@ -465,7 +466,7 @@ collections or arrays, the following rules apply:
     positive return values and 0 indicate successful searches, the 
     \verb#binarySearch()# method uses negative numbers to indicate insertion 
     points. The actual insertion point in the collection.array can be 
-    calculated as $-returnValue + 1$
+    calculated as $-(returnValue + 1)$
     \item The collection/array being searched must be sorted prior to searching
     \item If you attempt to search a collection/array which is not sorted, the 
     results are unpredictable
@@ -475,7 +476,7 @@ collections or arrays, the following rules apply:
     \item If the collection/array was sorted using a \verb#Comparator#, it must 
     be searched using the same \verb#Comparator#, which is passed as the second 
     argument to the \verb#binarySearch()# method. Note that \verb#Comparator#s 
-    cannot beused when searching arrays of primitives
+    cannot be used when searching arrays of primitives
 \end{itemize}
 When working on searching and sorting questions, note that:
 \begin{itemize}
@@ -490,7 +491,7 @@ and \verb#List#s to arrays. The \verb#List# and \verb#Set# classes have
 \verb#toArray()# methods and the \verb#Arrays# class has an \verb#asList()# 
 method. The \verb#Arrays.asList()# method copies an array into a \verb#List#.  
 The API says, ``Returns a fixed-size list backed by the specified array 
-(changes to the returned list `write through' to the array). When you use the 
+(changes to the returned list `write through' to the array)''. When you use the 
 \verb#asList()# method, the array and \verb#List# become joined so that when 
 one is updated, the other is updated automatically.
 
@@ -506,10 +507,10 @@ removing elements at a specified index. Prior to java 5 and the enhanced
 use of an \verb#Iterator#. There are two \verb#Iterator# methods needed for the 
 eam:
 \begin{itemize}
-    \item \verb#boolean hasNext()# Returns \verb#true# if there is at least one 
-    more element in the collection being traversed. Invoking \verb#hasNext()# 
-    does not move to the next element of the collection
-    \item \verb#Object next()# Returns the next object in the collection and 
+    \item \verb#boolean hasNext()# -- Returns \verb#true# if there is at least 
+    one more element in the collection being traversed. Invoking 
+    \verb#hasNext()# does not move to the next element of the collection
+    \item \verb#Object next()# -- Returns the next object in the collection and 
     moves forward to the element after the one just returned
 \end{itemize}
 Note that \verb#Iterator#s can utilise generics, removing the need for a cast 
@@ -542,7 +543,7 @@ override \verb#equals()# and \verb#hashCode()#. Note that in general, the more
 unique hashcodes a formula creates, the faster retrieval will be. Note that if 
 an attibute of an object within a \verb#Map# is altered and the attribute is 
 used as part of the \verb#hashCode()# method, then the object will not be found 
-if a different hascode results. There are two stages to retrieval from maps:
+if a different hashcode results. There are two stages to retrieval from maps:
 \begin{enumerate}
     \item Use \verb#hashCode()# to find the correct bucket
     \item Use \verb#equals()# to find the object in the bucket
@@ -553,11 +554,11 @@ Java 6 introduced the \verb#java.util.NavigableSet# and
 \verb#java.util.NavigableMap# interfaces. For the purposes of the exam, you 
 need to know how \verb#TreeSet# and \verb#TreeMap# implement these interfaces.  
 For the purposes of the exam, the \verb#NavigableSet# methods related to 
-navigation are \verb#lower()#, \verb#floor()#, \verb#higher()# and 
-\verb#ceiling()#. The mostly parallel \verb#navigableMap# methods are 
-\verb#lowerKey()#, \verb#floorKey()#, \verb#higherKey()# and 
-\verb#CeilingKey()#. The difference between \verb#lower()# and \verb#floor()# 
-is that \verb#lower()# returns the element less than the given element, and 
+navigation are \verb#lower()#, \verb#floor()#, \verb#ceiling()# and 
+\verb#higher()#. The mostly parallel \verb#navigableMap# methods are 
+\verb#lowerKey()#, \verb#floorKey()#, \verb#ceilingKey()# and 
+\verb#higherKey()#. The difference between \verb#lower()# and \verb#floor()# is 
+that \verb#lower()# returns the element less than the given element, and 
 \verb#floor()# returns the element less than or equal to the given element.  
 Similarly, \verb#higher()# returns the element greater than the given element, 
 and \verb#ceiling()# returns the element greater than or equal to the given 
@@ -584,8 +585,8 @@ method was invoked
     \hline
     \verb#TreeSet.lower(e)# & Returns the highest element $<$ e \\
     \verb#TreeSet.floor(e)# & Returns the highest element $<=$ e \\
-    \verb#TreeSet.higher(e)# & Returns the lowest element $>$ e \\
     \verb#TreeSet.ceiling(e)# & Returns the lowest element $>=$ e \\
+    \verb#TreeSet.higher(e)# & Returns the lowest element $>$ e \\
     \verb#TreeSet.pollFirst()# & Returns and removes the first entry \\
     \verb#TreeSet.pollLast()# & Returns and removes the last entry \\
     \verb#TreeSet.descendingSet()# & Returns a \verb#NavigableSet# in reverse 
@@ -593,8 +594,6 @@ method was invoked
     \hline
     \verb#TreeMap.lowerKey(e)# & Returns the highest key $<$ e \\
     \verb#TreeMap.floorKey(e)# & Returns the highest key $<=$ e \\
-    \verb#TreeMap.higherKey(e)# & Returns the lowest key $>$ e \\
-    \verb#TreeMap.ceilingKey(e)# & Returns lowest key $>=$ e \\
     \verb#TreeMap.pollFirstEntry()# & Returns and removes the first key-value 
     pair \\
     \verb#TreeMap.pollLastEntry()# & Returns and removes the list key-value 
@@ -620,7 +619,7 @@ out-of-range element to the modified collection. The \verb#TreeSet# and
     \verb#e# \\
     \verb#tailSet(e, b*)# & Returns a subset starting at and inclusive of 
     element \verb#e# \\
-    \verb#subSet(s, b*, e, b*)# & returns a subset starting at \verb#s# and 
+    \verb#subSet(s, b*, e, b*)# & Returns a subset starting at \verb#s# and 
     ending just before element \verb#e# \\
     \hline
     \verb#headMap(k, b*)# & Returns a submap ending at and exclusive of key 
@@ -684,7 +683,9 @@ collection interfaces:
     \multirow{2}{0.4\textwidth}{Create a String containing the contents of an 
     array} \\
     \verb#static String toString(primitive[])# & \\
-    \hline
+\end{tabular}
+
+\begin{tabular}{lp{0.4\textwidth}}
     \textbf{Key Methods in java.util.Collections} & \textbf{Description} \\
     \hline
     \verb#static int binarySearch(List, key)# & 
@@ -692,7 +693,7 @@ collection interfaces:
     an index or insertion point} \\
     \verb#static int binarySearch(List, key, Comparator)# & \\
     \hline
-    \verb#static int reverse(List)# & Reverse the order of elements in a 
+    \verb#static void reverse(List)# & Reverse the order of elements in a 
     \verb#List# \\
     \hline
     \verb#static Comparator reverseOrder()# & 
@@ -706,7 +707,7 @@ collection interfaces:
 \end{tabular}
 \end{center}
 
-\subsection{Method Overview for List, Set, Map and Queue}
+\subsection{Method Overview for List, Set and Map}
 \begin{center}
 \begin{tabular}{llllp{0.3\textwidth}}
     \textbf{Key Interface Methods} & \textbf{List} & \textbf{Set} & 
@@ -716,17 +717,17 @@ collection interfaces:
     element. For Lists, optionally add at an index} \\
     \verb#boolean add(index, element)# & Y & & & \\
     \hline
-    \verb#boolean contains(object)# & Y & Y & & 
-    \multirow{3}{0.3\textwidth}{Search a collection for an object (or 
+    \verb#boolean contains(Object)# & Y & Y & & 
+    \multirow{3}{0.3\textwidth}{Search a collection for an Object (or 
     optionally for Maps, a key)} \\
-    \verb#boolean containsKey(object key)# & & & Y & \\
-    \verb#boolean containsValue(object value)# & & Y & \\
+    \verb#boolean containsKey(Object key)# & & & Y & \\
+    \verb#boolean containsValue(Object value)# & & & Y & \\
     \hline
-    \verb#object get(index)# & Y & & & \multirow{2}{0.3\textwidth}{Get an 
+    \verb#Object get(index)# & Y & & & \multirow{2}{0.3\textwidth}{Get an 
     object from a collection via an index or key} \\
-    \verb#object get(key)# & & & Y & \\
+    \verb#Object get(key)# & & & Y & \\
     \hline
-    \verb#int indexOf(object)# & Y & & & Get the location of an object in a 
+    \verb#int indexOf(Object)# & Y & & & Get the location of an Object in a 
     List \\
     \hline
     \verb#Iterator iterator()# & Y & Y & & Get an Iterator for a List or Set \\
@@ -737,14 +738,14 @@ collection interfaces:
     \hline
     \verb#remove(index)# & Y & & & \multirow{3}{0.3\textwidth}{Remove an 
     element via an index, value or key} \\
-    \verb#remove(object)# & Y & Y & & \\
+    \verb#remove(Object)# & Y & Y & & \\
     \verb#remove(key)# & & & Y & \\
     \hline
     \verb#int size()# & Y & Y & Y & Returns the number of elements in a 
     collection \\
     \hline
     \verb#Object[] toArray()# & Y & Y & & \multirow{2}{0.3\textwidth}{Return an 
-    array contains the elements of the collection} \\
+    array containing the elements of the collection} \\
     \verb#T[] toArray(T[])# & Y & Y & & \\
     \hline
 \end{tabular}
@@ -755,17 +756,17 @@ Remember that spaces sort before characters and that uppercase characters sort
 before lowercase characters
 
 \subsection{Generic Types}
-Remember that before java5 there was no syntax for declaring a type safe 
-collection. TO declare an \verb#ArrayList# of \verb#String#s you said, 
+Remember that before java 5 there was no syntax for declaring a type safe 
+collection. To declare an \verb#ArrayList# of \verb#String#s you said, 
 \verb#ArrayList list = new ArrayList()# or the polymorphic equivalent, 
 \verb#List list = new ArrayList()#. There was no syntax that let you specify 
 that \verb#list# will hold only \verb#String#s. With no way to specify a type 
 for the \verb#ArrayList#, the compiler could not enforce that you put only 
-things of the specified type into \verb#list#. As of java5, we can use 
+things of the specified type into \verb#list#. As of java 5, we can use 
 generics, and while they are not only for making type safe collections, that is 
 just about all most developers use them for
 
-\subsubsection{The Legacy Way to Do Collections}
+\subsubsection{The Legacy Way to do Collections}
 \begin{verbatim}
     List list = new ArrayList();    // can't declare type
     list.add("Kevin");              // list can hold Strings
@@ -812,7 +813,7 @@ effectively a no-op)
 
 \subsubsection{Mixing Generic and Non-Generic Collections}
 The compiler will generate warnings if there is a chance a type safe collection 
-could be modified by non-type-saef code. Generics are strictly compile-time 
+could be modified by non-type-safe code. Generics are strictly compile-time 
 protection. The compiler uses generic type information (the \verb#<type># in 
 the angle brackets) to make sure that your code does not put the wrong things 
 into a collection, and that you do not assign what you get from a collection to 
@@ -830,7 +831,7 @@ an \verb#Integer#.
 
 When using legacy (non-type safe) collections, watch out for unboxing problems.  
 If you declare a non-generic collection, the \verb#get()# method always returns 
-a reference of type \verb#java.lang.Object#. Remember that unboxing can not 
+a reference of type \verb#java.lang.Object#. Remember that unboxing cannot 
 convert an \verb#Object# to a primitive, even if that \verb#Object# reference 
 refers to a wrapped primitive. Unboxing converts only from a wrapper class 
 reference to a primitive:
@@ -905,16 +906,16 @@ collection which is a subtype of \verb#List#, having a generic type which:
 In other words, the keyword \verb#extends# in the context of a wildcard 
 represents both subclasses and interface implementation. There is no
 \verb#<?  implements Serializable># syntax for example. If you want to declare 
-a methof that accepts anything that implements \verb#Serializable#, you would 
+a method that accepts anything that implements \verb#Serializable#, you would 
 use \verb#<? extends Serializable>#. So when \verb#extends# is used as part of 
-a wildcard, think IS-A
+a wildcard, think Is-A
 
 There is another scenario where you can use a wildcard and still add to the 
 collection in a safe way -- using the keyword \verb#super#:
 \verb#void addAnimal(List<? super Dog> animals) {}#. When you use the
 \verb#<? super ...># syntax, you are telling the compiler that you can accept 
 the type on the right-hand-side of \verb#super# or any of its supertypes, since 
-a collection declared as a supertype will be able to accept a subtype as en 
+a collection declared as a supertype will be able to accept a subtype as an 
 element. So the \verb#super# keyword in wildcard notation lets you have a 
 restricted, yet extendable collection. Note that \verb#List<? extends Object># 
 and \verb#List<?># are identical.
@@ -983,15 +984,14 @@ parameter:
 \end{verbatim}
 
 \subsubsection{Creating Generic Methods}
-Using a generic method, you can declare the method with a specific type and 
-then get the type information based on the type of the object passed to the 
-method:
+Using a generic type, you can declare a method with a specific type and then 
+get the type information based on the type of the object passed to the method:
 \begin{verbatim}
     import java.util.*;
     class CreateAnArrayList {                   // not generic
-        public <T> void makeArrayList(T t) {     // takes an object of an
-                                                // unknown type and uses 'T' to
-                                                // represent this type
+        public <T> void makeArrayList(T t) {    // NOTE: generic type must be 
+                                                // declared before method return
+                                                // type
             List<T> list = new ArrayList<T>();
             list.add(t);
         }
@@ -1009,4 +1009,4 @@ name (since there is no return type).
 
 You can put boundaries on the type you declare, for example, if you want to 
 restrict the \verb#makeArrayList()# method to only \verb#Number# or its 
-subtypes: \verb#public <T extends Number> makeArrayList(T t) {}#
+subtypes: \verb#public <T extends Number> void makeArrayList(T t) {}#

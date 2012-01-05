@@ -4,7 +4,7 @@
 The \verb#javac# command is used to invoke java's compiler. For the exam, you 
 will need to understand the \verb#-classpath# and \verb#-d# options. The 
 structured overview for \verb#javac# is: \verb#javac [options] [source files]#.
-There are additional command-line options called \verb#@argfiles#, bu you will 
+There are additional command-line options called \verb#@argfiles#, but you will 
 not need to study them for the exam. Both the \verb#[options]# and the 
 \verb#[source files]# are optional parts of the command, and both allow 
 multiple entries. Whenever you specify multiple options and/or files they 
@@ -12,8 +12,8 @@ should be separated by spaces
 
 \subsubsection{Compiling with -d}
 By default, the compiler puts a \verb#.class# file in the same directory as the 
-\verb#.java# source file. The \verb#-d# option lets you tell compiler in which 
-directory to put the \verb#.class# file(s) it generates ('d' is for 
+\verb#.java# source file. The \verb#-d# option lets you tell the compiler in 
+which directory to put the \verb#.class# file(s) it generates ('d' is for 
 destination). For example:
 \begin{verbatim}
     package com.wickedlysmart;
@@ -39,7 +39,7 @@ needs, however, the class file destination (specified with \verb#-d#) must
 exist, otherwise compilation will fail
 
 \subsubsection{Launching Applications with java}
-The \verb#java# command is used to invoke the jvm. When running the \verb#java# 
+The \verb#java# command is used to invoke the JVM. When running the \verb#java# 
 command, you will need to understand the \verb#-classpath# (and its twin 
 \verb#-cp#) and \verb#-D# options. In iddition, it is important to understand 
 the structure of this command: \verb#java [options] class [args]#. The 
@@ -127,7 +127,7 @@ split it up in an \verb#import# statement.
 The \verb#import# statement is like an alias for a class's fully qualified 
 name. You define the fully qualified name for the class with an \verb#import# 
 statement (or with a wildcard in an \verb#import# statement of the package).  
-Once you've defined teh fully aualified name, you can use the alias in your 
+Once you've defined the fully aualified name, you can use the alias in your 
 code -- just remember that the alias is referring back to the fully qualified 
 name.
 
@@ -139,14 +139,14 @@ has the package's leftmost entry (the package's root) as a subdirectory.
     import com.wickedlysmart.Utils;
     class TestClass {
         void doStruff() {
-            Utils u = new Utils();                                          // alias
+            Utils u = new Utils();                                      // alias
             u.doX("arg1", "arg2");
-            com.wickedlysmart.Date d = new new com.wickedlysmart.Date();    // full name
+            com.wickedlysmart.Date d = new com.wickedlysmart.Date();    // full name
             d.getMonth("Oct");
         }
     }
 \end{verbatim}
-In this case, we are using two classes from hte package 
+In this case, we are using two classes from the package 
 \verb#com.wickedlysmart#. We imported the fully qualified name for the 
 \verb#Utils# class, and we did not for the \verb#Date# class. The only 
 difference is that becuase we listed \verb#Utils# in an \verb#import# 
@@ -158,13 +158,13 @@ following attributes:
     \item A subdirectory named \verb#com# (we will call this the `package root' 
     directory)
     \item A subdirectory within \verb#com# named \verb#wickedlysmart#
-    \item Tow files within \verb#wickedlysmart# named \verb#Utils.class# and 
+    \item Two files within \verb#wickedlysmart# named \verb#Utils.class# and 
     \verb#Date.class#
     \item Finally, the directory that has all of these attributes needs to be 
     accessible (via a classpath) in one of two ways:
     \begin{itemize}
         \item The path to the directory must be absolute, or
-        \item The path to the directory has be correct valid to the current 
+        \item The path to the directory must be correct relative to the current 
         directory
     \end{itemize}
 \end{itemize}
@@ -206,7 +206,7 @@ all of the classes in the \verb#java.util# package'. You are not getting the
 packages are completely independent of each other; the only thing they share is 
 the same `root' directory, but they are not in the same packages
 
-\subsubsection{Using jre/lib/ext with Jar Files}
+\subsubsection{Using \$JAVA_HOME/jre/lib/ext with Jar Files}
 If you put jar files into the \verb#$JAVA_HOME/jre/lib/ext/# directory, 
 \verb#java# and \verb#javac# can find them and use the class files thay 
 contain. You do not have to mention these subdirectories in a classpath 
@@ -216,18 +216,18 @@ statement -- searching this directory is a function that is built-in to java
 Ultimately, the only value \verb#import# statements have is that they save 
 typing and they can make your code easier to read. In java 5, the \verb#import# 
 statement was enhanced to provide even greater keystroke-reduction capabilities 
--- although som would argue that this comes at the expense of readability.
+-- although some would argue that this comes at the expense of readability.
 
 Some rules for using static imports:
 \begin{itemize}
     \item Even though the feature is referred to as `static imports', the code 
     must read \verb#import static#, followed by the fully qualified name of the 
     \verb#static# member you want to import
-    \item Be aware of ambiguously named \verb#static# members. For instance, if 
+    \item Be aware of ambiguously named \verb#static# members. For example, if 
     you have a \verb#static# import for both the \verb#Integer# and \verb#Long# 
     classes, referring to \verb#MAX_VALUE# will cause a compilation error, 
     since both \verb#Integer# and \verb#Long# have a \verb#MAX_VALUE# constant
-    \item You can use a static imports on \verb#static# object references, 
+    \item You can use a static import on \verb#static# object references, 
     constants (remember they are \verb#static# and \verb#final#), and 
     \verb#static# methods
 \end{itemize}
