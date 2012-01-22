@@ -105,7 +105,7 @@ structure:
 \end{itemize}
 The first three parts are separated by semicolons. The basic syntax is:
 \begin{verbatim}
-    for(/* initialisation*/ ; /* boolean condition */ ; /* iteration */) {
+    for(/* initialisation */ ; /* boolean condition */ ; /* iteration */) {
         // loop body
     }
 \end{verbatim}
@@ -138,14 +138,14 @@ The enhanced \verb#for# loop has the following syntax:
     }
 \end{verbatim}
 The two pieces of the enhanced \verb#for# loop are:
-\begin{description}
-    \item[declaration] The newly declared block variable of type compatible 
+\begin{itemize}
+    \item declaration -- The newly declared block variable of type compatible 
     with the elements of the array you are iterating over. This variable will 
     be available within the loop body and its value will be the same as the 
     current array element
-    \item[expression] This must evaluate to the array (of any type) you want to 
-    iterate over
-\end{description}
+    \item expression -- This must evaluate to the array (of any type) you want 
+    to iterate over
+\end{itemize}
 The enhanced \verb#for# loop assumes that, barring an early exit from the loop 
 (eg. \verb#break#, \verb#return# or \verb#System.exit()#), you will always loop 
 through every element of the array
@@ -155,7 +155,7 @@ The \verb#break# statement causes the program to stop execution of the
 innermost loop and start processing the next line of code after the block. The 
 \verb#continue# statement causes only the current iteration of the innermost 
 loop to cease and the next iteration of the same loop to start once the 
-iteration expression has run if the condition of the loop is met. Note that 
+iteration expression has run and the loop condition has been checked. Note that 
 \verb#continue# statements must be inside a loop, otherwise a compilation error 
 will occur; \verb#break# statements must be used inside either a loop or a 
 \verb#switch# statement. Note that this does not apply to labeled \verb#break# 
@@ -283,26 +283,26 @@ still declare the exception as being thrown
 \subsection{Common Exceptions and Errors}
 For the purposes of the exam, there are two broad categories of exceptions and 
 errors:
-\begin{description}
-    \item[JVM exceptions] Exceptions or errors that are either exclusively or 
+\begin{itemize}
+    \item JVM exceptions -- Exceptions or errors that are either exclusively or 
     most logically thrown by the JVM
-    \item[Programmatic exceptions] Exceptions that are thrown explicitly by 
+    \item Programmatic exceptions -- Exceptions that are thrown explicitly by 
     application and/or API programmers
-\end{description}
+\end{itemize}
 
 \subsubsection{JVM Thrown Exceptions}
-\begin{description}
-    \item[NullPointerException] Occurs when you attempt to access an object 
+\begin{itemize}
+    \item NullPointerException -- Occurs when you attempt to access an object 
     using a reference variable with a current value of \verb#null#.  There's no 
     way for the compiler to detect these problems before runtime
-    \item[StackOverflowException] Occurs when the stack becomes too large
-\end{description}
+    \item StackOverflowException -- Occurs when the stack becomes too large
+\end{itemize}
 
 \subsubsection{Summary of Exam's Exceptions and Errors}
 \begin{center}
-    \begin{tabular}{p{0.35\textwidth}p{0.4\textwidth}l}
-        \textbf{Exception} & \textbf{Description} & \textbf{Typically Thrown 
-        By} \\
+    \begin{tabular}{p{0.35\textwidth}p{0.35\textwidth}p{0.2\textwidth}}
+        \textbf{Exception} & \textbf{Description} & \textbf{Usually Thrown By} 
+        \\
         \hline
         \verb#IllegalArgumentException# & Thrown when a method receives an 
         argument formatted differently than the method expected & Programmer \\
@@ -363,15 +363,15 @@ that if doing this, a compiler warning will be displayed
 \subsubsection{Enabling Assertions at Runtime}
 You can enable assertions at runtime using either:
 \begin{verbatim}
-    java -ea com.unico.TestAssertions
-    java -enableassertions com.unico.TestAssertions
+    java -ea com.kev.TestAssertions
+    java -enableassertions com.kev.TestAssertions
 \end{verbatim}
 
 \subsubsection{Disabling Assertions at Runtime}
 You can disable assertions at runtime using either:
 \begin{verbatim}
-    java -da com.unico.TestAssertions
-    java -disableassertions com.unico.TestAssertions
+    java -da com.kev.TestAssertions
+    java -disableassertions com.kev.TestAssertions
 \end{verbatim}
 
 \subsubsection{Selective Enabling and Disabling Assertions}

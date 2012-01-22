@@ -594,9 +594,11 @@ method was invoked
     \hline
     \verb#TreeMap.lowerKey(e)# & Returns the highest key $<$ e \\
     \verb#TreeMap.floorKey(e)# & Returns the highest key $<=$ e \\
+    \verb#TreeSet.ceilingKey(e)# & Returns the lowest key $>=$ e \\
+    \verb#TreeSet.higherKey(e)# & Returns the lowest key $>$ e \\
     \verb#TreeMap.pollFirstEntry()# & Returns and removes the first key-value 
     pair \\
-    \verb#TreeMap.pollLastEntry()# & Returns and removes the list key-value 
+    \verb#TreeMap.pollLastEntry()# & Returns and removes the last key-value 
     pair \\
     \verb#TreeMap.descendingMap()# & Returns a \verb#NavigableMap# in reverse 
     order \\
@@ -758,7 +760,7 @@ before lowercase characters
 \subsection{Generic Types}
 Remember that before java 5 there was no syntax for declaring a type safe 
 collection. To declare an \verb#ArrayList# of \verb#String#s you said, 
-\verb#ArrayList list = new ArrayList()# or the polymorphic equivalent, 
+\verb#ArrayList list = new ArrayList()# or the polymorphic equivalent,\\ 
 \verb#List list = new ArrayList()#. There was no syntax that let you specify 
 that \verb#list# will hold only \verb#String#s. With no way to specify a type 
 for the \verb#ArrayList#, the compiler could not enforce that you put only 
@@ -798,7 +800,7 @@ without any problems and methods can accept typed collections as arguments and
 return them too.
 
 Note that a list of type \verb#List list = new ArrayList()# is almost identical 
-to \verb#List<Object> list = new ArrayList<Object>()#. Note that the type in 
+to\\ \verb#List<Object> list = new ArrayList<Object>()#. Note that the type in 
 angle brackets is referred to as either `parameterised type', `type parameter', 
 or just `type'
 

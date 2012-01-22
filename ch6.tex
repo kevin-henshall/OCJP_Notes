@@ -22,23 +22,28 @@ There are a few ways to create Strings:
 \end{itemize}
 
 \subsubsection{Important Methods in the String Class}
-\begin{description}
-    \item[charAt()] Returns the character located at the specified 0-index
-    \item[concat()] Appends one String to the end of another (`+' also works)
-    \item[equalsIgnoreCase()] Determines the equality of two Strings, ignoring 
-    case
-    \item[length()] Returns the number of characters in the String. Note that 
-    Strings have a \verb#length()# method whereas Arrays have a \verb#length# 
-    attribute
-    \item[replace()] Replace all occurrences of a character with a new 
+\begin{itemize}
+    \item \verb#charAt()# -- Returns the character located at the specified 
+    0-index
+    \item \verb#concat()# -- Appends one String to the end of another (`+' also 
+    works)
+    \item \verb#equalsIgnoreCase()# -- Determines the equality of two Strings, 
+    ignoring case
+    \item \verb#length()# -- Returns the number of characters in the String.  
+    Note that Strings have a \verb#length()# method whereas Arrays have a 
+    \verb#length# attribute
+    \item \verb#replace()# -- Replace all occurrences of a character with a new 
     character
-    \item[substring()] Returns a part of a String. Note that the first index is 
-    0-based and the second 1-based
-    \item[toLowerCase()] Returns a String with uppercase characters converted
-    \item[toUpperCase()] Returns a String with lowercase characters converted
-    \item[toString()] Returns the value of a String
-    \item[trim()] Removes leading and trailing whitespace from a String
-\end{description}
+    \item \verb#substring()# -- Returns a part of a String. Note that the first 
+    index is 0-based and the second 1-based
+    \item \verb#toLowerCase()# -- Returns a String with uppercase characters 
+    converted
+    \item \verb#toUpperCase()# -- Returns a String with lowercase characters 
+    converted
+    \item \verb#toString()# -- Returns the value of a String
+    \item \verb#trim()# -- Removes leading and trailing whitespace from a 
+    String
+\end{itemize}
 
 \subsubsection{The StringBuffer and StringBuilder Classes}
 The \verb#java.lang.StringBuffer# and \verb#java.lang.StringBuilder# classes 
@@ -52,38 +57,39 @@ The \verb#StringBuilder# class was added in java 5 and has the same API as the
 In other words, its methods are not synchronized
 
 \subsubsection{Important Methods in the StringBuffer and StringBuilder Classes}
-\begin{description}
-    \item[append(String s)] Takes many argument types though most common is 
-    \verb#String# and appends the argument to the invoking object
-    \item[delete(int start, int end)] Deletes the substring between the 0-based 
-    start index and the 1-based end index
-    \item[insert(int offset, String s)] Takes many arguments types for the 
-    second argument, though most common is \verb#String# and inserts the 
+\begin{itemize}
+    \item \verb#append(String s)# -- Takes many argument types though most 
+    common is \verb#String# and appends the argument to the invoking object
+    \item \verb#delete(int start, int end)# -- Deletes the substring between 
+    the 0-based start index and the 1-based end index
+    \item \verb#insert(int offset, String s)# -- Takes many arguments types for 
+    the second argument, though most common is \verb#String# and inserts the 
     argument at the given 0-based offset in the invoking object
-    \item[reverse()] Reverses the characters of the invoking object
-    \item[toString()] Returns the value of the invoking object
-    \item[equals()] Note that neither \verb#StringBuilder# nor
-    \verb#StringBuffer# override Object's \verb#equals()# method
-\end{description}
+    \item \verb#reverse()# -- Reverses the characters of the invoking object
+    \item \verb#toString()# -- Returns the value of the invoking object
+    \item \verb#equals()# -- Note that neither \verb#StringBuilder# nor
+    \verb#StringBuffer# override \verb#Object#'s \verb#equals()# method
+\end{itemize}
 
 \subsection{File Navigation and IO}
 Here is a summary of the IO classes for the exam:
-\begin{description}
-    \item[File] An abstract representation of file and directory pathnames
-    \item[FileReader] Used to read character files. Usually wrapped by 
+\begin{itemize}
+    \item \verb#File# -- An abstract representation of file and directory 
+    pathnames
+    \item \verb#FileReader# -- Used to read character files. Usually wrapped by 
     higher-level Reader objects such as BufferedReaders
-    \item[BufferedReader] Used to make lower-level Reader classes (like 
-    FileReader) more efficient and easier to use
-    \item[FileWriter] Used to write character files. Usually wrapped by 
-    higher-level Writer objects such as BufferedWriters or PrintWriters
-    \item[BufferedWriter] Used to make lower-level Writer classes (like 
-    FileWriter) more efficient and easier to use
-    \item[PrintWriter] Enhanced significantly in java 5 to make it easier to use
-    rather than wrapping a Writer in a FileWriter and BufferedWriter. More of a 
-    convenience class
-    \item[Console] Introduced in java 6, it allows reading from and writing to 
-    the console
-\end{description}
+    \item \verb#BufferedReader# -- Used to make lower-level Reader classes 
+    (like FileReader) more efficient and easier to use
+    \item \verb#FileWriter# -- Used to write character files. Usually wrapped 
+    by higher-level Writer objects such as BufferedWriters or PrintWriters
+    \item \verb#BufferedWriter# -- Used to make lower-level Writer classes 
+    (like FileWriter) more efficient and easier to use
+    \item \verb#PrintWriter# -- Enhanced significantly in java 5 to make it 
+    easier to use rather than wrapping a Writer in a FileWriter and 
+    BufferedWriter. More of a convenience class
+    \item \verb#Console# -- Introduced in java 6, it allows reading from and 
+    writing to the console
+\end{itemize}
 
 \subsubsection{Flushing Output and Closing the File}
 The \verb#flush()# method guarantees that data is actually written to a file.  
@@ -96,41 +102,33 @@ using the \verb#close()# method
     \textbf{java.io Class} & \textbf{Extends} & \textbf{Key Constructor 
     Arguments} & \textbf{Key Methods} \\
     \hline
-    File & Object & String & createNewFile() \\
-    & & File, String & delete() \\
-    & & String, String & exists() \\
-    & & & isDirectory() \\
-    & & & isFile() \\
-    & & & list() \\
-    & & & mkdir() \\
-    & & & renameTo() \\
+    File & Object & String & \verb#createNewFile()#, \verb#exists()#, \\
+    & & File, String & \verb#isDirectory()#, \verb#isFile()#, \\
+    & & String, String & \verb#list()#, \verb#mkdir()#, \\
+    & & & \verb#renameTo()#, \verb#delete()# \\
     \hline
-    FileReader & Reader & File & read() \\
-    & & String & close() \\
+    FileReader & Reader & File & \verb#read()#, \\
+    & & String & \verb#close()# \\
     \hline
-    BufferedReader & Reader & Reader & read() \\
-    & & & readLine() \\
+    BufferedReader & Reader & Reader & \verb#read()#, \verb#readLine()#, \\
+    & & & \verb#close()# \\
     \hline
-    FileWriter & Writer & File & close() \\
-    & & String & flush() \\
-    & & & write() \\
+    FileWriter & Writer & File & \verb#write()#, \verb#flush()#, \\
+    & & String & \verb#close()# \\
     \hline
-    BufferedWriter & Writer & Writer & close() \\
-    & & & flush() \\
-    & & & write() \\
-    & & & newLine() \\
+    BufferedWriter & Writer & Writer & \verb#write()#, \verb#newLine()#, \\
+    & & & \verb#flush()#, \verb#close()# \\
     \hline
-    PrintWriter & Writer & File (as of java 5) & close() \\
-    & & String (as of java 5) & flush() \\
-    & & OutputStream & format(), printf() \\
-    & & & print(), println() \\
-    & & & write() \\
+    PrintWriter & Writer & File (as of java 5) & \verb#write()#, \\
+    & & String (as of java 5) & \verb#format()#, \verb#printf()#, \\
+    & & OutputStream & \verb#print()#, \verb#println()#, \\
+    & & & \verb#flush()#, \verb#close()# \\
 \end{tabular}
 \end{center}
 
 \subsubsection{Working with Files and Directories}
-The statement \verb#File f = new File("foo");# always creates a File and does 
-one of two things:
+The statement \verb#File f = new File("foo");# always creates a \verb#File# and 
+does one of two things:
 \begin{itemize}
     \item If ``foo" does not exist, no file is created
     \item If ``foo" does exist, \verb#f# refers to the existing file
@@ -144,12 +142,13 @@ create a file:
     \verb#java.io.IOException# is thrown
 \end{itemize}
 Notes on \verb#delete()# and \verb#renameTo()#:
-\begin{description}
-    \item[delete()] Directories can only be deleted if they are empty
-    \item[renameTo()] Must be invoked using an existing File object and a valid 
-    new File object as the argument (a \verb#NullPointerException# will occur 
-    if the argument is null). Note that non-empty directories can be renamed
-\end{description}
+\begin{itemize}
+    \item \verb#delete()# -- Directories can only be deleted if they are empty
+    \item \verb#renameTo()# -- Must be invoked using an existing \verb#File# 
+    object and a valid new \verb#File# object as the argument (a 
+    \verb#NullPointerException# will occur if the argument is null). Note that 
+    non-empty directories can be renamed
+\end{itemize}
 
 \subsubsection{The java.io.Console Class}
 If you're running java SE6 from the command line, you'll typically have access 
@@ -158,25 +157,25 @@ to a console object, to which you can get a reference by invoking
 from the command line, both echoed and nonechoed (such as passwords), and makes 
 it easy to write formatted output to the command line. On the input side, the 
 two methods to understand are:
-\begin{description}
-    \item[readLine()] Returns a String containing the input
-    \item[readPassword()] Returns a char array (to prevent the password from 
-    being stored in a String pool)
-\end{description}
+\begin{itemize}
+    \item \verb#readLine()# -- Returns a String containing the input
+    \item \verb#readPassword()# -- Returns a char array (to prevent the 
+    password from being stored in a String pool)
+\end{itemize}
 
-\subsection{Serialization}
-Serialization lets you simply say ``save this object and all of its instance 
+\subsection{Serialisation}
+Serialisation lets you simply say ``save this object and all of its instance 
 variables unless I've explicitly marked an instance variable as tranisient"
 
 \subsubsection{Working with ObjectOutputStream and ObjectInputStream}
-The magic of basic serialization uses two methods:
-\begin{description}
-    \item[ObjectOutputStream.writeObject()] Serialize and write
-    \item[ObjectInputStream.readObject()] Read and deserialize
-\end{description}
+The magic of basic serialisation uses two methods:
+\begin{itemize}
+    \item \verb#ObjectOutputStream.writeObject()# -- Serialise and write
+    \item \verb#ObjectInputStream.readObject()# Read and deserialise
+\end{itemize}
 The \verb#java.io.ObjectOutputStream# and \verb#java.io.ObjectInputStream# 
 classes are usually wrapped around lower level classes such as 
-\verb#java.io.FileOutputStream# and \verb#java.io.FileInputStream#
+\verb#java.io.FileOutputStream# and \verb#java.io.FileInputStream#.
 
 When you serialise an object, java serialisation takes care of saving that 
 object's entire `object graph'. This means that a deep copy of everything 
@@ -189,12 +188,14 @@ to create objects that are serialisable, by implementing the (marker)
 the values of transient variables. These are private methods which you can 
 implement in your class that, if present, will be invoked automatically during 
 serialisation and deserialisation. It's almost as if these methods were defined 
-in the Serializable interface, but they aren't. They are part of a special 
-callback contract the serialisation system offers. The methods must have 
-signatures matching:
+in the \verb#Serializable# interface, but they aren't. They are part of a 
+special callback contract the serialisation system offers. The methods must 
+have signatures matching:
 \begin{verbatim}
-    private void writeObject(ObjectOutputStream os) {}
-    private void readObject(ObjectInputStream is) {}
+    private void readObject(ObjectInputStream is)
+        throws IOException, ClassNotFoundException {}
+    private void writeObject(ObjectOutputStream os)
+        throws IOException {}
 \end{verbatim}
 Like most IO related methods, \verb#writeObject()# and \verb#readObject()# can 
 throw exceptions. When invoking \verb#defaultWriteObject()# 
@@ -258,25 +259,26 @@ belong to the object
 
 \subsection{Working with Dates, Numbers and Currencies}
 There are a few classes needed for the exam:
-\begin{description}
-    \item[java.util.Date] Most of the methods have been deprecated, but this 
-    class can be used to bridge between the \verb#Calendar# and 
-    \verb#DateFormat# classes. An instance of \verb#Date# represents and mutable
+\begin{itemize}
+    \item \verb#java.util.Date# -- Most of the methods have been deprecated, 
+    but this class can be used to bridge between the \verb#Calendar# and 
+    \verb#DateFormat# classes. An instance of \verb#Date# represents and 
+    mutable
     date and time, to a millisecond
-    \item[java.util.Calendar] Provides a variety of methods that help to 
-    convert and manipulate dates and times
-    \item[java.text.DateFormat] Used to format dates using different styles and 
-    locales
-    \item[java.text.NumberFormat] Used to format numbers and currencies for 
-    different locales
-    \item[java.util.Locale] Used in conjunction with \verb#DateFormat# and 
-    \verb#NumberFormat# to format dates, numbers and currency for specific 
+    \item \verb#java.util.Calendar# -- Provides a variety of methods that help 
+    to convert and manipulate dates and times
+    \item \verb#java.text.DateFormat# Used to format dates using different 
+    styles and locales
+    \item \verb#java.text.NumberFormat# -- Used to format numbers and 
+    currencies for different locales
+    \item \verb#java.util.Locale# -- Used in conjunction with \verb#DateFormat# 
+    and \verb#NumberFormat# to format dates, numbers and currency for specific 
     locales. If you want to manipulate dates without producing formatted 
     output, you can use the \verb#Locale# class directly with the 
     \verb#Calendar# class
-\end{description}
+\end{itemize}
 
-\subsubsection{The Date class}
+\subsubsection{The Date Class}
 Although most of \verb#Date#'s methods have been depricated, it's still 
 acceptable to use the \verb#getTime()# and \verb#setTime()# methods, although 
 it's a bit painful
@@ -295,8 +297,8 @@ method lets you add or subtract units of time appropriate for whichever
     c.add(Calendar.DAY_OF_WEEK, -2);
 \end{verbatim}
 Another important method is \verb#roll()#, which acts like \verb#add()#, except 
-that when a part of a \verb#Date# gets incremented and decremented, larger 
-parts of the \verb#Date# will not get incremented or decremented
+that when a part of a \verb#Date# is incremented and decremented, larger parts 
+of the \verb#Date# are not incremented or decremented
 
 \subsubsection{The DateFormat Class}
 \verb#DateFormat# is an abstract class and has two factory methods -- 
@@ -358,22 +360,22 @@ rounds the value being displayed to the number of digits specified by
 \begin{tabular}{ll}
     \textbf{Class} & \textbf{Key Instance Creation Options} \\
     \hline
-    \verb#util.Date# & \verb#new Date()# \\
+    \verb#java.util.Date# & \verb#new Date()# \\
     & \verb#new Date(long millisecondsSince_01_01_1970)# \\
     \hline
-    \verb#util.Calendar# & \verb#Calendar.getInstance()# \\
+    \verb#java.util.Calendar# & \verb#Calendar.getInstance()# \\
     & \verb#Calendar.getInstance(Locale)# \\
     \hline
-    \verb#util.Locale# & \verb#Locale.getDefault()# \\
+    \verb#java.util.Locale# & \verb#Locale.getDefault()# \\
     & \verb#new Locale(String language)# \\
-    & \verb#newLocale(String language, String country)# \\
+    & \verb#new Locale(String language, String country)# \\
     \hline
-    \verb#text.DateFormat# & \verb#DateFormat.getInstance()# \\
+    \verb#java.text.DateFormat# & \verb#DateFormat.getInstance()# \\
     & \verb#DateFormat.getDateInstance()# \\
     & \verb#DateFormat.getDateInstance(style)# \\
     & \verb#DateFormat.getDateInstance(style, Locale)# \\
     \hline
-    \verb#text.NumberFormat# & \verb#NumberFormat.getInstance()# \\
+    \verb#java.text.NumberFormat# & \verb#NumberFormat.getInstance()# \\
     & \verb#NumberFormat.getInstance(Locale)# \\
     & \verb#NumberFormat.getNumberInstance()# \\
     & \verb#NumberFormat.getNumberInstance(Locale)# \\
@@ -448,7 +450,7 @@ double escaped (i.e. \verb#String p = "\\."#)
 \subsubsection{Locating Data via Pattern Matching}
 The \verb#java.util.regex.Pattern# and \verb#java.util.regex.Matcher# classes 
 are used to perform pattern matching. The \verb#Pattern# class is used to hold 
-a representation of a regex expression, that it can be used and reused by 
+a representation of a regex expression, that can be used and reused by 
 instances of the \verb#Matcher# class. The \verb#Matcher# class is used to 
 invoke the regex engine with the intention of performing match operations. Note 
 that we create a \verb#Pattern# using the static \verb#compile(String pattern)# 
@@ -457,7 +459,7 @@ method. To create a \verb#Matcher#, we use the
 
 The \verb#Matcher.find()# method returns \verb#true# if a match is found and 
 remembers the starting index of the match. The \verb#Matcher.start()# method 
-can be used to obtain the starting index of the match, and the 
+can be used to obtain the starting 0-index of the match, and the 
 \verb#Matcher.group()# mathod can be used to obtain the whole match.
 
 To provide the most flexibility, \verb#Matcher.find()#, when coupled with the 
@@ -523,14 +525,16 @@ normal String literal information that isn't associated with any arguments, and
 argument specific formatting data. The clue to determining whether you're 
 looking at formatting data, is that the formatting data will always start with 
 a percentage sign. The format strings have the following format:
-\verb#%[arg_index$][flags][width][.precision]conversion_char#. Note that the 
-only required elements are the percentage sign and the conversion character.  
-The format string elements needed for the exam are:
-\begin{description}
-    \item[arg\_index] An integer followed directly by a \verb#$#. This 
-    indicates which argument should be printed in this positionusing 1 index
-    \item[flags] While many flags are available, for the exam, you'll need to 
-    know:
+\begin{verbatim}
+    %[arg_index$][flags][width][.precision]conversion_char
+\end{verbatim}
+Note that the only required elements are the percentage sign and the conversion 
+character. The format string elements needed for the exam are:
+\begin{itemize}
+    \item \verb#arg_index# -- An integer followed directly by a \verb#$#. This 
+    indicates which argument should be printed in this position using 1-index
+    \item \verb#flags# -- While many flags are available, for the exam, you'll 
+    need to know:
         \begin{itemize}
             \item \verb#"-"# -- Left justify this argument
             \item \verb#"+"# -- Include a sign (\verb#+# or \verb#-#) with this 
@@ -539,12 +543,14 @@ The format string elements needed for the exam are:
             \item \verb#","# -- Use locale-specific grouping separators
             \item \verb#"("# -- Enclose negative numbers in parentheses
         \end{itemize}
-    \item[width] This value indicates the minimum number of characters to print
-    \item[precision] For the exam, you'll only need this when formatting a 
-    floating-point number, and in the case of floating point numbers, precision 
-    indicates the number of digits to print after the decimal point
-    \item[conversion] The type of argument you'll be formatting. You'll need to 
-    know:
+    \item \verb#width# -- This value indicates the minimum number of characters 
+    to print
+    \item \verb#precision# -- For the exam, you'll only need this when 
+    formatting a floating-point number, and in the case of floating point 
+    numbers, precision indicates the number of digits to print after the 
+    decimal point
+    \item \verb#conversion# -- The type of argument you'll be formatting.  
+    You'll need to know:
         \begin{itemize}
             \item \verb#b# -- boolean
             \item \verb#c# -- char
@@ -552,7 +558,7 @@ The format string elements needed for the exam are:
             \item \verb#f# -- floating point
             \item \verb#s# -- String
         \end{itemize}
-\end{description}
+\end{itemize}
 Note that if there is a mismatch between the type specified in the conversion 
 character and the argument, a \verb#java.util.IlligalFormatConversionException# 
 will be thrown at runtime
